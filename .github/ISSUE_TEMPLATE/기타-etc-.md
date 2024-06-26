@@ -1,7 +1,7 @@
 ---
 name: 기타(etc)
 about: 그 외의 상황일 경우 여기를 선택해주세요 !
-title: "[etc]"
+title: ''
 labels: ''
 assignees: ''
 
