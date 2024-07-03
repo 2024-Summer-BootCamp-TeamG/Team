@@ -1,0 +1,34 @@
+version: '3'
+services:
+    db:
+        image: mysql:latest
+        env_file:
+            - .env
+        ports:
+            - '3306:3306'
+        volumes:
+            - 'mysqldata:/var/lib/mysql'
+        networks:
+            - teamg
+    web:
+
+        build:
+            context: ./backend
+        command: python manage.py runserver 0.0.0.0:8000
+        ports:
+            - "8000:8000"
+        restart: always
+        env_file:
+            - .env
+        depends_on:
+            - db
+        networks:
+            - teamg
+
+
+volumes:
+    mysqldata:
+
+networks:
+    teamg:
+        driver: bridge
