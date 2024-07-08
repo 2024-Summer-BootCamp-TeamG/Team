@@ -31,7 +31,40 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost']
 AUTH_USER_MODEL = 'users.Member'
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': True,
+    'SECURITY_DEFINITIONS': {
+        'csrf': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'X-CSRFToken'
+        }
+    },
+}
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+    "http://0.0.0.0:8000"
+    #앞으로 사용할 도메인들 추가해야함 프론트호스트들도f
+    #예시) 'http://doodlefilm.store', 'https://doodlefilm.store', 'http://www.doodlefilm.store', 'https://www.doodlefilm.store'
 
+]
+CSRF_USE_SESSIONS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+    "http://0.0.0.0:8000"
+    # 필요한 경우 다른 허용된 출처를 추가합니다.
+]
+# settings.py
+
+
+
+# 모든 출처에서 접근을 허용하려면 아래 설정을 사용합니다 (보안 위험이 있으므로 필요에 따라 설정).
+# CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_CREDENTIALS = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,16 +77,19 @@ INSTALLED_APPS = [
     'albums',
     'users',
     'drf_yasg',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -87,10 +123,11 @@ DATABASES = {
         'NAME': os.getenv('MYSQL_DATABASE'),
         'USER': os.getenv('MYSQL_USER'),
         'PASSWORD': os.getenv('MYSQL_PASSWORD'),
-        'HOST': 'db',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 }
+
 
 
 # Password validation
