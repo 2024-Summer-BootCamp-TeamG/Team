@@ -5,7 +5,7 @@ from .models import Member
 class MemberRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = ['email', 'password', 'nickname']
+        fields = ['email', 'password']
 
     def create(self, validated_data):
         user = Member(**validated_data)
