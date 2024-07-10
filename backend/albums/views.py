@@ -12,10 +12,14 @@ from django.db import connection
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class AnalyzeImageView(APIView):
     parser_classes = (MultiPartParser, FormParser)
+    authentication_classes = []  # 인증 비활성화
+    permission_classes = []  # 권한 체크 비활성화
 
     @swagger_auto_schema(
         operation_description="Analyze an uploaded image",
@@ -65,6 +69,8 @@ class AnalyzeImageView(APIView):
             return Response(analysis_result)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    # 나머지 메서드들은 그대로 유지
 
     def upload_to_s3(self, file):
         # AWS S3 클라이언트 생성
