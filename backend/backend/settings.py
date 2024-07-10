@@ -32,14 +32,15 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost']
 AUTH_USER_MODEL = 'users.Member'
 SWAGGER_SETTINGS = {
-    'USE_SESSION_AUTH': True,
+    'USE_SESSION_AUTH': False,
     'SECURITY_DEFINITIONS': {
-        'csrf': {
+        'Bearer': {
             'type': 'apiKey',
-            'in': 'header',
-            'name': 'X-CSRFToken'
+            'name': 'Authorization',
+            'in': 'header'
         }
     },
+    'VALIDATOR_URL': None,
 }
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
@@ -78,7 +79,22 @@ INSTALLED_APPS = [
     'users',
     'drf_yasg',
     'corsheaders',
+    'rest_framework',
+
 ]
+#aws 설정
+# AWS 설정
+load_dotenv()
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_DEFAULT_REGION = 'ap-northeast-2'
+AWS_STORAGE_BUCKET_NAME = 'teammg'
+
+
+# OpenAI API 키
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -123,7 +139,7 @@ DATABASES = {
         'NAME': os.getenv('MYSQL_DATABASE'),
         'USER': os.getenv('MYSQL_USER'),
         'PASSWORD': os.getenv('MYSQL_PASSWORD'),
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
