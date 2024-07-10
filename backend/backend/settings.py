@@ -32,14 +32,15 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost']
 AUTH_USER_MODEL = 'users.Member'
 SWAGGER_SETTINGS = {
-    'USE_SESSION_AUTH': True,
+    'USE_SESSION_AUTH': False,
     'SECURITY_DEFINITIONS': {
-        'csrf': {
+        'Bearer': {
             'type': 'apiKey',
-            'in': 'header',
-            'name': 'X-CSRFToken'
+            'name': 'Authorization',
+            'in': 'header'
         }
     },
+    'VALIDATOR_URL': None,
 }
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
@@ -78,24 +79,7 @@ INSTALLED_APPS = [
     'users',
     'drf_yasg',
     'corsheaders',
-    'prompts',
-    'rest_framework',
-]
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-    ],
-    'DEFAULT_PARSER_CLASSES': [
-        'rest_framework.parsers.JSONParser',
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -140,7 +124,7 @@ DATABASES = {
         'NAME': os.getenv('MYSQL_DATABASE'),
         'USER': os.getenv('MYSQL_USER'),
         'PASSWORD': os.getenv('MYSQL_PASSWORD'),
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
