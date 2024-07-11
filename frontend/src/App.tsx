@@ -9,14 +9,10 @@ import "./App.css";
 function App() {
   return (
     <>
-      <div className="App">
-        <Router>
-          <Routes>
-            <Route path="/" element={<SignInPage />} />
-            <Route path="/text-generation" element={<TextGenerationPage />} />
-          </Routes>
-        </Router>
-      </div>
+      <Routes>
+        <Route path="/" element={<SignInPage />} />
+        <Route path="/text-generation" element={<TextGenerationPage />} />
+      </Routes>
     </>
   );
 }
