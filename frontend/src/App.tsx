@@ -4,6 +4,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignInPage from "./pages/SignInPage";
 import TextGenerationPage from "./pages/TextGenerationPage";
+import MusicCoverGenerationPage from "./pages/MusicCoverGenerationPage";
 import "./App.css";
 
 function App() {
@@ -12,6 +13,8 @@ function App() {
       <Routes>
         <Route path="/" element={<SignInPage />} />
         <Route path="/text-generation" element={<TextGenerationPage />} />
+        <Route path="/musiccover" element={<MusicCoverGenerationPage />} />
+
       </Routes>
     </>
   );
