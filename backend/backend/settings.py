@@ -53,17 +53,19 @@ CSRF_TRUSTED_ORIGINS = [
 CSRF_USE_SESSIONS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:8000",
+    "http://localhost:3000",  # React 앱이 실행되는 주소
+    "http://127.0.0.1:3000",
     "http://localhost:8000",
-    "http://0.0.0.0:8000"
-    # 필요한 경우 다른 허용된 출처를 추가합니다.
+    "http://127.0.0.1:8000",
 ]
 # settings.py
 
 
+CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = False
 
 # 모든 출처에서 접근을 허용하려면 아래 설정을 사용합니다 (보안 위험이 있으므로 필요에 따라 설정).
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 # Application definition
@@ -79,19 +81,36 @@ INSTALLED_APPS = [
     'users',
     'drf_yasg',
     'corsheaders',
+    'prompts',
+    'rest_framework',
+
+]
+#aws 설정
+# AWS 설정
+load_dotenv()
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+
+# OpenAI API 키
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+
+
 
 
 MIDDLEWARE = [
+    'albums.middleware.DisableCSRFMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
+
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -110,6 +129,12 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
+    'UNAUTHENTICATED_USER': None,
+}
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
