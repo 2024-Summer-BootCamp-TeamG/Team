@@ -45,28 +45,27 @@ class AnalyzeImageView(APIView):
         }
     )
     def post(self, request):
-        # 요청에서 이미지 파일 가져오기
         image_file = request.FILES.get('image')
         if not image_file:
             return Response({'error': 'Image file is required'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            # S3에 이미지 업로드
             s3_url = self.upload_to_s3(image_file)
             if not s3_url:
                 return Response({'error': 'Failed to upload image to S3'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-            # s3 url로부터 이미지 데이터 가져오기
             image_data = self.get_image_from_url(s3_url)
-            # 이미지 데이터를 base64로 인코딩
             base64_image = self.encode_image(image_data)
-            # OpenAI API를 사용하여 이미지 분석
             analysis_result = self.analyze_image(settings.OPENAI_API_KEY, base64_image)
 
-            # 분석결과를 MySQL에 결과 저장
-            self.save_to_mysql(s3_url, analysis_result)
+            analysis_id = self.save_to_mysql(s3_url, analysis_result)
 
-            return Response(analysis_result)
+            return Response({
+                'analysis_id': analysis_id,
+                'image_url': s3_url,
+                'image_analysis': analysis_result['image_analysis'],
+                'psychological_interpretation': analysis_result['psychological_interpretation']
+            })
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -132,6 +131,8 @@ class AnalyzeImageView(APIView):
         # 이미지 데이터를 base64로 인코딩
         return base64.b64encode(image_data).decode('utf-8')
 
+    import json
+
     def analyze_image(self, api_key, base64_image):
         headers = {
             "Content-Type": "application/json",
@@ -145,7 +146,7 @@ class AnalyzeImageView(APIView):
                     "content": [
                         {
                             "type": "text",
-                            "text": "이 이미지에 대해 다음 두 가지 관점에서 분석해 주세요:\n\n1. 이미지 분석: 이미지의 내용, 구도, 색감, 분위기 등에 대해 상세히 설명해 주세요.\n\n2. 심리학적 해석: 이 이미지가 주는 심리적 인상과 잠재적 의미에 대해 분석해 주세요.\n\n각 부분을 명확히 구분하여 응답해 주시기 바랍니다."
+                            "text": "이 이미지에 대해 다음 두 가지 관점에서 분석해 주세요:\n\n1. 이미지 분석: 이미지의 내용, 구도, 색감, 분위기 등에 대해 상세히 설명해 주세요.\n\n2. 심리학적 해석: 이 이미지가 주는 심리적 인상과 잠재적 의미에 대해 분석해 주세요.\n\n각 부분을 '이미지 분석:'과 '심리학적 해석:'으로 시작하여 명확히 구분해 주세요."
                         },
                         {
                             "type": "image_url",
@@ -158,12 +159,55 @@ class AnalyzeImageView(APIView):
             ],
             "max_tokens": 500
         }
-        response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
-        return response.json()
+
+        try:
+            response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+            response.raise_for_status()  # 이 줄이 HTTP 오류를 검출합니다
+
+            print(f"API Response Status: {response.status_code}")
+            print(f"API Response Headers: {json.dumps(dict(response.headers), indent=2)}")
+            print(f"API Response Content: {response.text}")
+
+            result = response.json()
+
+            if 'choices' not in result or not result['choices']:
+                raise ValueError(f"Unexpected API response structure: {result}")
+
+            return self.parse_analysis_result(result)
+
+        except requests.RequestException as e:
+            print(f"API request failed: {e}")
+            raise
+        except json.JSONDecodeError as e:
+            print(f"Failed to decode API response: {e}")
+            print(f"Response content: {response.text}")
+            raise
+        except ValueError as e:
+            print(f"Failed to parse API response: {e}")
+            raise
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            raise
+
+    def parse_analysis_result(self, result):
+        content = result['choices'][0]['message']['content']
+        image_analysis = ''
+        psychological_interpretation = ''
+
+        parts = content.split('심리학적 해석:')
+        if len(parts) > 1:
+            image_analysis = parts[0].replace('이미지 분석:', '').strip()
+            psychological_interpretation = parts[1].strip()
+
+        return {
+            'image_analysis': image_analysis,
+            'psychological_interpretation': psychological_interpretation
+        }
 
     def save_to_mysql(self, image_url, analysis_result):
         with connection.cursor() as cursor:
             cursor.execute("""
-                INSERT INTO image_analysis (image_url, analysis_result, created_at)
-                VALUES (%s, %s, NOW())
-            """, [image_url, analysis_result['choices'][0]['message']['content']])
+                INSERT INTO image_analysis (image_url, image_analysis, psychological_interpretation, created_at)
+                VALUES (%s, %s, %s, NOW())
+            """, [image_url, analysis_result['image_analysis'], analysis_result['psychological_interpretation']])
+        return cursor.lastrowid
