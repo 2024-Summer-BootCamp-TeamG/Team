@@ -1,9 +1,9 @@
-import DeepPurpleCircle from '../assets/DeepPurpleCircle.png';
-import MintCircle from '../assets/MintCircle.svg';
-import MintCircleSm from '../assets/MintCircleSm.svg';
-import PurpleCircle from '../assets/PurpleCircle.svg';
-import PurpleCircleSm from '../assets/PurpleCircleSm.png';
-import PurpleTransCircle from '../assets/PurpleTransCircle.svg';
+import DeepPurpleCircle from '../assets/Circle/DeepPurpleCircle.png';
+import MintCircle from '../assets/Circle/MintCircle.svg';
+import MintCircleSm from '../assets/Circle/MintCircleSm.svg';
+import PurpleCircle from '../assets/Circle/PurpleCircle.svg';
+import PurpleCircleSm from '../assets/Circle/PurpleCircleSm.png';
+import PurpleTransCircle from '../assets/Circle/PurpleTransCircle.svg';
 import FullNote1 from '../assets/MusicNote/FullNote1.svg';
 import FullNote2 from '../assets/MusicNote/FullNote2.svg';
 import FullNote3 from '../assets/MusicNote/FullNote3.svg';
@@ -29,7 +29,7 @@ export default function Background({ children }: BackgroundProps) {
     { src: MintCircle, left: '20%', top: '80%' },
     { src: DeepPurpleCircle, left: '10%', top: '60%' },
     { src: MintCircleSm, left: '30%', top: '20%' },
-    { src: PurpleCircle, left: '35%', top: '60%' },
+    { src: PurpleCircle, left: '40%', top: '60%' },
     { src: PurpleCircleSm, left: '20%', top: '15%' },
     { src: PurpleTransCircle, left: '10%', top: '30%' },
   ];
