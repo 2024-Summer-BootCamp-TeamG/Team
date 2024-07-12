@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import pymysql
+import sys
 pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -81,10 +82,15 @@ INSTALLED_APPS = [
     'users',
     'drf_yasg',
     'corsheaders',
-
     'rest_framework',
+    'prompts',
 
 ]
+
+# 에러 핸들러 설정
+HANDLER500 = 'albums.views.handler500'
+HANDLER404 = 'albums.views.handler404'
+
 #aws 설정
 # AWS 설정
 load_dotenv()
@@ -104,7 +110,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'backend.middleware.DisableCSRFMiddleware', # 이 줄을 위로 이동
+    'albums.middleware.DisableCSRFMiddleware', # 이 줄을 위로 이동
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -155,6 +161,8 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+
 # settings.py
 
 # S3 setting
