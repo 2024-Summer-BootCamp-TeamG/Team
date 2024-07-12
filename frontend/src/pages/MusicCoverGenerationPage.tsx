@@ -1,20 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import AlbumCover from '../assets/Album.png';
 import MusicBar from '../assets/Bar.svg';
 import PlayButton from '../assets/PlayButton.svg';
+import FlippedPic from '../assets/Picture.png';
 export default function MusicCoverGenerationPage() {
+  const [isFlipped, setIsFlipped] = useState(false); // 초기 상태는 플립되지 않은 상태
+
+  const handleClick = () => {
+    setIsFlipped(!isFlipped); // 클릭 시 상태를 토글하여 플립 효과를 구현
+  };
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
       <Background>
         <NavBar />
         <div className="ml-[190px] mr-[190px] flex min-h-screen flex-row items-center justify-around">
-          <div className="relative z-10 flex h-[700px] w-[600px] justify-center rounded-[40px] border-2 border-white bg-gradient-to-b from-white to-black opacity-50 shadow backdrop-blur-[55px]">
+          <div
+            className="flip-container relative z-10 flex h-[700px] w-[600px] justify-center rounded-[40px] border-2 border-white bg-gradient-to-b from-white to-black opacity-50 shadow backdrop-blur-[55px]"
+            onClick={handleClick}
+          >
             <div className="flex flex-col items-center justify-center">
               <img
-                src={AlbumCover}
+                src={isFlipped ? FlippedPic : AlbumCover}
                 alt="앨범 커버"
                 className="mx-[3rem] mb-[3rem] flex h-[452px] w-[432px] items-center"
               ></img>
