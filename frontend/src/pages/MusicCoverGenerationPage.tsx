@@ -1,55 +1,50 @@
-import React from "react";
-import DarkRoundButton from "../components/DarkRoundButton";
-import DeepPurpleCircle from "../assets/DeepPurpleCircle.png";
-import MintCircle from "../assets/MintCircle.svg";
-import MintCircleSm from "../assets/MintCircleSm.svg";
-import PurpleCircle from "../assets/PurpleCircle.svg";
-import PurpleCircleSm from "../assets/PurpleCircleSm.png";
-import PurpleTransCircle from "../assets/PurpleTransCircle.svg";
-import AlbumCover from "../assets/Album.png";
-import Logo from "../assets/SIMPLAYLogo.svg";
-import HomeIcon from "../assets/HomeIcon.svg";
-import MenuIcon from "../assets/MenuIcon.svg";
-export default function MusicCoverGenerationPage() {
-    const coordinates = [
-        { src: MintCircle, left: "20%", top: "70%" },
-        { src: DeepPurpleCircle, left: "10%", top: "60%" },
-        { src: MintCircleSm, left: "40%", top: "20%" },
-        { src: PurpleCircle, left: "40%", top: "60%" },
-        { src: PurpleCircleSm, left: "20%", top: "15%" },
-        { src: PurpleTransCircle, left: "10%", top: "30%" },
-      ];
-  return (
-    <div className="relative flex flex-col items-center justify-center w-screen h-screen bg-cover bg-[#000000]">
-      <div className="relative w-full h-full">
-               <div className="absolute left-0 top-0 flex items-center space-x-4 p-4">
-          <img src={HomeIcon} alt="홈 아이콘" />
-          <img src={MenuIcon} alt="메뉴 아이콘" />
-        </div>
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 p-4">
-          <img src={Logo} alt="로고" />
-        </div>
+import React from 'react';
 
-      {coordinates.map((circle, index) => (
-          <img
-            key={index}
-            src={circle.src}
-            alt="원"
-            style={{
-              position: "absolute",
-              left: circle.left,
-              top: circle.top,
-              transform: "translate(-50%, -50%)"
-            }}
-          />
-        ))}
-        <div className="flex flex-col items-start justify-center min-h-screen ml-[190px]">
-<div className="w-[600px] h-[700px] flex justify-center bg-gradient-to-b from-white to-black rounded-[40px] shadow border border-white backdrop-blur-[55px] opacity-50">
-  <img src={AlbumCover} alt="앨범 커버" className=" flex h-[452px] w-[432px] mt-[80px] justify-center z-10"></img>
-</div>
-</div>
-      {/* <img src={Background} alt="background" className="absolute w-full h-full object-cover" /> */}
-      </div>
+import Background from '../components/Background';
+import NavBar from '../components/NavBar';
+import AlbumCover from '../assets/Album.png';
+import DarkRoundButton from '../components/DarkRoundButton';
+
+export default function MusicCoverGenerationPage() {
+  return (
+    <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
+      <Background>
+        <NavBar />
+        <div className="ml-[190px] mr-[190px] flex min-h-screen flex-row items-center justify-around">
+          <div className="relative z-10 flex h-[700px] w-[600px] justify-center rounded-[40px] border-2 border-white bg-gradient-to-b from-white to-black opacity-50 shadow backdrop-blur-[55px]">
+            <img
+              src={AlbumCover}
+              alt="앨범 커버"
+              className="mt-[80px] flex h-[452px] w-[432px] justify-center"
+            ></img>
+          </div>
+          <div className="bg-white/opacity-20 relative flex h-[791px] w-[756px] flex-col rounded-[40px] border-2 border-white px-8 opacity-50 shadow backdrop-blur-[55px]">
+            <div className="text-gradient-custom mt-4 break-words text-4xl font-medium md:text-xl lg:text-4xl">
+              오늘 당신의 상태는?
+            </div>
+            <div className="text-[3.5rem] font-thin text-white">안녕하세요</div>
+            <div className="scrollbar-style mb-4 overflow-y-auto text-[2rem] font-semibold text-white">
+              미술 심리치료(Art Therapy)는 개인의 감정, 생각, 경험 등을 예술
+              창작 활동을 통해 표현하고, 이를 통해 내면을 탐구하며 심리적 치료
+              효과를 얻는 방법입니다. 미술 심리치료에서 그림을 해석하는 것은
+              매우 중요한 과정 중 하나입니다. 그림에 나타난 색상, 구성, 상징
+              등을 통해 내담자의 심리 상태를 파악할 수 있습니다. <br />
+              <br />
+              전문가적 해석 1. 집과 별 모양: 집: 집은 종종 안전, 안정, 가족,
+              그리고 자신을 표현하는 상징으로 사용됩니다. 그림 속의 집은 전면에
+              위치하고 있으며 문이 중앙에 있어 안정적이고 안전한 느낌을 줍니다.
+              별 모양: 별은 희망, 소망, 꿈을 상징합니다. 집 위에 있는 별은 이
+              집이 희망과 꿈을 담고 있다는 것을 나타낼 수 있습니다.
+              <br />
+              전문가적 해석 1. 집과 별 모양: 집: 집은 종종 안전, 안정, 가족,
+              그리고 자신을 표현하는 상징으로 사용됩니다. 그림 속의 집은 전면에
+              위치하고 있으며 문이 중앙에 있어 안정적이고 안전한 느낌을 줍니다.
+              별 모양: 별은 희망, 소망, 꿈을 상징합니다. 집 위에 있는 별은 이
+              집이 희망과 꿈을 담고 있다는 것을 나타낼 수 있습니다.
+            </div>
+          </div>
+        </div>
+      </Background>
     </div>
   );
 }
