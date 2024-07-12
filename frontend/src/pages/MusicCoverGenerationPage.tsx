@@ -18,7 +18,7 @@ export default function MusicCoverGenerationPage() {
         <NavBar />
         <div className="ml-[190px] mr-[190px] flex min-h-screen flex-row items-center justify-around">
           <div
-            className="flip-container relative z-10 flex h-[700px] w-[600px] justify-center rounded-[40px] border-2 border-white bg-gradient-to-b from-white to-black opacity-50 shadow backdrop-blur-[55px]"
+            className="flip-container relative z-10 flex h-[700px] w-[600px] justify-center rounded-[40px] border-2 border-white bg-white/10 shadow"
             onClick={handleClick}
           >
             <div className="flex flex-col items-center justify-center">
@@ -41,7 +41,7 @@ export default function MusicCoverGenerationPage() {
               </div>
             </div>
           </div>
-          <div className="bg-white/opacity-20 relative flex h-[791px] w-[756px] flex-col rounded-[40px] border-2 border-white px-8 opacity-50 shadow backdrop-blur-[55px]">
+          <div className="bg-white/opacity-20 relative flex h-[791px] w-[756px] flex-col rounded-[40px] border-2 border-white px-8 opacity-50 shadow backdrop-blur-[3.8rem]">
             <div className="mt-4 break-words text-4xl font-medium text-gradient-custom md:text-xl lg:text-4xl">
               오늘 당신의 상태는?
             </div>
@@ -49,7 +49,7 @@ export default function MusicCoverGenerationPage() {
               안녕하세요
             </div>
             <div className="flex flex-row overflow-y-auto">
-              <div className="scrollbar-style mb-4 overflow-y-auto text-[1.5rem] font-semibold text-white">
+              <div className="scrollbar-style mb-8 overflow-y-auto text-[1.5rem] font-semibold text-white">
                 미술 심리치료(Art Therapy)는 개인의 감정, 생각, 경험 등을 예술
                 창작 활동을 통해 표현하고, 이를 통해 내면을 탐구하며 심리적 치료
                 효과를 얻는 방법입니다. 미술 심리치료에서 그림을 해석하는 것은
