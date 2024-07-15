@@ -97,7 +97,6 @@ OPENAI_API_KEY = os.getenv('MY_API_KEY')
 
 
 
-
 MIDDLEWARE = [
     'albums.middleware.DisableCSRFMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -110,7 +109,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
 ]
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -136,7 +137,7 @@ DATABASES = {
         'NAME': os.getenv('MYSQL_DATABASE'),
         'USER': os.getenv('MYSQL_USER'),
         'PASSWORD': os.getenv('MYSQL_PASSWORD'),
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '3306',
     }
 }
