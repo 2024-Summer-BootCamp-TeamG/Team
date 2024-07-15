@@ -1,22 +1,23 @@
-import React from "react";
+import React from 'react';
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SignInPage from "./pages/SignInPage";
-import TextGenerationPage from "./pages/TextGenerationPage";
-import MusicCoverGenerationPage from "./pages/MusicCoverGenerationPage";
-import MainPage from "./pages/MainPage.tsx";
-import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import SignInPage from './pages/SignInPage';
+import SignUpPage from './pages/SignUpPage';
+import TextGenerationPage from './pages/TextGenerationPage';
+import MusicCoverGenerationPage from './pages/MusicCoverGenerationPage';
+import DragDrop from './pages/DragDrop';
+import './App.css';
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<SignInPage />} />
+        <Route path="/signin" element={<SignInPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/text-generation" element={<TextGenerationPage />} />
         <Route path="/musiccover" element={<MusicCoverGenerationPage />} />
-        <Route path="/mainpage" element={<MainPage/>}/>
-
+        <Route path="/drag" element={<DragDrop />} />
       </Routes>
     </>
   );
