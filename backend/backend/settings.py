@@ -77,7 +77,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'albums',
     'users',
     'drf_yasg',
     'corsheaders',
@@ -99,7 +98,6 @@ OPENAI_API_KEY = os.getenv('MY_API_KEY')
 
 
 MIDDLEWARE = [
-    'albums.middleware.DisableCSRFMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
