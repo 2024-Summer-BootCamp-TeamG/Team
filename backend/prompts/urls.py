@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import PosterImageView,LogoImageView
+from .views import PosterImageView
+from .views import LogoImageView
 from .views import SunoClipView
 
 urlpatterns = [

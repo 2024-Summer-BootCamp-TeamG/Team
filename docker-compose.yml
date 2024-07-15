@@ -9,16 +9,18 @@ services:
             - 'mysqldata:/var/lib/mysql'
         networks:
             - teamg
-        environment: #이것도 설정 .Env연동 가능하게 $로 표시
+        environment:
             MYSQL_DATABASE: teamg
             MYSQL_USER: teamg
             MYSQL_PASSWORD: teamg!
             MYSQL_ROOT_PASSWORD: rootteamg!
-
     web:
         build:
             context: ./backend
-        command: python manage.py runserver 0.0.0.0:8000
+        command: >
+          sh -c "python manage.py makemigrations &&
+                 python manage.py migrate &&
+                 python manage.py runserver 0.0.0.0:8000"
         ports:
             - "8000:8000"
         restart: always
@@ -28,29 +30,19 @@ services:
             - db
         networks:
             - teamg
-        develop:
-            watch:
-                - action: sync
-                  path: ./backend
-                  target: /code
-                - action: rebuild
-                  path: ./backend/backend/settings.py, ./backend/requirements.txt
-
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         ports:
             - '8080:80'
         environment:
             PMA_HOST: db
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}  # .env 파일에서 MYSQL_ROOT_PASSWORD를 정의해야 합니다.
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         depends_on:
             - db
         networks:
             - teamg
-
 volumes:
     mysqldata:
-
 networks:
     teamg:
         driver: bridge

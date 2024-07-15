@@ -16,7 +16,7 @@ class LogoImageSerializer(serializers.ModelSerializer):
     logo_text = serializers.CharField(required=True)
     logo_url = serializers.URLField(read_only=True)
     class Meta:
-        model = PosterImage
+        model = LogoImage
         fields = ['style', 'color', 'logo_text', 'logo_url']
 
 class SunoClipSerializer(serializers.ModelSerializer):

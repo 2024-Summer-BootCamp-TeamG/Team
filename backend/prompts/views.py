@@ -7,9 +7,8 @@ from botocore.exceptions import NoCredentialsError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import PosterImage
-from .serializers import PosterImageSerializer
-from .serializers import LogoImageSerializer
+from .models import PosterImage,LogoImage
+from .serializers import PosterImageSerializer,LogoImageSerializer
 import requests
 from googletrans import Translator
 from io import BytesIO
@@ -29,7 +28,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 # Django setup
 django.setup()
 
-def generate_album_cover(api_key, prompt):
+def generate_image(api_key, prompt):
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {api_key}"
@@ -80,52 +79,50 @@ def upload_to_s3(image_data, bucket_name, object_name):
         print(f"S3 Upload Error: {e}")
         return None
 
-class AlbumCoverView(APIView):
+class PosterImageView(APIView):
 
     @swagger_auto_schema(
-        request_body=AlbumCoverSerializer,
-        responses={201: AlbumCoverSerializer, 400: 'Bad Request'}
+        request_body=PosterImageSerializer,
+        responses={201: PosterImageSerializer, 400: 'Bad Request'}
     )
     def post(self, request):
-        serializer = AlbumCoverSerializer(data=request.data)
+        serializer = PosterImageSerializer(data=request.data)
         if serializer.is_valid():
-            mood = serializer.validated_data.get('mood', '')
-            image_text = serializer.validated_data.get('image_text', '')
-            analysis_text = serializer.validated_data.get('analysis_text', '')
+            style = serializer.validated_data.get('style', '')
+            color = serializer.validated_data.get('color', '')
+            poster_text = serializer.validated_data.get('poster_text', '')
 
             # 프롬프트를 영어로 번역
-            translated_image_text = translate_to_english(image_text)
-            translated_analysis_text = translate_to_english(analysis_text)
+            translated_poster_text = translate_to_english(poster_text)
+
 
             prompt = (
-                f"Create an poster that accurately depicts: {translated_image_text}. "
-                f"The overall mood should be: {mood}. "
-                #f"Include elements that convey the emotions described in: {translated_analysis_text}. "
+                f"Create an poster that accurately depicts: {translated_poster_text}. "
             )
             # 1000자 이내로 축약
-            prompt = f"The overall mood should be: {mood} " + truncate_text(
+            prompt = f"The overall mood should be: {style}  and primary color is {color}." + truncate_text(
                 prompt, 905)
 
             print("Generated prompt: " + prompt)
 
             api_key = os.getenv("MY_API_KEY")
-            response, _ = generate_album_cover(api_key, prompt)
+            response, _ = generate_image(api_key, prompt)
 
             if "data" in response and len(response["data"]) > 0:
-                image_url = response["data"][0]["url"]
+                poster_url = response["data"][0]["url"]
 
                 # 이미지 다운로드
-                image_response = requests.get(image_url)
+                image_response = requests.get(poster_url)
                 if image_response.status_code == 200:
                     image_data = BytesIO(image_response.content)
 
                     # S3에 업로드
                     bucket_name = os.getenv("AWS_STORAGE_BUCKET_NAME")
-                    object_name = f"album_covers/{os.path.basename(image_url)}"
+                    object_name = f"Poster/{os.path.basename(poster_url)}"
                     s3_url = upload_to_s3(image_data, bucket_name, object_name)
 
                     if s3_url:
-                        serializer.save(image_url=s3_url)
+                        serializer.save(poster_url=s3_url)
                         return Response(serializer.data, status=status.HTTP_201_CREATED)
                     else:
                         return Response({"error": "Failed to upload to S3"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -135,6 +132,62 @@ class AlbumCoverView(APIView):
                 return Response({"error": "Failed to generate album cover"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LogoImageView(APIView):
+
+    @swagger_auto_schema(
+        request_body=LogoImageSerializer,
+        responses={201: LogoImageSerializer, 400: 'Bad Request'}
+    )
+    def post(self, request):
+        serializer = LogoImageSerializer(data=request.data)
+        if serializer.is_valid():
+            style = serializer.validated_data.get('style', '')
+            color = serializer.validated_data.get('color', '')
+            logo_text = serializer.validated_data.get('logo_text', '')
+
+            # 프롬프트를 영어로 번역
+            translated_logo_text = translate_to_english(logo_text)
+
+
+            prompt = (
+                f"Create an logo that accurately depicts: {translated_logo_text}. "
+            )
+            # 1000자 이내로 축약
+            prompt = f"The overall mood should be: {style}  and primary color is {color}." + truncate_text(
+                prompt, 905)
+
+            print("Generated prompt: " + prompt)
+
+            api_key = os.getenv("MY_API_KEY")
+            response, _ = generate_image(api_key, prompt)
+
+            if "data" in response and len(response["data"]) > 0:
+                logo_url = response["data"][0]["url"]
+
+                # 이미지 다운로드
+                image_response = requests.get(logo_url)
+                if image_response.status_code == 200:
+                    image_data = BytesIO(image_response.content)
+
+                    # S3에 업로드
+                    bucket_name = os.getenv("AWS_STORAGE_BUCKET_NAME")
+                    object_name = f"Logo/{os.path.basename(logo_url)}"
+                    s3_url = upload_to_s3(image_data, bucket_name, object_name)
+
+                    if s3_url:
+                        serializer.save(logo_url=s3_url)
+                        return Response(serializer.data, status=status.HTTP_201_CREATED)
+                    else:
+                        return Response({"error": "Failed to upload to S3"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                else:
+                    return Response({"error": "Failed to download image"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            else:
+                return Response({"error": "Failed to generate album cover"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 logging.basicConfig(level=logging.INFO)
 
