@@ -8,6 +8,8 @@ import TextGenerationPage from './pages/TextGenerationPage';
 import MusicCoverGenerationPage from './pages/MusicCoverGenerationPage';
 import DragDrop from './pages/DragDrop';
 import MainPage from './pages/MainPage';
+import StyleButton from './components/StyleButton';
+
 import './App.css';
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
         <Route path="/musiccover" element={<MusicCoverGenerationPage />} />
         <Route path="/drag" element={<DragDrop />} />
         <Route path="/main" element={<MainPage />} />
+        <Route path="/stylebutton" element={<StyleButton />} />
       </Routes>
     </>
   );
