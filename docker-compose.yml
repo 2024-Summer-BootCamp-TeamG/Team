@@ -1,4 +1,3 @@
-version: '3'
 services:
     db:
         image: mysql/mysql-server:8.0
@@ -10,7 +9,6 @@ services:
             - 'mysqldata:/var/lib/mysql'
         networks:
             - teamg
-        command: --default-authentication-plugin=mysql_native_password # 플러그인 설치
         environment: #이것도 설정 .Env연동 가능하게 $로 표시
             MYSQL_DATABASE: teamg
             MYSQL_USER: teamg
@@ -30,18 +28,25 @@ services:
             - db
         networks:
             - teamg
+        develop:
+            watch:
+                - action: sync
+                  path: ./backend
+                  target: /code
+                - action: rebuild
+                  path: ./backend/backend/settings.py, ./backend/requirements.txt
 
-#    phpmyadmin:
-#        image: phpmyadmin/phpmyadmin
-#        ports:
-#            - '8080:80'
-#        environment:
-#            PMA_HOST: db
-#            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}  # .env 파일에서 MYSQL_ROOT_PASSWORD를 정의해야 합니다.
-#        depends_on:
-#            - db
-#        networks:
-#            - teamg
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - '8080:80'
+        environment:
+            PMA_HOST: db
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}  # .env 파일에서 MYSQL_ROOT_PASSWORD를 정의해야 합니다.
+        depends_on:
+            - db
+        networks:
+            - teamg
 
 volumes:
     mysqldata:
