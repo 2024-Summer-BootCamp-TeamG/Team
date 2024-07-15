@@ -101,7 +101,6 @@ MAX_UPLOAD_SIZE = 5242880
 
 
 
-
 MIDDLEWARE = [
     'albums.middleware.DisableCSRFMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -114,7 +113,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
 ]
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 ROOT_URLCONF = 'backend.urls'
 
