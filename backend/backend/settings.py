@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import pymysql
+import sys
 pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -90,7 +91,10 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
 # OpenAI API 키
-OPENAI_API_KEY = os.getenv('MY_API_KEY')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+
+# 파일 업로드 설정 추가
+MAX_UPLOAD_SIZE = 5242880
 
 
 
@@ -136,10 +140,14 @@ DATABASES = {
         'NAME': os.getenv('MYSQL_DATABASE'),
         'USER': os.getenv('MYSQL_USER'),
         'PASSWORD': os.getenv('MYSQL_PASSWORD'),
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': '3306',
+
+
     }
 }
+
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
