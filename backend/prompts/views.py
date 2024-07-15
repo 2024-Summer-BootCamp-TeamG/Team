@@ -1,9 +1,10 @@
 import os
+import uuid
 import django
 import textwrap
 import boto3
 from botocore.exceptions import NoCredentialsError
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import AlbumCover
@@ -12,17 +13,20 @@ import requests
 from googletrans import Translator
 from io import BytesIO
 from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
+from dotenv import load_dotenv
+import json
+import logging
+import time
 
+# Load environment variables
+load_dotenv()
 
-
-# DJANGO_SETTINGS_MODULE 환경 변수 설정
+# DJANGO_SETTINGS_MODULE environment variable
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
-# Django 설정 초기화
+# Django setup
 django.setup()
 
-# DALL-E API 요청 보내기
 def generate_album_cover(api_key, prompt):
     headers = {
         "Content-Type": "application/json",
@@ -37,7 +41,7 @@ def generate_album_cover(api_key, prompt):
 
     response = requests.post("https://api.openai.com/v1/images/generations", headers=headers, json=payload)
 
-    # 응답 상태 코드와 본문을 출력
+    # Print response status code and body
     print(f"Response Status Code: {response.status_code}")
     print(f"Response Body: {response.text}")
 
@@ -73,14 +77,13 @@ def upload_to_s3(image_data, bucket_name, object_name):
         print(f"S3 Upload Error: {e}")
         return None
 
-@swagger_auto_schema(    #테스트용 나중에지우셈 이부분
-    method='post',
-    request_body=AlbumCoverSerializer,
-    responses={201: AlbumCoverSerializer, 400: 'Bad Request'}
-)
-@api_view(['POST'])
-def create_album_cover(request):
-    if request.method == 'POST':
+class AlbumCoverView(APIView):
+
+    @swagger_auto_schema(
+        request_body=AlbumCoverSerializer,
+        responses={201: AlbumCoverSerializer, 400: 'Bad Request'}
+    )
+    def post(self, request):
         serializer = AlbumCoverSerializer(data=request.data)
         if serializer.is_valid():
             mood = serializer.validated_data.get('mood', '')
@@ -93,11 +96,12 @@ def create_album_cover(request):
 
             prompt = (
                 f"Create an album cover that accurately depicts: {translated_image_text}. "
-                f"The overall mood should be: {mood}."
+                f"The overall mood should be: {mood}. "
                 f"Include elements that convey the emotions described in: {translated_analysis_text}. "
             )
             # 1000자 이내로 축약
-            prompt = f"The overall mood should be: {mood} and Please ensure the image contains no text." + truncate_text(prompt, 930)
+            prompt = f"The overall mood should be: {mood} and Please ensure the image contains no text." + truncate_text(
+                prompt, 930)
 
             print("Generated prompt: " + prompt)
 
@@ -129,4 +133,105 @@ def create_album_cover(request):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    return Response({"error": "Invalid request method"}, status=status.HTTP_400_BAD_REQUEST)
+logging.basicConfig(level=logging.INFO)
+
+class SunoClipView(APIView):
+
+    def post(self, request):
+        create_url = "https://api.sunoapi.com/api/v1/suno/create"
+        create_payload = {
+            "prompt": request.data.get("prompt", ""),
+            "tags": request.data.get("tags", ""),
+            "custom_mode": request.data.get("custom_mode", False),
+            "title": request.data.get("title", "")
+        }
+
+        # 페이로드 확인을 위한 로깅
+        logging.debug(f"Create payload: {create_payload}")
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {os.getenv('SUNO_API_KEY')}"
+        }
+
+        try:
+            create_response = requests.post(create_url, headers=headers, data=json.dumps(create_payload))
+            create_response.raise_for_status()
+
+            task_data = create_response.json()
+            task_id = task_data['data']['task_id']
+            logging.info(f"Task ID: {task_id}")
+
+            clip_url = f"https://api.sunoapi.com/api/v1/suno/clip/{task_id}"
+
+            while True:
+                clip_response = requests.get(clip_url, headers=headers)
+                clip_response.raise_for_status()
+
+                clip_data = clip_response.json()
+                clip_status = clip_data['data']['status']
+                if clip_status == 'completed':
+                    logging.info("Clip completed!")
+                    clips = clip_data['data']['clips']
+                    audio_url = next((clip_info['audio_url'] for clip_id, clip_info in clips.items()), None)
+                    break
+                elif clip_status == 'processing':
+                    logging.info("Clip is still processing. Checking again in 10 seconds...")
+                    time.sleep(10)
+                else:
+                    logging.error(f"Unexpected status: {clip_status}")
+                    return Response({"error": "Unexpected status"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        except requests.exceptions.RequestException as e:
+            logging.error(f"Request failed: {e}")
+            return Response({"error": f"Failed to create clip due to request exception: {e}"},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        def download_file(url, local_filename):
+            try:
+                with requests.get(url, stream=True) as r:
+                    r.raise_for_status()
+                    with open(local_filename, 'wb') as f:
+                        for chunk in r.iter_content(chunk_size=8192):
+                            f.write(chunk)
+                return local_filename
+            except Exception as e:
+                logging.error(f"Failed to download file: {e}")
+                return None
+
+        def upload_to_s3(file_name, bucket, object_name=None):
+            s3_client = boto3.client(
+                's3',
+                aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+                aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+                region_name=os.getenv('AWS_DEFAULT_REGION')
+            )
+
+            try:
+                s3_client.upload_file(file_name, bucket, object_name or file_name, ExtraArgs={'ACL': 'public-read'})
+                s3_url = f"https://{bucket}.s3.amazonaws.com/{object_name or file_name}"
+                logging.info(f"File uploaded successfully to {s3_url}")
+                return s3_url
+            except FileNotFoundError:
+                logging.error("The file was not found")
+                return None
+            except NoCredentialsError:
+                logging.error("Credentials not available")
+                return None
+
+        file_url = audio_url
+        local_file_name = 'downloaded_file.mp3'
+        bucket_name = os.getenv('AWS_STORAGE_BUCKET_NAME')
+        unique_id = uuid.uuid4()
+        s3_object_name = f'uploaded_file_{unique_id}.mp3'
+
+        downloaded_file = download_file(file_url, local_file_name)
+        if not downloaded_file:
+            return Response({"error": "Failed to download file"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        s3_url = upload_to_s3(downloaded_file, bucket_name, s3_object_name)
+
+        if s3_url:
+            return Response({"audio_url": s3_url}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"error": "Failed to upload to S3"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
