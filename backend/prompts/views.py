@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 import json
 import logging
 import time
-
+#저장용
 # Load environment variables
 load_dotenv()
 
