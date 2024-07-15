@@ -1,7 +1,9 @@
 from django.urls import path
-from .views import AlbumCoverView
+from .views import PosterImageView,LogoImageView
 from .views import SunoClipView
+
 urlpatterns = [
-    path('album_cover', AlbumCoverView.as_view(), name='create_album_cover'),
-    path('album_music',SunoClipView.as_view(), name='create_album_music'),
+    path('poster_generate', PosterImageView.as_view(), name='create_poster'),
+    path('logo_generate',LogoImageView.as_view(),name='create_logo'),
+    path('music',SunoClipView.as_view(), name='create_song'),
 ]

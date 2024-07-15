@@ -7,8 +7,9 @@ from botocore.exceptions import NoCredentialsError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import AlbumCover
-from .serializers import AlbumCoverSerializer
+from .models import PosterImage
+from .serializers import PosterImageSerializer
+from .serializers import LogoImageSerializer
 import requests
 from googletrans import Translator
 from io import BytesIO
@@ -17,6 +18,7 @@ from dotenv import load_dotenv
 import json
 import logging
 import time
+
 
 # Load environment variables
 load_dotenv()
@@ -36,7 +38,8 @@ def generate_album_cover(api_key, prompt):
     payload = {
         "prompt": prompt,
         "size": "1024x1024",
-        "n": 1
+        "n": 1,
+        "model": "dall-e-3"
     }
 
     response = requests.post("https://api.openai.com/v1/images/generations", headers=headers, json=payload)
@@ -95,13 +98,13 @@ class AlbumCoverView(APIView):
             translated_analysis_text = translate_to_english(analysis_text)
 
             prompt = (
-                f"Create an album cover that accurately depicts: {translated_image_text}. "
+                f"Create an poster that accurately depicts: {translated_image_text}. "
                 f"The overall mood should be: {mood}. "
-                f"Include elements that convey the emotions described in: {translated_analysis_text}. "
+                #f"Include elements that convey the emotions described in: {translated_analysis_text}. "
             )
             # 1000자 이내로 축약
-            prompt = f"The overall mood should be: {mood} and Please ensure the image contains no text." + truncate_text(
-                prompt, 930)
+            prompt = f"The overall mood should be: {mood} " + truncate_text(
+                prompt, 905)
 
             print("Generated prompt: " + prompt)
 
@@ -140,10 +143,10 @@ class SunoClipView(APIView):
     def post(self, request):
         create_url = "https://api.sunoapi.com/api/v1/suno/create"
         create_payload = {
-            "prompt": request.data.get("prompt", ""),
-            "tags": request.data.get("tags", ""),
-            "custom_mode": request.data.get("custom_mode", False),
-            "title": request.data.get("title", "")
+            "prompt": "참깨방 위에 순쇠고기 패티두장 특별한 소스 양상추 치즈피클 양파까지 따따따라따",
+            "tags": "CM song",
+            "custom_mode": True,
+            "title": "롯데리아"
         }
 
         # 페이로드 확인을 위한 로깅
