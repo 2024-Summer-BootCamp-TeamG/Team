@@ -4,11 +4,13 @@ import django
 import textwrap
 import boto3
 from botocore.exceptions import NoCredentialsError
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import AlbumCover
-from .serializers import AlbumCoverSerializer
+from .models import PosterImage,LogoImage
+from .serializers import PosterImageSerializer,LogoImageSerializer
 import requests
 from googletrans import Translator
 from io import BytesIO
@@ -18,6 +20,12 @@ import json
 import logging
 import time
 #저장용
+import base64
+from .models import ImageAnalysis  # ImageAnalysis 모델을 가져옵니다
+from django.conf import settings
+from drf_yasg import openapi
+from rest_framework.parsers import MultiPartParser, FormParser
+
 # Load environment variables
 load_dotenv()
 
@@ -27,7 +35,86 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 # Django setup
 django.setup()
 
-def generate_album_cover(api_key, prompt):
+
+@method_decorator(csrf_exempt, name='dispatch')
+class AnalyzeImageView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+    authentication_classes = []
+    permission_classes = []
+
+    @swagger_auto_schema(
+        operation_description="이미지를 업로드하여 분석합니다",
+        manual_parameters=[
+            openapi.Parameter(
+                name="image",
+                in_=openapi.IN_FORM,
+                type=openapi.TYPE_FILE,
+                required=True,
+                description="분석할 이미지 파일"
+            ),
+        ],
+        responses={
+            200: openapi.Response('성공적인 응답', schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'analysis_result': openapi.Schema(type=openapi.TYPE_STRING,
+                                                      description='OpenAI로부터의 분석 결과'),
+                    'analysis_id': openapi.Schema(type=openapi.TYPE_INTEGER,
+                                                  description='생성된 ImageAnalysis 객체의 ID'),
+                }
+            )),
+            400: '잘못된 요청',
+            500: '내부 서버 오류',
+        }
+    )
+    def post(self, request):
+        image_file = request.FILES.get('image')
+        if not image_file:
+            return Response({'error': 'Image file is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            image_data = image_file.read()
+            base64_image = base64.b64encode(image_data).decode('utf-8')
+            analysis = self.analyze_image(base64_image)
+
+            image_analysis = ImageAnalysis.objects.create(
+                image_url="",
+                analysis_result=analysis
+            )
+
+            return Response({'analysis': analysis, 'analysis_id': image_analysis.id}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def analyze_image(self, base64_image):
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {settings.OPENAI_API_KEY}"
+        }
+        payload = {
+            "model": "gpt-4o",
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "이 이미지를 상세히 분석해주세요. 다음 요소들을 포함해 설명해 주세요:\n1. 주요 피사체와 그 특징\n2. 색상 구성과 전반적인 색조\n3. 구도와 레이아웃\n4. 이미지의 전체적인 분위기와 느낌\n5. 제품이나 브랜드의 핵심 특징이나 장점\n6. 타겟 고객층이나 사용 상황",
+                    "image": {"url": f"data:image/jpeg;base64,{base64_image}"}
+                }
+            ],
+            "max_tokens": 500
+        }
+        response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+
+        # 응답 디버그용 출력
+        response_json = response.json()
+        print(response_json)  # 콘솔에 응답 출력
+
+        if 'choices' in response_json:
+            return response_json['choices'][0]['message']['content']
+        else:
+            raise ValueError(f"Unexpected response format: {response_json}")
+
+
+def generate_image(api_key, prompt):
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {api_key}"
@@ -36,7 +123,8 @@ def generate_album_cover(api_key, prompt):
     payload = {
         "prompt": prompt,
         "size": "1024x1024",
-        "n": 1
+        "n": 1,
+        "model": "dall-e-3"
     }
 
     response = requests.post("https://api.openai.com/v1/images/generations", headers=headers, json=payload)
@@ -77,52 +165,58 @@ def upload_to_s3(image_data, bucket_name, object_name):
         print(f"S3 Upload Error: {e}")
         return None
 
-class AlbumCoverView(APIView):
+class PosterImageView(APIView):
 
     @swagger_auto_schema(
-        request_body=AlbumCoverSerializer,
-        responses={201: AlbumCoverSerializer, 400: 'Bad Request'}
+        request_body=PosterImageSerializer,
+        responses={201: PosterImageSerializer, 400: 'Bad Request'}
     )
     def post(self, request):
-        serializer = AlbumCoverSerializer(data=request.data)
+        serializer = PosterImageSerializer(data=request.data)
         if serializer.is_valid():
-            mood = serializer.validated_data.get('mood', '')
-            image_text = serializer.validated_data.get('image_text', '')
-            analysis_text = serializer.validated_data.get('analysis_text', '')
+            style = serializer.validated_data.get('style', '')
+            color = serializer.validated_data.get('color', '')
+            image_analysis_id = serializer.validated_data.get('image_analysis_id', '')  # image_analysis id 값 받기
+            poster_user_text = serializer.validated_data.get('poster_user_text', '')  # 사용자 텍스트 받기
+
+            # image_analysis_id를 이용하여 analysis_result 가져오기
+            try:
+                image_analysis = ImageAnalysis.objects.get(id=image_analysis_id)
+                poster_text = image_analysis.analysis_result
+            except ImageAnalysis.DoesNotExist:
+                return Response({"error": "ImageAnalysis with given id does not exist"}, status=status.HTTP_400_BAD_REQUEST)
 
             # 프롬프트를 영어로 번역
-            translated_image_text = translate_to_english(image_text)
-            translated_analysis_text = translate_to_english(analysis_text)
+            translated_poster_text = translate_to_english(poster_text)
+            translated_user_text = translate_to_english(poster_user_text)
 
             prompt = (
-                f"Create an album cover that accurately depicts: {translated_image_text}. "
-                f"The overall mood should be: {mood}. "
-                f"Include elements that convey the emotions described in: {translated_analysis_text}. "
+                f"Create a poster that accurately depicts: {translated_poster_text}. "
             )
             # 1000자 이내로 축약
-            prompt = f"The overall mood should be: {mood} and Please ensure the image contains no text." + truncate_text(
-                prompt, 930)
+            prompt = f"The overall mood should be: {style} and primary color is {color}. Include the following text: {translated_user_text}" + truncate_text(
+                prompt, 900)
 
             print("Generated prompt: " + prompt)
 
             api_key = os.getenv("MY_API_KEY")
-            response, _ = generate_album_cover(api_key, prompt)
+            response, _ = generate_image(api_key, prompt)
 
             if "data" in response and len(response["data"]) > 0:
-                image_url = response["data"][0]["url"]
+                poster_url = response["data"][0]["url"]
 
                 # 이미지 다운로드
-                image_response = requests.get(image_url)
+                image_response = requests.get(poster_url)
                 if image_response.status_code == 200:
                     image_data = BytesIO(image_response.content)
 
                     # S3에 업로드
                     bucket_name = os.getenv("AWS_STORAGE_BUCKET_NAME")
-                    object_name = f"album_covers/{os.path.basename(image_url)}"
+                    object_name = f"Poster/{os.path.basename(poster_url)}"
                     s3_url = upload_to_s3(image_data, bucket_name, object_name)
 
                     if s3_url:
-                        serializer.save(image_url=s3_url)
+                        serializer.save(poster_url=s3_url)
                         return Response(serializer.data, status=status.HTTP_201_CREATED)
                     else:
                         return Response({"error": "Failed to upload to S3"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -133,6 +227,62 @@ class AlbumCoverView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class LogoImageView(APIView):
+
+    @swagger_auto_schema(
+        request_body=LogoImageSerializer,
+        responses={201: LogoImageSerializer, 400: 'Bad Request'}
+    )
+    def post(self, request):
+        serializer = LogoImageSerializer(data=request.data)
+        if serializer.is_valid():
+            style = serializer.validated_data.get('style', '')
+            color = serializer.validated_data.get('color', '')
+            logo_text = serializer.validated_data.get('logo_text', '')
+
+            # 프롬프트를 영어로 번역
+            translated_logo_text = translate_to_english(logo_text)
+
+
+            prompt = (
+                f"Create an logo that accurately depicts: {translated_logo_text}. "
+            )
+            # 1000자 이내로 축약
+            prompt = f"The overall mood should be: {style}  and primary color is {color}." + truncate_text(
+                prompt, 905)
+
+            print("Generated prompt: " + prompt)
+
+            api_key = os.getenv("MY_API_KEY")
+            response, _ = generate_image(api_key, prompt)
+
+            if "data" in response and len(response["data"]) > 0:
+                logo_url = response["data"][0]["url"]
+
+                # 이미지 다운로드
+                image_response = requests.get(logo_url)
+                if image_response.status_code == 200:
+                    image_data = BytesIO(image_response.content)
+
+                    # S3에 업로드
+                    bucket_name = os.getenv("AWS_STORAGE_BUCKET_NAME")
+                    object_name = f"Logo/{os.path.basename(logo_url)}"
+                    s3_url = upload_to_s3(image_data, bucket_name, object_name)
+
+                    if s3_url:
+                        serializer.save(logo_url=s3_url)
+                        return Response(serializer.data, status=status.HTTP_201_CREATED)
+                    else:
+                        return Response({"error": "Failed to upload to S3"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                else:
+                    return Response({"error": "Failed to download image"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            else:
+                return Response({"error": "Failed to generate album cover"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 logging.basicConfig(level=logging.INFO)
 
 class SunoClipView(APIView):
@@ -140,10 +290,10 @@ class SunoClipView(APIView):
     def post(self, request):
         create_url = "https://api.sunoapi.com/api/v1/suno/create"
         create_payload = {
-            "prompt": request.data.get("prompt", ""),
-            "tags": request.data.get("tags", ""),
-            "custom_mode": request.data.get("custom_mode", False),
-            "title": request.data.get("title", "")
+            "prompt": "참깨방 위에 순쇠고기 패티두장 특별한 소스 양상추 치즈피클 양파까지 따따따라따",
+            "tags": "CM song",
+            "custom_mode": True,
+            "title": "롯데리아"
         }
 
         # 페이로드 확인을 위한 로깅
