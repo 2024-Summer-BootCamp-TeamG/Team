@@ -302,16 +302,34 @@ class LogoImageView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def download_file(url, local_filename):
+logger = logging.getLogger(__name__)
+
+def download_file(url, local_file_name):
     try:
-        with requests.get(url, stream=True) as r:
-            r.raise_for_status()
-            with open(local_filename, 'wb') as f:
-                for chunk in r.iter_content(chunk_size=8192):
-                    f.write(chunk)
-        return local_filename
-    except Exception as e:
+        response = requests.get(url)
+        response.raise_for_status()
+        with open(local_file_name, 'wb') as file:
+            file.write(response.content)
+        return local_file_name
+    except requests.exceptions.RequestException as e:
         logger.error(f"Failed to download file: {e}")
+        return None
+
+def upload_to_s3(file_name, bucket, object_name=None):
+    s3_client = boto3.client('s3')
+    if object_name is None:
+        object_name = file_name
+
+    try:
+        with open(file_name, 'rb') as file_obj:
+            s3_client.upload_fileobj(file_obj, bucket, object_name)
+        s3_url = f"https://{bucket}.s3.amazonaws.com/{object_name}"
+        return s3_url
+    except NoCredentialsError:
+        logger.error("S3 credentials not available")
+        return None
+    except Exception as e:
+        logger.error(f"S3 Upload Error: {e}")
         return None
 
 class SunoClipView(APIView):
@@ -319,17 +337,24 @@ class SunoClipView(APIView):
     def post(self, request):
         create_url = "https://api.sunoapi.com/api/v1/suno/create"
         create_payload = {
-            "prompt": "참깨방 위에 순쇠고기 패티두장 특별한 소스 양상추 치즈피클 양파까지 따따따라따",
+            "prompt": "",
             "tags": "CM song",
             "custom_mode": True,
-            "title": "롯데리아"
+            "title": ""
         }
 
         logger.debug(f"Suno API Create payload: {create_payload}")
 
+        api_key = os.getenv('SUNO_API_KEY')
+        if not api_key:
+            logger.error("API key is not set")
+            return Response({"error": "API key is not set"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        logger.debug(f"Using API Key: {api_key}")
+
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {os.getenv('OPENAI_API_KEY')}"
+            "Authorization": f"Bearer {api_key}"
         }
 
         try:
@@ -363,7 +388,7 @@ class SunoClipView(APIView):
             local_file_name = 'downloaded_file.mp3'
             bucket_name = os.getenv('AWS_STORAGE_BUCKET_NAME')
             unique_id = uuid.uuid4()
-            s3_object_name = f'uploaded_file_{unique_id}.mp3'
+            s3_object_name = f'music/{unique_id}.mp3'
 
             downloaded_file = download_file(audio_url, local_file_name)
             if not downloaded_file:
