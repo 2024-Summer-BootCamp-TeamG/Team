@@ -7,7 +7,7 @@ function BusinessInputPage() {
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-cover">
       <Background>
         <NavBar />
-        <div className="relative h-[67.5rem] w-[120rem] bg-black">
+        <div className="relative h-[67.5rem] w-[120rem]">
           <div className="flex h-full w-full items-start justify-center p-4">
             <textarea
               className="absolute left-[27rem] top-[27rem] h-[12.88rem] w-[68.63rem] resize-none overflow-auto rounded-[2.5rem] border-2 bg-gradient-to-b from-white/20 to-slate-400/10 p-2 text-3xl placeholder-violet-600 opacity-50 shadow outline-none backdrop-blur-xl"

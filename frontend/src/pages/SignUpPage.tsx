@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Background from '../components/Background';
+import NavBar from '../components/NavBar';
 
 // Input 컴포넌트 정의
 const Input: React.FC<{
@@ -100,50 +102,53 @@ function SignUpPage() {
 
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-cover">
-      <div className="relative h-[67.5rem] w-[120rem] bg-black">
-        {/* 회원가입 박스 */}
-        <div className="absolute left-[35rem] top-[7.19rem] h-[53.13rem] w-[50rem] rounded-[2.5rem] border-2 border-white bg-white/30 opacity-60 shadow backdrop-blur-[3.44rem]" />
+      <Background>
+        <NavBar />
+        <div className="relative h-[67.5rem] w-[120rem]">
+          {/* 회원가입 박스 */}
+          <div className="absolute left-[35rem] top-[7.19rem] h-[53.13rem] w-[50rem] rounded-[2.5rem] border-2 border-white bg-white/30 opacity-60 shadow backdrop-blur-[3.44rem]" />
 
-        {/* 이메일 입력 필드 */}
-        <div className="bg-white/opacity-20 absolute left-[47.5rem] top-[30.18rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
-          <Input
-            type="email"
-            placeholder="이메일"
-            value={email}
-            onChange={handleEmailChange}
-          />
-        </div>
+          {/* 이메일 입력 필드 */}
+          <div className="bg-white/opacity-20 absolute left-[47.5rem] top-[30.18rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
+            <Input
+              type="email"
+              placeholder="이메일"
+              value={email}
+              onChange={handleEmailChange}
+            />
+          </div>
 
-        {/* 비밀번호 입력 필드 */}
-        <div className="bg-white/opacity-20 absolute left-[47.5rem] top-[36.35rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
-          <Input
-            type="password"
-            placeholder="비밀번호"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-        </div>
+          {/* 비밀번호 입력 필드 */}
+          <div className="bg-white/opacity-20 absolute left-[47.5rem] top-[36.35rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
+            <Input
+              type="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+          </div>
 
-        {/* 비밀번호 확인 입력 필드 */}
-        <div className="bg-white/opacity-20 absolute left-[47.5rem] top-[42.52rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
-          <Input
-            type="password"
-            placeholder="비밀번호 확인"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-          />
-        </div>
+          {/* 비밀번호 확인 입력 필드 */}
+          <div className="bg-white/opacity-20 absolute left-[47.5rem] top-[42.52rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
+            <Input
+              type="password"
+              placeholder="비밀번호 확인"
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
+            />
+          </div>
 
-        {/* 회원가입 제목 */}
-        <div className="font-['Cafe24 Danjunghae'] absolute left-[49.5rem] top-[15.25rem] text-center text-[6rem] font-normal text-white">
-          회원가입
-        </div>
+          {/* 회원가입 제목 */}
+          <div className="font-['Cafe24 Danjunghae'] absolute left-[49.5rem] top-[15.25rem] text-center text-[6rem] font-normal text-white">
+            회원가입
+          </div>
 
-        {/* 회원가입 버튼 */}
-        <div className="font-['Cafe24 Danjunghae'] absolute left-[47.5rem] top-[52.5rem] flex w-[25rem] items-center justify-center text-2xl font-normal text-black">
-          <Button type="button" label="회원가입하기" onClick={handleSubmit} />
+          {/* 회원가입 버튼 */}
+          <div className="font-['Cafe24 Danjunghae'] absolute left-[47.5rem] top-[52.5rem] flex w-[25rem] items-center justify-center text-2xl font-normal text-black">
+            <Button type="button" label="회원가입하기" onClick={handleSubmit} />
+          </div>
         </div>
-      </div>
+      </Background>
     </div>
   );
 }

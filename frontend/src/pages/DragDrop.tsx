@@ -1,9 +1,12 @@
 import React from 'react';
+import Background from '../components/Background';
+import NavBar from '../components/NavBar';
 
 function DragDrop() {
   return (
-    <>
-      <div className="relative h-[67.5rem] w-[120rem] bg-black">
+    <Background>
+      <NavBar />
+      <div className="relative h-[67.5rem] w-[120rem]">
         <div className="absolute left-[21em] top-[15rem] h-[37.5rem] w-[37.5rem] rounded-full border-4 border-dashed border-black bg-white opacity-80 shadow backdrop-blur-sm" />
         <div className="bg-white/opacity-20 absolute left-[65.56rem] top-[29.13rem] h-[9.38rem] w-[44.88rem] rounded-[2.5rem] border-2 border-white opacity-50" />
         <button className="absolute left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[2.5rem] text-black">
@@ -92,7 +95,7 @@ function DragDrop() {
         </div>
         ;
       </div>
-    </>
+    </Background>
   );
 }
 
