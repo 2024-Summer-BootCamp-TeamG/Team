@@ -19,15 +19,21 @@ class ImageAnalysis(models.Model):
         return f"Image Analysis {self.id}"
 
 
+
+
 class PosterImage(models.Model):
-    style = models.CharField(max_length=50)
-    color = models.CharField(max_length=20)
-    poster_text = models.TextField()
-    poster_user_text = models.CharField(max_length=255)
-    poster_url = models.URLField(max_length=1000, blank=True, null=True)  # 길이를 충분히 늘림
+    style = models.CharField(max_length=100)
+    color = models.CharField(max_length=100)
+    poster_user_text = models.TextField()
+    poster_url = models.URLField(max_length=500)
+    image_analysis = models.ForeignKey(ImageAnalysis, on_delete=models.CASCADE)  # ForeignKey로 정의
     deleted_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.style
+
+
 
 class LogoImage(models.Model):
     style = models.CharField(max_length=50)
