@@ -6,6 +6,9 @@ import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import TextGenerationPage from './pages/TextGenerationPage';
 import MusicCoverGenerationPage from './pages/MusicCoverGenerationPage';
+import BusinessInputPage from './pages/BusinessInputPage';
+import TextInputPage from './pages/TextInputPage';
+
 import DragDrop from './pages/DragDrop';
 import MainPage from "./pages/MainPage";
 import LogoMusicPage from "./pages/LogoMusicPage";
@@ -22,6 +25,9 @@ function App() {
         <Route path="/textgeneration" element={<TextGenerationPage children={undefined} />} />
         <Route path="/musiccover" element={<MusicCoverGenerationPage />} />
         <Route path="/drag" element={<DragDrop />} />
+        <Route path="/busin" element={<BusinessInputPage />} />
+        <Route path="/texi" element={<TextInputPage />} />
+
         <Route path="/logomusic" element={<LogoMusicPage />} />
         <Route path="/main" element={<MainPage children={undefined} />} />
         <Route path="/logomusic" element={<LogoMusicPage />} />
