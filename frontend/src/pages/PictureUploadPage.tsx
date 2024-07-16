@@ -9,6 +9,9 @@ import './style.scss';
 import UploadIcon from '../assets/UploadIcon.svg';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
+import CloseIcon from '../assets/CloseIcon.svg';
+import { Link } from 'react-router-dom';
+
 interface IFileTypes {
   id: number;
   object: File;
@@ -156,7 +159,7 @@ const PictureUploadPage = () => {
                     return (
                       <div key={id}>
                         <div onClick={() => handleFilterFile(id)}>
-                          <p className="text-[3rem]">X</p>
+                          <img src={CloseIcon} alt="닫기" />{' '}
                           <img src={preview} alt={name} />
                         </div>
                       </div>
@@ -164,9 +167,11 @@ const PictureUploadPage = () => {
                   })}
               </div>
             </div>
-            <button className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white">
-              앨범 생성 Start
-            </button>
+            <Link to="/busin">
+              <button className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white">
+                앨범 생성 Start
+              </button>
+            </Link>
           </div>
 
           <div className="left-[68.75rem] top-[31.5rem] flex h-[10rem] w-[44rem] items-center justify-center rounded-[2.5rem] border-4 border-white text-center font-['Inter'] text-3xl font-black tracking-wide text-cyan-50">

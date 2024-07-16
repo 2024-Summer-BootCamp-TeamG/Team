@@ -7,7 +7,7 @@ import MusicBar from '../assets/Bar.svg';
 import PlayButton from '../assets/PlayButton.svg';
 import PauseButton from '../assets/PauseButton.svg';
 import FlippedPic from '../assets/Album.svg';
-import AlbumStyleButton from '../components/AlbumStyleButton';
+import AlbumStyleButton from '../components/MoveButton';
 
 export default function MusicCoverGenerationPage() {
   const [isFlipped, setIsFlipped] = useState(false); // 초기 상태는 플립되지 않은 상태

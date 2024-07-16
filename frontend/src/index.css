@@ -9,6 +9,7 @@
 html,
 body,
 #root {
+  background-color: black;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -35,10 +36,4 @@ body,
 /* 스크롤바 트랙 */
 .scrollbar-style::-webkit-scrollbar-track {
   background-color: #d9d9d9; /* 배경 색상 조정 */
-}
-
-.custom-placeholder::placeholder {
-  color: #080808; /* 원하는 색상으로 변경 */
-  opacity: 1; /* 필요에 따라 투명도 조정 */
-  font-weight: bold;
 }

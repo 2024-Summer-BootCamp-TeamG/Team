@@ -1,6 +1,7 @@
 import React from 'react';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
+import { Link } from 'react-router-dom';
 
 function TextInputPage() {
   return (
@@ -17,12 +18,16 @@ function TextInputPage() {
           <div className="font-['Playfair Display'] absolute left-[33rem] top-[19.5rem] text-center text-5xl font-black text-white">
             포스터에 포함하고 싶은 텍스트를 입력해주세요!
           </div>
-          <button className="font-['Cafe24 Danjunghae'] absolute left-[83.1rem] top-[46.3rem] h-[5rem] w-[12.5rem] rounded-[2.5rem] bg-white/50 text-center text-3xl font-normal text-white">
-            다음
-          </button>
-          <button className="font-['Cafe24 Danjunghae'] absolute left-[27rem] top-[46.3rem] h-[5rem] w-[12.5rem] rounded-[2.5rem] bg-white/50 text-center text-3xl font-normal text-white">
-            이전
-          </button>
+          <Link to="/choosecolor">
+            <button className="font-['Cafe24 Danjunghae'] absolute left-[83.1rem] top-[46.3rem] h-[5rem] w-[12.5rem] rounded-[2.5rem] bg-white/50 text-center text-3xl font-normal text-white hover:bg-white hover:text-black">
+              다음
+            </button>
+          </Link>
+          <Link to="/busin">
+            <button className="font-['Cafe24 Danjunghae'] absolute left-[27rem] top-[46.3rem] h-[5rem] w-[12.5rem] rounded-[2.5rem] bg-white/50 text-center text-3xl font-normal text-white hover:bg-white hover:text-black">
+              이전
+            </button>
+          </Link>
         </div>
       </Background>
     </div>
