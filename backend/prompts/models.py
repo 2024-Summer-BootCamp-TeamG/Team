@@ -1,16 +1,42 @@
 # prompts/models.py
 
 from django.db import models
-
-class AlbumCover(models.Model):
-    mood = models.CharField(max_length=50)
-    image_text = models.TextField()
-    analysis_text = models.TextField()
-    image_url = models.URLField(max_length=1000, blank=True, null=True)  # 길이를 충분히 늘림
+class ImageAnalysis(models.Model):
+    image_url = models.URLField(max_length=1000)
+    analysis_result = models.TextField()
+    deleted_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        # 데이터베이스 테이블 이름을 'image_analysis'로 설정합니다
+        db_table = 'image_analysis'
+        # 레코드를 기본적으로 'created_at' 필드를 기준으로 내림차순으로 정렬합니다
+        ordering = ['-created_at']
+
+    # 모델의 문자열 표현을 정의합니다
     def __str__(self):
-        return self.mood
+        return f"Image Analysis {self.id}"
+
+
+class PosterImage(models.Model):
+    style = models.CharField(max_length=50)
+    color = models.CharField(max_length=20)
+    poster_text = models.TextField()
+    poster_user_text = models.CharField(max_length=255)
+    poster_url = models.URLField(max_length=1000, blank=True, null=True)  # 길이를 충분히 늘림
+    deleted_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class LogoImage(models.Model):
+    style = models.CharField(max_length=50)
+    color = models.CharField(max_length=20)
+    logo_text = models.TextField()
+    logo_url = models.URLField(max_length=1000, blank=True, null=True)  # 길이를 충분히 늘림
+    deleted_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class SunoClip(models.Model):
     title = models.CharField(max_length=255)
