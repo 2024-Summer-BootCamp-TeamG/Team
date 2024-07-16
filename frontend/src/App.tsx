@@ -14,6 +14,8 @@ import StyleButton from './components/StyleButton';
 import BlurText from './components/Blurtext';
 import TextInputPage from './pages/TextInputPage';
 import SelectStylePage from './pages/SelectStylePage';
+import PictureUploadPage from './pages/PictureUploadPage';
+
 import './App.css';
 
 function App() {
@@ -30,6 +32,7 @@ function App() {
         <Route path="/blurtext" element={<BlurText />} />
         <Route path="/textinput" element={<TextInputPage />} />
         <Route path="/selectstyle" element={<SelectStylePage />} />
+        <Route path="/pictureupload" element={<PictureUploadPage />} />
       </Routes>
     </>
   );
