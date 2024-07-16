@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+
 import FullNote1 from '../assets/MusicNote/FullNote1.svg';
 import FullNote2 from '../assets/MusicNote/FullNote2.svg';
 import FullNote3 from '../assets/MusicNote/FullNote3.svg';
@@ -9,6 +10,7 @@ import FullNote7 from '../assets/MusicNote/FullNote7.svg';
 interface MainPageProps {
   children: ReactNode;
 }
+
 interface Coordinate {
   src: string;
   left?: string;
@@ -17,6 +19,7 @@ interface Coordinate {
 }
 export default function MainPage({ children }: MainPageProps) {
   const notes: Coordinate[] = [
+
     { src: FullNote1, right: '90%', top: '70%' },
     { src: FullNote2, left: '10%', top: '80%' },
     { src: FullNote3, left: '90%', top: '70%' },
@@ -25,6 +28,7 @@ export default function MainPage({ children }: MainPageProps) {
     { src: FullNote6, left: '10%', top: '30%' },
     { src: FullNote7, left: '2%', top: '40%' },
   ];
+
   return (
     <div className="relative flex w-screen h-screen flex-col items-center justify-center bg-black bg-cover">
       <div className="relative w-full h-full">
@@ -57,3 +61,4 @@ export default function MainPage({ children }: MainPageProps) {
     </div >
   );
 }
+

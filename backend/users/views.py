@@ -6,7 +6,7 @@ from .serializers import MemberRegistrationSerializer
 from drf_yasg import openapi
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate, login
-
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 # swagger 테스트를 위한 일시적으로 csrf 보호 비활성화
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -76,18 +76,28 @@ class LoginAPIView(APIView):
 # 로그아웃 뷰
 @method_decorator(csrf_exempt, name='dispatch')  # swagger 테스트를 위한 일시적으로 csrf 보호 비활성화
 class LogoutAPIView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     @swagger_auto_schema(
         operation_description="로그아웃 API",
-        responses={200: '로그아웃 성공'}
+        responses={200: '로그아웃 성공', 401: '인증되지 않음'}
     )
     def post(self, request, *args, **kwargs):
         # 사용자 이메일 가져오기
         user_email = None
-        if request.user.is_authenticated:
+        if hasattr(request, 'user') and request.user.is_authenticated:
             user_email = request.user.email
-        # 세션을 삭제하여 사용자를 로그아웃 시킴
-        request.session.flush()
-        return Response({
-            'email': user_email,
-            'message': '로그아웃 되었습니다.'
-        }, status=status.HTTP_200_OK)
+            # 세션을 삭제하여 사용자를 로그아웃 시킴
+            request.session.flush()
+            return Response({
+                'email': user_email,
+                'message': '로그아웃 되었습니다.'
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({
+                'message': '로그인된 사용자가 없습니다.'
+            }, status=status.HTTP_401_UNAUTHORIZED)
+            
+
+            

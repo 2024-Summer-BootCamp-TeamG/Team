@@ -78,7 +78,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'albums',
     'users',
     'drf_yasg',
     'corsheaders',
@@ -101,9 +100,7 @@ MAX_UPLOAD_SIZE = 5242880
 
 
 
-
 MIDDLEWARE = [
-    'albums.middleware.DisableCSRFMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -114,7 +111,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
 ]
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 ROOT_URLCONF = 'backend.urls'
 

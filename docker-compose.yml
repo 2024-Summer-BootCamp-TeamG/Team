@@ -14,6 +14,7 @@ services:
       MYSQL_USER: teamg
       MYSQL_PASSWORD: teamg!
       MYSQL_ROOT_PASSWORD: rootteamg!
+
   web:
     build:
       context: ./backend
@@ -30,6 +31,7 @@ services:
       - db
     networks:
       - teamg
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
@@ -43,6 +45,7 @@ services:
       - teamg
 volumes:
   mysqldata:
+
 networks:
   teamg:
     driver: bridge

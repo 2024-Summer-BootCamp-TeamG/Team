@@ -10,6 +10,7 @@ import DragDrop from './pages/DragDrop';
 import MainPage from "./pages/MainPage";
 import LogoMusicPage from "./pages/LogoMusicPage";
 import ChooseColorPage from "./pages/ChooseColorPage";
+
 import './App.css';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/main" element={<MainPage children={undefined} />} />
         <Route path="/logomusic" element={<LogoMusicPage />} />
         <Route path="/choosecolor" element={<ChooseColorPage />}/>
+
       </Routes>
     </>
   );
