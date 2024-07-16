@@ -28,7 +28,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True ##배포할땐 False로
 
 ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost']
 AUTH_USER_MODEL = 'users.Member'
@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'prompts',
     'rest_framework',
+    'contents',
 
 ]
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
@@ -114,6 +115,22 @@ MIDDLEWARE = [
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
+    'UNAUTHENTICATED_USER': None,
+}
+#배포할땐 얘로 갈아끼워야할듯 스웨거 데코레이션지우고. 얘를 미리해두면 스웨거로 테스트할 수가 없음. 보안걸려서
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework.authentication.BasicAuthentication',
+#     ],
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#     ],
+# }
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -147,11 +164,7 @@ DATABASES = {
 }
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [],
-    'DEFAULT_PERMISSION_CLASSES': [],
-    'UNAUTHENTICATED_USER': None,
-}
+
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
