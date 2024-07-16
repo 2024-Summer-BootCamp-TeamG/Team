@@ -9,8 +9,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import PosterImage,LogoImage
-from .serializers import PosterImageSerializer,LogoImageSerializer
+from .models import PosterImage, LogoImage, ImageAnalysis
+from .serializers import PosterImageSerializer, LogoImageSerializer
 import requests
 from googletrans import Translator
 from io import BytesIO
@@ -19,9 +19,8 @@ from dotenv import load_dotenv
 import json
 import logging
 import time
-#저장용
+# 저장용
 import base64
-from .models import ImageAnalysis  # ImageAnalysis 모델을 가져옵니다
 from django.conf import settings
 from drf_yasg import openapi
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -89,7 +88,7 @@ class AnalyzeImageView(APIView):
     def analyze_image(self, base64_image):
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {settings.OPENAI_API_KEY}"
+            "Authorization": f"Bearer {os.getenv('MY_API_KEY')}"
         }
         payload = {
             "model": "gpt-4o",
@@ -176,8 +175,11 @@ class PosterImageView(APIView):
         if serializer.is_valid():
             style = serializer.validated_data.get('style', '')
             color = serializer.validated_data.get('color', '')
-            image_analysis_id = serializer.validated_data.get('image_analysis_id', '')  # image_analysis id 값 받기
+            image_analysis_id = serializer.validated_data.get('image_analysis_id', None)  # image_analysis id 값 받기
             poster_user_text = serializer.validated_data.get('poster_user_text', '')  # 사용자 텍스트 받기
+
+            if image_analysis_id is None:
+                return Response({"error": "ImageAnalysis ID is required"}, status=status.HTTP_400_BAD_REQUEST)
 
             # image_analysis_id를 이용하여 analysis_result 가져오기
             try:
@@ -301,7 +303,7 @@ class SunoClipView(APIView):
 
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {os.getenv('SUNO_API_KEY')}"
+            "Authorization": f"Bearer {os.getenv('MY_API_KEY')}"
         }
 
         try:
