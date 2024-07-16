@@ -1,10 +1,15 @@
 import React from 'react';
 
-function StyleButton() {
+function StyleButton({ buttonText = 'example' }) {
   return (
     <>
-      <div className="absolute left-0 top-0 flex items-center space-x-8 bg-white p-4">
-        다음
+      <div className="relative z-10 flex h-[145px] w-[335px] justify-center self-center rounded-[60px] border-2 border-white bg-gradient-to-b from-white/20 to-slate-400/10 shadow backdrop-blur-xl sm:mt-0">
+        <button
+          type="button"
+          className="button-custom-stroke w-full rounded-[60px] border py-2 text-center text-[1.5rem] text-white"
+        >
+          {buttonText}
+        </button>
       </div>
     </>
   );

@@ -11,6 +11,9 @@ import DragDrop from './pages/DragDrop';
 import MainPage from './pages/MainPage';
 import StyleButton from './components/StyleButton';
 
+import BlurText from './components/Blurtext';
+import TextInputPage from './pages/TextInputPage';
+import SelectStylePage from './pages/SelectStylePage';
 import './App.css';
 
 function App() {
@@ -22,9 +25,11 @@ function App() {
         <Route path="/text-generation" element={<TextGenerationPage />} />
         <Route path="/musiccover" element={<MusicCoverGenerationPage />} />
         <Route path="/drag" element={<DragDrop />} />
-
         <Route path="/main" element={<MainPage />} />
         <Route path="/stylebutton" element={<StyleButton />} />
+        <Route path="/blurtext" element={<BlurText />} />
+        <Route path="/textinput" element={<TextInputPage />} />
+        <Route path="/selectstyle" element={<SelectStylePage />} />
       </Routes>
     </>
   );

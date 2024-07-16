@@ -2,46 +2,52 @@ import React, { useState } from 'react';
 
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-import AlbumCover from '../assets/Album.png';
+import AlbumCover from '../assets/Album.svg';
 import MusicBar from '../assets/Bar.svg';
 import PlayButton from '../assets/PlayButton.svg';
-import FlippedPic from '../assets/Picture.png';
+import PauseButton from '../assets/PauseButton.svg';
+import FlippedPic from '../assets/Album.svg';
+import AlbumStyleButton from '../components/AlbumStyleButton';
+
 export default function MusicCoverGenerationPage() {
   const [isFlipped, setIsFlipped] = useState(false); // 초기 상태는 플립되지 않은 상태
+  const [isPlayed, setIsPlayed] = useState(true); // 초기 상태는 플립되지 않은 상태
 
-  const handleClick = () => {
+  const handleFlipClick = () => {
     setIsFlipped(!isFlipped); // 클릭 시 상태를 토글하여 플립 효과를 구현
+  };
+
+  const handlePlayClick = () => {
+    setIsPlayed(!isPlayed); // 클릭 시 상태를 토글하여 재생/일시정지 효과를 구현
   };
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
       <Background>
         <NavBar />
-        <div className="ml-[190px] mr-[190px] flex min-h-screen flex-row items-center justify-around">
-          <div
-            className="flip-container relative z-10 flex h-[700px] w-[600px] justify-center rounded-[40px] border-2 border-white bg-white/10 shadow"
-            onClick={handleClick}
-          >
+        <div className="ml-[190px] mr-[190px] flex min-h-screen flex-row items-center justify-between">
+          <div className="flip-container relative z-10 flex h-[700px] w-[600px] justify-center rounded-[40px] border-2 border-white bg-gradient-to-b from-white/20 to-slate-400/10 shadow backdrop-blur-xl">
             <div className="flex flex-col items-center justify-center">
               <img
                 src={isFlipped ? FlippedPic : AlbumCover}
                 alt="앨범 커버"
                 className="mx-[3rem] mb-[3rem] flex h-[452px] w-[432px] items-center"
+                onClick={handleFlipClick}
               ></img>
               <img src={MusicBar} alt="음악 재생 바" className="mb-2"></img>
-              <div className="flex flex-row items-center text-white">
+              <div className="mt-2 flex w-full flex-row items-center justify-between px-4 text-white">
                 <p>0:00</p>
                 <button type="button">
                   <img
-                    src={PlayButton}
+                    src={isPlayed ? PlayButton : PauseButton}
                     alt="음악 재생 버튼"
-                    className="mx-40"
+                    onClick={handlePlayClick}
                   ></img>
                 </button>
                 <p>2:20</p>
               </div>
             </div>
           </div>
-          <div className="bg-white/opacity-20 relative flex h-[791px] w-[756px] flex-col rounded-[40px] border-2 border-white px-8 opacity-50 shadow backdrop-blur-[3.8rem]">
+          <div className="relative flex h-[791px] w-[756px] flex-col rounded-[40px] border-2 border-white bg-gradient-to-b from-white/20 to-slate-400/10 px-8 shadow backdrop-blur-xl">
             <div className="mt-4 break-words text-4xl font-medium text-gradient-custom md:text-xl lg:text-4xl">
               오늘 당신의 상태는?
             </div>
@@ -77,6 +83,7 @@ export default function MusicCoverGenerationPage() {
             </div>
           </div>
         </div>
+        <AlbumStyleButton buttonText="이전" />
       </Background>
     </div>
   );
