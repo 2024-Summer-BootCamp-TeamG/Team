@@ -5,42 +5,51 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-
+import './style.scss';
+import UploadIcon from '../assets/UploadIcon.svg';
+import Background from '../components/Background';
+import NavBar from '../components/NavBar';
 interface IFileTypes {
   id: number;
   object: File;
+  preview: string; // 이미지 미리보기를 위한 URL
 }
 
-const PictureUploadPage: React.FC = () => {
+const PictureUploadPage = () => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [files, setFiles] = useState<IFileTypes[]>([]);
-  const [currentFile, setCurrentFile] = useState<File | null>(null); // 현재 선택된 파일
 
   const dragRef = useRef<HTMLLabelElement | null>(null);
   const fileId = useRef<number>(0);
 
   const onChangeFiles = useCallback(
-    (e: ChangeEvent<HTMLInputElement> | any): void => {
+    (e: ChangeEvent<HTMLInputElement> | DragEvent): void => {
       let selectFiles: File[] = [];
       let tempFiles: IFileTypes[] = files;
 
       if (e.type === 'drop') {
-        selectFiles = e.dataTransfer.files;
+        selectFiles = Array.from((e as DragEvent).dataTransfer!.files);
       } else {
-        selectFiles = e.target.files;
+        selectFiles = Array.from(
+          (e as ChangeEvent<HTMLInputElement>).target.files!,
+        );
       }
 
       for (const file of selectFiles) {
-        tempFiles = [
-          ...tempFiles,
-          {
-            id: fileId.current++,
-            object: file,
-          },
-        ];
+        const reader = new FileReader();
+        reader.onload = () => {
+          tempFiles = [
+            ...tempFiles,
+            {
+              id: fileId.current++,
+              object: file,
+              preview: reader.result as string, // 이미지 미리보기 URL 설정
+            },
+          ];
+          setFiles(tempFiles);
+        };
+        reader.readAsDataURL(file); // 파일을 데이터 URL로 읽기
       }
-
-      setFiles(tempFiles);
     },
     [files],
   );
@@ -48,19 +57,9 @@ const PictureUploadPage: React.FC = () => {
   const handleFilterFile = useCallback(
     (id: number): void => {
       setFiles(files.filter((file: IFileTypes) => file.id !== id));
-      if (
-        currentFile &&
-        files.find((file) => file.id === id)?.object === currentFile
-      ) {
-        setCurrentFile(null); // 현재 선택된 파일이 삭제된 경우 null로 초기화
-      }
     },
-    [files, currentFile],
+    [files],
   );
-
-  const handleFileClick = useCallback((file: File): void => {
-    setCurrentFile(file);
-  }, []);
 
   const handleDragIn = useCallback((e: DragEvent): void => {
     e.preventDefault();
@@ -70,14 +69,12 @@ const PictureUploadPage: React.FC = () => {
   const handleDragOut = useCallback((e: DragEvent): void => {
     e.preventDefault();
     e.stopPropagation();
-
     setIsDragging(false);
   }, []);
 
   const handleDragOver = useCallback((e: DragEvent): void => {
     e.preventDefault();
     e.stopPropagation();
-
     if (e.dataTransfer!.files) {
       setIsDragging(true);
     }
@@ -87,7 +84,6 @@ const PictureUploadPage: React.FC = () => {
     (e: DragEvent): void => {
       e.preventDefault();
       e.stopPropagation();
-
       onChangeFiles(e);
       setIsDragging(false);
     },
@@ -114,56 +110,57 @@ const PictureUploadPage: React.FC = () => {
 
   useEffect(() => {
     initDragEvents();
-
     return () => resetDragEvents();
   }, [initDragEvents, resetDragEvents]);
 
   return (
-    <div className="DragDrop">
-      <input
-        type="file"
-        id="fileUpload"
-        style={{ display: 'none' }}
-        multiple={true}
-        onChange={onChangeFiles}
-      />
+    <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
+      <Background>
+        <NavBar />
+        <div className="DragDrop h-[37.5rem] w-[37.5rem] items-center justify-center rounded-full border-4 border-dashed border-black bg-white opacity-80 shadow backdrop-blur-sm">
+          <input
+            type="file"
+            id="fileUpload"
+            style={{ display: 'none' }}
+            multiple={true}
+            onChange={onChangeFiles}
+          />
+          <label
+            className={isDragging ? 'DragDrop-File-Dragging' : 'DragDrop-File'}
+            htmlFor="fileUpload"
+            ref={dragRef}
+          >
+            {files.length === 0 ? (
+              <>
+                <img src={UploadIcon} alt="upload" />
+                <p className="text-[2rem]">사진 업로드하기</p>
+                <p className="text-[2rem]">이미지를 드래그해주세요</p>
+              </>
+            ) : (
+              <div className="DragDrop-ImagePreview"></div>
+            )}
+          </label>
 
-      <label
-        className={isDragging ? 'DragDrop-File-Dragging' : 'DragDrop-File'}
-        htmlFor="fileUpload"
-        ref={dragRef}
-      >
-        <div>파일 첨부</div>
-      </label>
-
-      <div className="DragDrop-Files">
-        {files.length > 0 &&
-          files.map((file: IFileTypes) => {
-            const {
-              id,
-              object: { name },
-            } = file;
-
-            return (
-              <div key={id}>
-                <div onClick={() => handleFileClick(file.object)}>{name}</div>
-                <div
-                  className="DragDrop-Files-Filter"
-                  onClick={() => handleFilterFile(id)}
-                >
-                  X
-                </div>
-              </div>
-            );
-          })}
-      </div>
-
-      {currentFile && (
-        <div className="OriginalImageContainer">
-          <h2>원본 사진</h2>
-          <img src={URL.createObjectURL(currentFile)} alt="원본 사진" />
+          <div className="DragDrop-Files">
+            {files.length > 0 &&
+              files.map((file: IFileTypes) => {
+                const {
+                  id,
+                  object: { name },
+                  preview,
+                } = file;
+                return (
+                  <div key={id}>
+                    <div onClick={() => handleFilterFile(id)}>
+                      <p className="text-[3rem]">X</p>
+                      <img src={preview} alt={name} />
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
         </div>
-      )}
+      </Background>
     </div>
   );
 };

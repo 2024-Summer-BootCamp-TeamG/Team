@@ -15,7 +15,6 @@ import BlurText from './components/Blurtext';
 import TextInputPage from './pages/TextInputPage';
 import SelectStylePage from './pages/SelectStylePage';
 import PictureUploadPage from './pages/PictureUploadPage';
-
 import './App.css';
 
 function App() {
