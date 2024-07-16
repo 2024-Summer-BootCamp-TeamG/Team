@@ -123,7 +123,7 @@ function SignInPage() {
           </div>
 
           {/* 로그인 버튼 */}
-          <div className="font-['Cafe24 Danjunghae'] absolute left-[47.5rem] top-[52.5rem] flex w-[25rem] items-center justify-center rounded-[1.25rem] text-2xl font-normal text-black">
+          <div className="font-['Cafe24 Danjunghae'] absolute left-[47.5rem] top-[52.5rem] flex w-[25rem] items-center justify-center rounded-[1.25rem] text-xl font-normal text-black">
             <Button type="button" label="로그인하기" onClick={handleSubmit} />
           </div>
         </div>

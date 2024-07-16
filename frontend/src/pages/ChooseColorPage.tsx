@@ -54,10 +54,9 @@ function ChooseColorPage() {
           </div>
           <div className="mt-28 flex w-full justify-around">
             <Link to="/textinput">
-              <div className="flex flex-row justify-between">
-                <MoveButton buttonText="이전" />
-              </div>
+              <MoveButton buttonText="이전" />
             </Link>
+
             <Link to="/selectstyle">
               <MoveButton buttonText="다음" />
             </Link>

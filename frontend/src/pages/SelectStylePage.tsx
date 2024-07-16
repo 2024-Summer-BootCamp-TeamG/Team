@@ -41,7 +41,7 @@ function SelectStylePage() {
               <StyleButton className="h-[9rem] w-[21rem]" buttonText="힙한" />
               <StyleButton className="h-[9rem] w-[21rem]" buttonText="귀여운" />
             </div>
-            <div className="flex flex-row justify-between">
+            <div className="mt-56 flex w-full flex-row justify-between px-4">
               <Link to="/choosecolor">
                 <MoveButton buttonText="이전" />
               </Link>
