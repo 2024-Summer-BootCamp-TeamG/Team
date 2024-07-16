@@ -10,8 +10,10 @@ import BusinessInputPage from './pages/BusinessInputPage';
 import TextInputPage from './pages/TextInputPage';
 
 import DragDrop from './pages/DragDrop';
+import MainPage from "./pages/MainPage";
+import LogoMusicPage from "./pages/LogoMusicPage";
+import ChooseColorPage from "./pages/ChooseColorPage";
 
-import MainPage from './pages/MainPage';
 import './App.css';
 
 function App() {
@@ -20,12 +22,17 @@ function App() {
       <Routes>
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/text-generation" element={<TextGenerationPage />} />
+        <Route path="/textgeneration" element={<TextGenerationPage children={undefined} />} />
         <Route path="/musiccover" element={<MusicCoverGenerationPage />} />
         <Route path="/drag" element={<DragDrop />} />
         <Route path="/busin" element={<BusinessInputPage />} />
-        <Route path="/main" element={<MainPage />} />
         <Route path="/texi" element={<TextInputPage />} />
+
+        <Route path="/logomusic" element={<LogoMusicPage />} />
+        <Route path="/main" element={<MainPage children={undefined} />} />
+        <Route path="/logomusic" element={<LogoMusicPage />} />
+        <Route path="/choosecolor" element={<ChooseColorPage />}/>
+
       </Routes>
     </>
   );
