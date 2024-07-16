@@ -117,47 +117,64 @@ const PictureUploadPage = () => {
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
       <Background>
         <NavBar />
-        <div className="DragDrop h-[37.5rem] w-[37.5rem] items-center justify-center rounded-full border-4 border-dashed border-black bg-white opacity-80 shadow backdrop-blur-sm">
-          <input
-            type="file"
-            id="fileUpload"
-            style={{ display: 'none' }}
-            multiple={true}
-            onChange={onChangeFiles}
-          />
-          <label
-            className={isDragging ? 'DragDrop-File-Dragging' : 'DragDrop-File'}
-            htmlFor="fileUpload"
-            ref={dragRef}
-          >
-            {files.length === 0 ? (
-              <>
-                <img src={UploadIcon} alt="upload" />
-                <p className="text-[2rem]">사진 업로드하기</p>
-                <p className="text-[2rem]">이미지를 드래그해주세요</p>
-              </>
-            ) : (
-              <div className="DragDrop-ImagePreview"></div>
-            )}
-          </label>
+        <div className="flex justify-around">
+          <div className="mb-12 flex flex-col items-center justify-center">
+            <div className="DragDrop mb-12 flex h-[37.5rem] w-[37.5rem] items-center justify-center rounded-full border-4 border-dashed border-black bg-white opacity-80 shadow backdrop-blur-sm">
+              <input
+                type="file"
+                id="fileUpload"
+                style={{ display: 'none' }}
+                multiple={true}
+                onChange={onChangeFiles}
+              />
+              <label
+                className={
+                  isDragging ? 'DragDrop-File-Dragging' : 'DragDrop-File'
+                }
+                htmlFor="fileUpload"
+                ref={dragRef}
+              >
+                {files.length === 0 ? (
+                  <>
+                    <img src={UploadIcon} alt="upload" />
+                    <p className="text-[2rem]">사진 업로드하기</p>
+                    <p className="text-[2rem]">이미지를 드래그해주세요</p>
+                  </>
+                ) : (
+                  <div className="DragDrop-ImagePreview"></div>
+                )}
+              </label>
 
-          <div className="DragDrop-Files">
-            {files.length > 0 &&
-              files.map((file: IFileTypes) => {
-                const {
-                  id,
-                  object: { name },
-                  preview,
-                } = file;
-                return (
-                  <div key={id}>
-                    <div onClick={() => handleFilterFile(id)}>
-                      <p className="text-[3rem]">X</p>
-                      <img src={preview} alt={name} />
-                    </div>
-                  </div>
-                );
-              })}
+              <div className="DragDrop-Files">
+                {files.length > 0 &&
+                  files.map((file: IFileTypes) => {
+                    const {
+                      id,
+                      object: { name },
+                      preview,
+                    } = file;
+                    return (
+                      <div key={id}>
+                        <div onClick={() => handleFilterFile(id)}>
+                          <p className="text-[3rem]">X</p>
+                          <img src={preview} alt={name} />
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+            <button className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white">
+              앨범 생성 Start
+            </button>
+          </div>
+
+          <div className="left-[68.75rem] top-[31.5rem] flex h-[10rem] w-[44rem] items-center justify-center rounded-[2.5rem] border-4 border-white text-center font-['Inter'] text-3xl font-black tracking-wide text-cyan-50">
+            <div>
+              지금부터 마음을 담음 앨범 만들기를 시작합니다!
+              <br />
+              앨범을 만들고 싶은 그림을 드래그 해주세요
+            </div>
           </div>
         </div>
       </Background>
