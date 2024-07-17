@@ -24,6 +24,13 @@ import base64
 from django.conf import settings
 from drf_yasg import openapi
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+
+class AuthenticatedAPIView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
 # Load environment variables
 load_dotenv()
@@ -38,11 +45,13 @@ django.setup()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+class AuthenticatedAPIView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
 @method_decorator(csrf_exempt, name='dispatch')
-class AnalyzeImageView(APIView):
+class AnalyzeImageView(AuthenticatedAPIView):
     parser_classes = (MultiPartParser, FormParser)
-    authentication_classes = []
-    permission_classes = []
 
     @swagger_auto_schema(
         operation_description="이미지를 업로드하여 분석합니다",
@@ -64,10 +73,14 @@ class AnalyzeImageView(APIView):
                 }
             )),
             400: '잘못된 요청',
+            401: '인증되지 않음',
             500: '내부 서버 오류',
         }
     )
     def post(self, request):
+        if not request.user.is_authenticated:
+            return Response({'error': 'Authentication required'}, status=status.HTTP_401_UNAUTHORIZED)
+
         image_file = request.FILES.get('image')
         if not image_file:
             return Response({'error': 'Image file is required'}, status=status.HTTP_400_BAD_REQUEST)
@@ -77,9 +90,10 @@ class AnalyzeImageView(APIView):
             base64_image = base64.b64encode(image_data).decode('utf-8')
             analysis = self.analyze_image(base64_image)
 
-
-            text_result=analysis
-
+            Media.objects.create(
+                user=request.user,  # 현재 로그인된 사용자 설정
+                text_result=analysis
+            )
 
             return Response({'analysis': analysis}, status=status.HTTP_200_OK)
         except Exception as e:

@@ -1,5 +1,7 @@
 from django.db import models
-from users.models import User
+from users.models import User #빨간줄 신경끄삼
+from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 class Media(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # 외래 키 설정
