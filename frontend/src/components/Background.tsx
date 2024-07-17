@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import Circle from '../components/CustomCircle';
 import FullNote1 from '../assets/MusicNote/FullNote1.svg';
 import FullNote2 from '../assets/MusicNote/FullNote2.svg';
