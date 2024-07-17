@@ -130,23 +130,19 @@ const PictureUploadPage = () => {
                 multiple={true}
                 onChange={onChangeFiles}
               />
-              <label
-                className={
-                  isDragging ? 'DragDrop-File-Dragging' : 'DragDrop-File'
-                }
-                htmlFor="fileUpload"
-                ref={dragRef}
-              >
-                {files.length === 0 ? (
-                  <>
-                    <img src={UploadIcon} alt="upload" />
-                    <p className="text-[2rem]">사진 업로드하기</p>
-                    <p className="text-[2rem]">이미지를 드래그해주세요</p>
-                  </>
-                ) : (
-                  <div className="DragDrop-ImagePreview"></div>
-                )}
-              </label>
+              {files.length === 0 && (
+                <label
+                  className={
+                    isDragging ? 'DragDrop-File-Dragging' : 'DragDrop-File'
+                  }
+                  htmlFor="fileUpload"
+                  ref={dragRef}
+                >
+                  <img src={UploadIcon} alt="upload" />
+                  <p className="text-[2rem]">사진 업로드하기</p>
+                  <p className="text-[2rem]">이미지를 드래그해주세요</p>
+                </label>
+              )}
 
               <div className="DragDrop-Files">
                 {files.length > 0 &&
@@ -175,7 +171,7 @@ const PictureUploadPage = () => {
           </div>
 
           <div className="mb-[8rem] flex flex-col items-center">
-            <div className="flex h-[10rem] w-[44rem] items-center justify-center rounded-[2.5rem] border-4 border-white text-center font-['Inter'] text-3xl font-black tracking-wide text-cyan-50">
+            <div className="flex h-[20rem] w-[50rem] items-center justify-center rounded-[2.5rem] border-4 border-white text-center font-['Inter'] text-4xl font-black tracking-wide text-cyan-50">
               <div>
                 지금부터 마음을 담음 앨범 만들기를 시작합니다!
                 <br />

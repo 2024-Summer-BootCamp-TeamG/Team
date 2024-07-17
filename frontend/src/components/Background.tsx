@@ -4,6 +4,7 @@ import MintCircleSm from '../assets/Circle/MintCircleSm.svg';
 import PurpleCircle from '../assets/Circle/PurpleCircle.svg';
 import PurpleCircleSm from '../assets/Circle/PurpleCircleSm.png';
 import PurpleTransCircle from '../assets/Circle/PurpleTransCircle.svg';
+
 import FullNote1 from '../assets/MusicNote/FullNote1.svg';
 import FullNote2 from '../assets/MusicNote/FullNote2.svg';
 import FullNote3 from '../assets/MusicNote/FullNote3.svg';
@@ -26,12 +27,12 @@ interface Coordinate {
 
 export default function Background({ children }: BackgroundProps) {
   const coordinates: Coordinate[] = [
-    { src: MintCircle, left: '20%', top: '80%' },
-    { src: DeepPurpleCircle, left: '10%', top: '60%' },
-    { src: MintCircleSm, left: '30%', top: '20%' },
-    { src: PurpleCircle, left: '40%', top: '60%' },
-    { src: PurpleCircleSm, left: '20%', top: '15%' },
-    { src: PurpleTransCircle, left: '10%', top: '30%' },
+    { src: MintCircle, left: '50%', top: '70%' },
+    { src: DeepPurpleCircle, left: '40%', top: '50%' },
+    { src: MintCircleSm, left: '60%', top: '20%' },
+    { src: PurpleCircle, left: '70%', top: '50%' },
+    { src: PurpleCircleSm, left: '40%', top: '15%' },
+    { src: PurpleTransCircle, left: '50%', top: '30%' },
   ];
   const notes: Coordinate[] = [
     { src: FullNote1, right: '90%', top: '70%' },
