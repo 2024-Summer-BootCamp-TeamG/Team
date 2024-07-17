@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Media
-from .serializers import PosterImageSerializer, LogoImageSerializer, MediaSerializer
+from .serializers import PosterImageSerializer, LogoImageSerializer, MediaSerializer, PosterURLSerializer
 import requests
 from googletrans import Translator
 from io import BytesIO
@@ -263,11 +263,13 @@ class PosterImageView(APIView):
                     object_url = upload_to_s3(image_data, bucket_name, object_name)
 
                     if object_url:
+                        latest_id = Media.objects.latest('id')
                         # Media 모델의 poster_url 필드 업데이트
                         latest_id.poster_url = object_url
                         latest_id.save()
 
-                        return Response(MediaSerializer(poster_url).data, status=status.HTTP_201_CREATED)
+                        # 올바른 필드로 MediaSerializer 생성
+                        return Response(PosterURLSerializer({'poster_url': object_url}).data,status=status.HTTP_201_CREATED)
                     else:
                         return Response({"error": "Failed to upload to S3"},
                                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -284,6 +286,7 @@ class PosterImageView(APIView):
 
 
 class LogoImageView(APIView):
+    permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
         request_body=LogoImageSerializer,
@@ -318,8 +321,21 @@ class LogoImageView(APIView):
                         object_url = upload_to_s3(image_data, bucket_name, object_name)
 
                         if object_url:
-                            serializer.save(logo_url=object_url)
-                            return Response(serializer.data, status=status.HTTP_201_CREATED)
+                            # 로그인한 사용자 정보를 추가
+                            user = request.user
+
+                            # 기존 Media 객체를 찾기
+                            try:
+                                media = Media.objects.get(user=user)
+                                media.logo_url = object_url
+                                media.save()
+                            except Media.DoesNotExist:
+                                return Response({"error": "Media object not found for the user"}, status=status.HTTP_404_NOT_FOUND)
+
+                            return Response({
+                                'user_id': media.user.id,
+                                'logo_url': media.logo_url
+                            }, status=status.HTTP_201_CREATED)
                         else:
                             return Response({"error": "Failed to upload to S3"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                     else:
@@ -343,7 +359,6 @@ def download_file(url, local_filename):
     except Exception as e:
         logger.error(f"Failed to download file: {e}")
         return None
-
 class SunoClipView(APIView):
 
     def post(self, request):
