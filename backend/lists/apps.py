@@ -1,6 +1,5 @@
 from django.apps import AppConfig
 
-
-class AlbumsConfig(AppConfig):
+class ListsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'albums'
+    name = 'lists'
