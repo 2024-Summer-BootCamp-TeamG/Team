@@ -1,10 +1,5 @@
-import DeepPurpleCircle from '../assets/Circle/DeepPurpleCircle.png';
-import MintCircle from '../assets/Circle/MintCircle.svg';
-import MintCircleSm from '../assets/Circle/MintCircleSm.svg';
-import PurpleCircle from '../assets/Circle/PurpleCircle.svg';
-import PurpleCircleSm from '../assets/Circle/PurpleCircleSm.png';
-import PurpleTransCircle from '../assets/Circle/PurpleTransCircle.svg';
-
+import React, { ReactNode } from 'react';
+import Circle from '../components/CustomCircle';
 import FullNote1 from '../assets/MusicNote/FullNote1.svg';
 import FullNote2 from '../assets/MusicNote/FullNote2.svg';
 import FullNote3 from '../assets/MusicNote/FullNote3.svg';
@@ -12,13 +7,20 @@ import FullNote4 from '../assets/MusicNote/FullNote4.svg';
 import FullNote5 from '../assets/MusicNote/FullNote5.svg';
 import FullNote6 from '../assets/MusicNote/FullNote6.svg';
 import FullNote7 from '../assets/MusicNote/FullNote7.svg';
-import React, { ReactNode } from 'react';
 
 interface BackgroundProps {
   children: ReactNode;
 }
 
-interface Coordinate {
+interface CoordinateCircle {
+  size: string;
+  left?: string;
+  right?: string;
+  top: string;
+  backgroundColor: string;
+}
+
+interface CoordinateNote {
   src: string;
   left?: string;
   right?: string;
@@ -26,15 +28,15 @@ interface Coordinate {
 }
 
 export default function Background({ children }: BackgroundProps) {
-  const coordinates: Coordinate[] = [
-    { src: MintCircle, left: '50%', top: '70%' },
-    { src: DeepPurpleCircle, left: '40%', top: '50%' },
-    { src: MintCircleSm, left: '60%', top: '20%' },
-    { src: PurpleCircle, left: '70%', top: '50%' },
-    { src: PurpleCircleSm, left: '40%', top: '15%' },
-    { src: PurpleTransCircle, left: '50%', top: '30%' },
+  const coordinates: CoordinateCircle[] = [
+    { size: '100px', left: '50%', top: '70%', backgroundColor: '#7fc8d6' },
+    { size: '150px', left: '40%', top: '50%', backgroundColor: '#5d3fd3' },
+    { size: '50px', left: '60%', top: '20%', backgroundColor: '#7fc8d6' },
+    { size: '200px', left: '70%', top: '50%', backgroundColor: '#9370db' },
+    { size: '75px', left: '40%', top: '15%', backgroundColor: '#9370db' },
+    { size: '125px', left: '50%', top: '30%', backgroundColor: '#9370db' },
   ];
-  const notes: Coordinate[] = [
+  const notes: CoordinateNote[] = [
     { src: FullNote1, right: '90%', top: '70%' },
     { src: FullNote2, left: '10%', top: '80%' },
     { src: FullNote3, left: '90%', top: '70%' },
@@ -43,19 +45,17 @@ export default function Background({ children }: BackgroundProps) {
     { src: FullNote6, left: '10%', top: '30%' },
     { src: FullNote7, left: '2%', top: '40%' },
   ];
+
   return (
     <div className="relative h-full w-full">
       {coordinates.map((circle, index) => (
-        <img
+        <Circle
           key={index}
-          src={circle.src}
-          alt="원"
-          style={{
-            position: 'absolute',
-            left: circle.left,
-            top: circle.top,
-            transform: 'translate(-50%, -50%)',
-          }}
+          size={circle.size}
+          left={circle.left}
+          top={circle.top}
+          right={circle.right}
+          backgroundColor={circle.backgroundColor}
         />
       ))}
       {notes.map((note, index) => (
@@ -63,6 +63,7 @@ export default function Background({ children }: BackgroundProps) {
           key={index}
           src={note.src}
           alt="음표"
+          className="animate-float"
           style={{
             position: 'absolute',
             left: note.left,
