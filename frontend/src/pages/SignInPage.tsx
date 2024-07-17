@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-
 // Input 컴포넌트 정의
 const Input: React.FC<{
   type: string;
@@ -16,7 +15,7 @@ const Input: React.FC<{
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className="h-full w-full rounded-[1.25rem] border-gray-300 bg-white bg-opacity-30 p-2 placeholder-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="custom-placeholder h-full w-full rounded-[1.25rem] border-gray-300 bg-white bg-opacity-30 p-2 placeholder-black focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
   );
 };
@@ -76,15 +75,17 @@ function SignInPage() {
         alert('로그인에 실패했습니다.');
       }
     } catch (error) {
-      if (error.response) {
-        // 서버 응답이 400 상태 코드일 경우의 처리
-        alert(
-          `로그인 도중 오류가 발생했습니다: ${error.response.data.message || error.response.data}`,
-        );
-      } else {
-        alert('로그인 도중 오류가 발생했습니다.');
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          // 서버 응답이 400 상태 코드일 경우의 처리
+          alert(
+            `로그인 도중 오류가 발생했습니다: ${error.response.data.message || error.response.data}`,
+          );
+        } else {
+          alert('로그인 도중 오류가 발생했습니다.');
+        }
+        console.error('There was an error!', error);
       }
-      console.error('There was an error!', error);
     }
   };
 
@@ -122,7 +123,7 @@ function SignInPage() {
           </div>
 
           {/* 로그인 버튼 */}
-          <div className="font-['Cafe24 Danjunghae'] absolute left-[47.5rem] top-[52.5rem] flex w-[25rem] items-center justify-center rounded-[1.25rem] text-2xl font-normal text-black">
+          <div className="font-['Cafe24 Danjunghae'] absolute left-[47.5rem] top-[52.5rem] flex w-[25rem] items-center justify-center rounded-[1.25rem] text-xl font-normal text-black">
             <Button type="button" label="로그인하기" onClick={handleSubmit} />
           </div>
         </div>

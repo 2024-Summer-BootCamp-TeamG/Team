@@ -1,30 +1,65 @@
-import React from "react";
-import NavBar from "../components/NavBar";
-
-
+import React from 'react';
+import NavBar from '../components/NavBar';
+import StyleButton from '../components/StyleButton';
+import { Link } from 'react-router-dom';
+import MoveButton from '../components/MoveButton.tsx';
 
 function ChooseColorPage() {
   return (
-    <div className="relative flex w-screen h-screen flex-col items-center justify-center bg-black bg-cover">
-      <div className="relative w-full h-full">
-        <NavBar/>
-        <div className=" text-white text-center text-4xl flex justify-center items-center mt-56">원하는 색상을 선택해주세요!</div>
-        
-        <div className="relative flex justify-center items-center text-center top-14">
-          <div className="grid grid-cols-4 gap-9">
-            <div className="relative w-[20rem] h-[9rem] rounded-xl text-white bg-red-500/80 hover:text-black hover:bg-white/80 transition-colors duration-300 flex justify-center items-center">RED</div>
-            <div className="relative w-[20rem] h-[9rem] rounded-xl text-white bg-orange-400/80 hover:text-black hover:bg-white/80 transition-colors duration-300 flex justify-center items-center">ORANGE</div>
-            <div className="relative w-[20rem] h-[9rem] rounded-xl text-white bg-yellow-300/80 hover:text-black hover:bg-white/80  transition-colors duration-300 flex justify-center items-center">YELLOW</div>
-            <div className="relative w-[20rem] h-[9rem] rounded-xl text-white bg-gray-400/80 hover:text-black hover:bg-white/80  transition-colors duration-300 flex justify-center items-center">GRAY</div>
-            <div className="relative w-[20rem] h-[9rem] rounded-xl text-white bg-green-500/80 hover:text-black hover:bg-white/70  transition-colors duration-300 flex justify-center items-center">GREEN</div>
-            <div className="relative w-[20rem] h-[9rem] rounded-xl text-white bg-blue-600/80 hover:text-black hover:bg-white/70  transition-colors duration-300 flex justify-center items-center">BLUE</div>
-            <div className="relative w-[20rem] h-[9rem] rounded-xl text-white bg-pink-400/80 hover:text-black hover:bg-white/70  transition-colors duration-300 flex justify-center items-center">PINK</div>
-            <div className="relative w-[20rem] h-[9rem] rounded-xl text-white bg-cyan-200/80 hover:text-black hover:bg-white/70  transition-colors duration-300 flex justify-center items-center">AQUA</div>
-            <div className="relative w-[20rem] h-[9rem] rounded-xl text-white bg-purple-400/80 hover:text-black hover:bg-white/70  transition-colors duration-300 flex justify-center items-center">PURPLE</div>
-            <div className="relative w-[20rem] h-[9rem] rounded-xl text-black bg-white/80 hover:text-white hover:bg-black/70  transition-colors duration-300 border border-white flex justify-center items-center">WHITE</div>
-            <div className="relative w-[20rem] h-[9rem] rounded-xl text-white bg-black/80 hover:text-black hover:bg-white/70 border border-white transition-colors duration-300 flex justify-center items-center">BLACK</div>
-            <div className="relative w-[20rem] h-[9rem] rounded-xl text-white bg-gradient-to-tl from-fuchsia-500/80 via-teal-400/80 to-yellow-300/80  hover:text-black hover:bg-white/70  transition-colors duration-300 flex justify-center items-center">RANDOM</div>
+    <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-black bg-cover">
+      <div className="relative h-full w-full">
+        <NavBar />
+        <div className="mt-56 flex items-center justify-center text-center text-4xl text-white">
+          원하는 색상을 선택해주세요!
+        </div>
 
+        <div className="relative top-14 flex flex-col items-center justify-center text-center">
+          <div className="grid grid-cols-4 gap-9">
+            <div className="relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl bg-red-500/80 text-[2rem] text-white transition-colors duration-300 hover:bg-white/80 hover:text-black">
+              RED
+            </div>
+            <div className="relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl bg-orange-400/80 text-[2rem] text-white transition-colors duration-300 hover:bg-white/80 hover:text-black">
+              ORANGE
+            </div>
+            <div className="relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl bg-yellow-300/80 text-[2rem] text-white transition-colors duration-300 hover:bg-white/80 hover:text-black">
+              YELLOW
+            </div>
+            <div className="relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl bg-gray-400/80 text-[2rem] text-white transition-colors duration-300 hover:bg-white/80 hover:text-black">
+              GRAY
+            </div>
+            <div className="relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl bg-green-500/80 text-[2rem] text-white transition-colors duration-300 hover:bg-white/70 hover:text-black">
+              GREEN
+            </div>
+            <div className="relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl bg-blue-600/80 text-[2rem] text-white transition-colors duration-300 hover:bg-white/70 hover:text-black">
+              BLUE
+            </div>
+            <div className="relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl bg-pink-400/80 text-[2rem] text-white transition-colors duration-300 hover:bg-white/70 hover:text-black">
+              PINK
+            </div>
+            <div className="relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl bg-cyan-200/80 text-[2rem] text-white transition-colors duration-300 hover:bg-white/70 hover:text-black">
+              AQUA
+            </div>
+            <div className="relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl bg-purple-400/80 text-[2rem] text-white transition-colors duration-300 hover:bg-white/70 hover:text-black">
+              PURPLE
+            </div>
+            <div className="relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl border border-white bg-white/80 text-[2rem] text-black transition-colors duration-300 hover:bg-black/70 hover:text-white">
+              WHITE
+            </div>
+            <div className="relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl border border-white bg-black/80 text-[2rem] text-white transition-colors duration-300 hover:bg-white/70 hover:text-black">
+              BLACK
+            </div>
+            <div className="relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl bg-gradient-to-tl from-fuchsia-500/80 via-teal-400/80 to-yellow-300/80 text-[2rem] text-white transition-colors duration-300 hover:bg-white/70 hover:text-black">
+              RANDOM
+            </div>
+          </div>
+          <div className="mt-28 flex w-full justify-around">
+            <Link to="/textinput">
+              <MoveButton buttonText="이전" />
+            </Link>
+
+            <Link to="/selectstyle">
+              <MoveButton buttonText="다음" />
+            </Link>
           </div>
         </div>
       </div>
