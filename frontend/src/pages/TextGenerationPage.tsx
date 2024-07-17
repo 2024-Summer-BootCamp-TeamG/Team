@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import Background from '../components/Background.tsx';
 import NavBar from '../components/NavBar.tsx';
 function TextGenerationPage() {
@@ -45,11 +47,3 @@ function TextGenerationPage() {
   );
 }
 export default TextGenerationPage;
-
-
-
-
-
-
-
-

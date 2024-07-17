@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-
 // Input 컴포넌트 정의
 const Input: React.FC<{
   type: string;
@@ -88,15 +87,17 @@ function SignUpPage() {
         alert('회원가입에 실패했습니다.');
       }
     } catch (error) {
-      if (error.response) {
-        // 서버 응답이 400 상태 코드일 경우의 처리
-        alert(
-          `회원가입 도중 오류가 발생했습니다: ${error.response.data.message || error.response.data}`,
-        );
-      } else {
-        alert('회원가입 도중 오류가 발생했습니다.');
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          // 서버 응답이 400 상태 코드일 경우의 처리
+          alert(
+            `회원가입 도중 오류가 발생했습니다: ${error.response.data.message || error.response.data}`,
+          );
+        } else {
+          alert('회원가입 도중 오류가 발생했습니다.');
+        }
+        console.error('There was an error!', error);
       }
-      console.error('There was an error!', error);
     }
   };
 

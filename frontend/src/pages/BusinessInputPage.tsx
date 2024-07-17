@@ -3,6 +3,7 @@ import { useRecoilState } from 'recoil';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import { businessInputState } from '../recoil/BusinessInputAtom';
+import { Link } from 'react-router-dom';
 
 function BusinessInputPage() {
   const [businessInput, setBusinessInput] = useRecoilState(businessInputState);
@@ -31,11 +32,13 @@ function BusinessInputPage() {
                 value={businessInput}
                 onChange={(event) => setBusinessInput(event.target.value)}
               />
-              <input
-                type="submit"
-                value="다음"
-                className={`font-['Cafe24 Danjunghae'] absolute left-[83.1rem] top-[46.3rem] h-[5rem] w-[12.5rem] rounded-[2.5rem] bg-white/50 text-center text-3xl font-normal focus:outline-none ${isButtonClicked ? 'text-blue-800' : 'text-white'}`}
-              />
+              <Link to="/texi">
+                <input
+                  type="submit"
+                  value="다음"
+                  className={`font-['Cafe24 Danjunghae'] absolute left-[83.1rem] top-[46.3rem] h-[5rem] w-[12.5rem] rounded-[2.5rem] bg-white/50 text-center text-3xl font-normal focus:outline-none ${isButtonClicked ? 'text-blue-800' : 'text-white'}`}
+                />
+              </Link>
             </form>
           </div>
           <div className="font-['Playfair Display'] absolute left-[24rem] top-[19.5rem] text-center text-5xl font-black text-white">
