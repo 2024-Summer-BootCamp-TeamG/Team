@@ -9,6 +9,7 @@ import MusicCoverGenerationPage from './pages/MusicCoverGenerationPage';
 import BusinessInputPage from './pages/BusinessInputPage';
 import TextInputPage from './pages/TextInputPage';
 
+
 import DragDrop from './pages/DragDrop';
 import MainPage from "./pages/MainPage";
 import LogoMusicPage from "./pages/LogoMusicPage";
@@ -31,7 +32,8 @@ function App() {
         <Route path="/logomusic" element={<LogoMusicPage />} />
         <Route path="/main" element={<MainPage children={undefined} />} />
         <Route path="/logomusic" element={<LogoMusicPage />} />
-        <Route path="/choosecolor" element={<ChooseColorPage />}/>
+        <Route path="/choosecolor" element={<ChooseColorPage />} />
+
 
       </Routes>
     </>
