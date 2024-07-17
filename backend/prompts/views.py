@@ -10,8 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import PosterImage, LogoImage, ImageAnalysis
-from .serializers import PosterImageSerializer, LogoImageSerializer
+from .models import Media
+from .serializers import PosterImageSerializer, LogoImageSerializer, MediaSerializer
 import requests
 from googletrans import Translator
 from io import BytesIO
@@ -59,10 +59,8 @@ class AnalyzeImageView(APIView):
             200: openapi.Response('성공적인 응답', schema=openapi.Schema(
                 type=openapi.TYPE_OBJECT,
                 properties={
-                    'analysis_result': openapi.Schema(type=openapi.TYPE_STRING,
+                    'text_result': openapi.Schema(type=openapi.TYPE_STRING,
                                                       description='OpenAI로부터의 분석 결과'),
-                    'analysis_id': openapi.Schema(type=openapi.TYPE_INTEGER,
-                                                  description='생성된 ImageAnalysis 객체의 ID'),
                 }
             )),
             400: '잘못된 요청',
@@ -79,12 +77,11 @@ class AnalyzeImageView(APIView):
             base64_image = base64.b64encode(image_data).decode('utf-8')
             analysis = self.analyze_image(base64_image)
 
-            image_analysis = ImageAnalysis.objects.create(
-                image_url="",
-                analysis_result=analysis
-            )
 
-            return Response({'analysis': analysis, 'analysis_id': image_analysis.id}, status=status.HTTP_200_OK)
+            text_result=analysis
+
+
+            return Response({'analysis': analysis}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error(f"Error in image analysis: {str(e)}")
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -214,9 +211,9 @@ class PosterImageView(APIView):
 
             # 가장 최근의 ImageAnalysis 객체 가져오기
             try:
-                image_analysis = ImageAnalysis.objects.latest('id')
-                poster_text = image_analysis.analysis_result
-            except ImageAnalysis.DoesNotExist:
+                latest_id = Media.objects.latest('id')
+                poster_text = latest_id.text_result
+            except Media.DoesNotExist:
                 return Response({"error": "No ImageAnalysis found"}, status=status.HTTP_400_BAD_REQUEST)
 
             # 프롬프트를 영어로 번역
@@ -252,15 +249,11 @@ class PosterImageView(APIView):
                     object_url = upload_to_s3(image_data, bucket_name, object_name)
 
                     if object_url:
-                        # PosterImage 객체 생성
-                        poster_image = PosterImage.objects.create(
-                            style=style,
-                            color=color,
-                            poster_user_text=poster_user_text,
-                            poster_url=object_url,
-                            image_analysis=image_analysis  # ForeignKey 필드 설정
-                        )
-                        return Response(PosterImageSerializer(poster_image).data, status=status.HTTP_201_CREATED)
+                        # Media 모델의 poster_url 필드 업데이트
+                        latest_id.poster_url = object_url
+                        latest_id.save()
+
+                        return Response(MediaSerializer(poster_url).data, status=status.HTTP_201_CREATED)
                     else:
                         return Response({"error": "Failed to upload to S3"},
                                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -395,6 +388,14 @@ class SunoClipView(APIView):
             s3_url = upload_to_s3(downloaded_file, bucket_name, s3_object_name)
 
             if s3_url:
+                # 가장 최근의 Media 객체 가져오기
+                try:
+                    latest_media = Media.objects.latest('id')
+                    latest_media.music_url = s3_url
+                    latest_media.save()
+                except Media.DoesNotExist:
+                    return Response({"error": "No Media found"}, status=status.HTTP_400_BAD_REQUEST)
+
                 return Response({"audio_url": s3_url}, status=status.HTTP_201_CREATED)
             else:
                 return Response({"error": "Failed to upload to S3"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

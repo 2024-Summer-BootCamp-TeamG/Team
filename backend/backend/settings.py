@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 DEBUG = True ##배포할땐 False로
 
 ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost']
-AUTH_USER_MODEL = 'users.Member'
+AUTH_USER_MODEL = 'users.User'
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': True,
     'SECURITY_DEFINITIONS': {
@@ -160,7 +160,7 @@ DATABASES = {
         'NAME': os.getenv('MYSQL_DATABASE'),
         'USER': os.getenv('MYSQL_USER'),
         'PASSWORD': os.getenv('MYSQL_PASSWORD'),
-        'HOST': 'db',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
 
 
