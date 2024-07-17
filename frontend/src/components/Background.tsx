@@ -57,7 +57,6 @@ export default function Background({ children }: BackgroundProps) {
           }}
         />
       ))}
-
       {notes.map((note, index) => (
         <img
           key={index}
@@ -71,8 +70,9 @@ export default function Background({ children }: BackgroundProps) {
           }}
         />
       ))}
-
-      {children}
+      <div className="relative z-10 flex h-full w-full items-center justify-center">
+        {children}
+      </div>
     </div>
   );
 }
