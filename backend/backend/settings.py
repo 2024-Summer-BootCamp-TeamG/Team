@@ -84,6 +84,7 @@ INSTALLED_APPS = [
     'prompts',
     'rest_framework',
     'contents',
+    'lists',
 
 ]
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
