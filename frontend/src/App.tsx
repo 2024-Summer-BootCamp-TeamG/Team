@@ -19,6 +19,8 @@ import StyleButton from './components/StyleButton';
 import BlurText from './components/Blurtext';
 import SelectStylePage from './pages/SelectStylePage';
 import PictureUploadPage from './pages/PictureUploadPage';
+import CarouselPage from './pages/Carousel';
+
 import './App.css';
 
 function App() {
@@ -41,7 +43,7 @@ function App() {
         <Route path="/pictureupload" element={<PictureUploadPage />} />
         <Route path="/busin" element={<BusinessInputPage />} />
         <Route path="/texi" element={<TextInputPage />} />
-
+        <Route path="/carousel" element={<CarouselPage />} />
         <Route path="/logomusic" element={<LogoMusicPage />} />
         <Route path="/choosecolor" element={<ChooseColorPage />} />
       </Routes>
