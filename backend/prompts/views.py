@@ -119,7 +119,7 @@ class AnalyzeImageView(APIView):
         else:
             logger.error(f"Unexpected response format: {response_json}")
             raise ValueError(f"Unexpected response format: {response_json}")
-
+api_key = os.getenv("OPENAI_API_KEY")
 def generate_image(api_key, prompt):
     headers = {
         "Content-Type": "application/json",
@@ -297,7 +297,7 @@ class LogoImageView(APIView):
             logger.info(f"Generated prompt for logo: {prompt}")
 
             try:
-                response = generate_image(prompt)
+                response = generate_image(api_key, prompt)
 
                 if "data" in response and len(response["data"]) > 0:
                     logo_url = response["data"][0]["url"]

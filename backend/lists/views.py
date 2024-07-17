@@ -1,10 +1,13 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 from .models import SavedContent
 from .serializers import SavedContentSerializer, SavedContentDetailSerializer
 from drf_yasg.utils import swagger_auto_schema
-from django.shortcuts import get_object_or_404
+from django.apps import apps
+
+SavedContent = apps.get_model('contents', 'SavedContent')
 
 class SavedContentListView(APIView):
     permission_classes = [IsAuthenticated]
@@ -17,7 +20,15 @@ class SavedContentListView(APIView):
     def get(self, request):
         saved_contents = SavedContent.objects.filter(user=request.user)
         serializer = SavedContentSerializer(saved_contents, many=True)
-        return Response(serializer.data)
+        return Response({
+            'id': request.user.id,
+            'email': request.user.email,
+            'saved_contents': serializer.data,
+            'debug_info': {
+                'count': saved_contents.count(),
+                'query': str(saved_contents.query)
+            }
+        })
 
 class SavedContentDetailView(APIView):
     permission_classes = [IsAuthenticated]
@@ -28,6 +39,10 @@ class SavedContentDetailView(APIView):
         responses={200: SavedContentDetailSerializer}
     )
     def get(self, request, pk):
-        saved_content = get_object_or_404(SavedContent, pk=pk, user=request.user)
-        serializer = SavedContentDetailSerializer(saved_content)
-        return Response(serializer.data)
+        try:
+            saved_content = SavedContent.objects.get(pk=pk, user=request.user)
+            serializer = SavedContentDetailSerializer(saved_content)
+            return Response(serializer.data)
+        except SavedContent.DoesNotExist:
+            return Response({'error': 'Content not found'}, status=status.HTTP_404_NOT_FOUND)
+
