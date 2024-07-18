@@ -11,3 +11,9 @@ class SavedContent(models.Model):
     deleted_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'contents_savedcontent'
+
+    def __str__(self):
+        return f"SavedContent {self.id} for {self.user.username}"
