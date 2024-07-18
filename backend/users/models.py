@@ -26,13 +26,12 @@ class MemberManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class Member(AbstractUser):
+class User(AbstractUser):
     email = models.EmailField(unique=True)  # 이메일 필드 유니크하게
     deleted_at = models.DateTimeField(null=True, blank=True)
     username = None  # username 필드 제거
     first_name = None
     last_name = None
-    objects = MemberManager()
 
     def __str__(self):
         return self.email

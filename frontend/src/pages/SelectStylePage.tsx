@@ -15,7 +15,6 @@ function SelectStylePage() {
       prevSelected === buttonText ? '' : buttonText,
     );
   };
-
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
       <div className="relative h-full w-full">
