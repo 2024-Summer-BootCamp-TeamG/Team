@@ -3,6 +3,7 @@ import Background from '../components/Background.tsx';
 import NavBar from '../components/NavBar.tsx';
 import Poster from '../assets/Poster.png';
 import Taehologo from '../assets/TaehoLogo.png';
+import TaehoPoster from '../assets/legoposter.png';
 
 function LogoMusicPage() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -72,7 +73,7 @@ function LogoMusicPage() {
               </div>
               <div className="flex flex-grow items-center justify-center">
                 <div
-                  className="perspective-1000 relative h-72 w-72 cursor-pointer"
+                  className="perspective-1000 relative h-80 w-80 cursor-pointer"
                   onClick={toggleImage}
                 >
                   <div
@@ -84,7 +85,7 @@ function LogoMusicPage() {
                       className={`backface-hidden absolute inset-0 h-full w-full object-cover ${isFrontImage ? 'opacity-100' : 'opacity-0'}`}
                     />
                     <img
-                      src={Poster}
+                      src={TaehoPoster}
                       alt="Poster"
                       className={`backface-hidden absolute inset-0 h-full w-full object-cover ${isFrontImage ? 'opacity-0' : 'rotate-y-180 opacity-100'}`}
                     />
@@ -92,7 +93,7 @@ function LogoMusicPage() {
                 </div>
               </div>
               <div className="mb-10 flex w-full flex-col items-center justify-end">
-                <audio ref={audioRef} src="/audio3.mp3"></audio>{' '}
+                <audio ref={audioRef} src="/lego.mp3"></audio>{' '}
                 {/* 오디오 파일 경로 변경 */}
                 <div className="flex w-[55rem] items-center justify-between text-white">
                   <span>{formatTime(currentTime)}</span>
