@@ -10,8 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import PosterImage, LogoImage, ImageAnalysis
-from .serializers import PosterImageSerializer, LogoImageSerializer
+from .models import Media
+from .serializers import PosterImageSerializer, LogoImageSerializer, MediaSerializer, PosterURLSerializer
 import requests
 from googletrans import Translator
 from io import BytesIO
@@ -24,6 +24,13 @@ import base64
 from django.conf import settings
 from drf_yasg import openapi
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+
+class AuthenticatedAPIView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
 # Load environment variables
 load_dotenv()
@@ -38,11 +45,13 @@ django.setup()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+class AuthenticatedAPIView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
 @method_decorator(csrf_exempt, name='dispatch')
-class AnalyzeImageView(APIView):
+class AnalyzeImageView(AuthenticatedAPIView):
     parser_classes = (MultiPartParser, FormParser)
-    authentication_classes = []
-    permission_classes = []
 
     @swagger_auto_schema(
         operation_description="이미지를 업로드하여 분석합니다",
@@ -59,17 +68,19 @@ class AnalyzeImageView(APIView):
             200: openapi.Response('성공적인 응답', schema=openapi.Schema(
                 type=openapi.TYPE_OBJECT,
                 properties={
-                    'analysis_result': openapi.Schema(type=openapi.TYPE_STRING,
+                    'text_result': openapi.Schema(type=openapi.TYPE_STRING,
                                                       description='OpenAI로부터의 분석 결과'),
-                    'analysis_id': openapi.Schema(type=openapi.TYPE_INTEGER,
-                                                  description='생성된 ImageAnalysis 객체의 ID'),
                 }
             )),
             400: '잘못된 요청',
+            401: '인증되지 않음',
             500: '내부 서버 오류',
         }
     )
     def post(self, request):
+        if not request.user.is_authenticated:
+            return Response({'error': 'Authentication required'}, status=status.HTTP_401_UNAUTHORIZED)
+
         image_file = request.FILES.get('image')
         if not image_file:
             return Response({'error': 'Image file is required'}, status=status.HTTP_400_BAD_REQUEST)
@@ -79,12 +90,12 @@ class AnalyzeImageView(APIView):
             base64_image = base64.b64encode(image_data).decode('utf-8')
             analysis = self.analyze_image(base64_image)
 
-            image_analysis = ImageAnalysis.objects.create(
-                image_url="",
-                analysis_result=analysis
+            Media.objects.create(
+                user=request.user,  # 현재 로그인된 사용자 설정
+                text_result=analysis
             )
 
-            return Response({'analysis': analysis, 'analysis_id': image_analysis.id}, status=status.HTTP_200_OK)
+            return Response({'analysis': analysis}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error(f"Error in image analysis: {str(e)}")
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -119,7 +130,7 @@ class AnalyzeImageView(APIView):
         else:
             logger.error(f"Unexpected response format: {response_json}")
             raise ValueError(f"Unexpected response format: {response_json}")
-
+api_key = os.getenv("OPENAI_API_KEY")
 def generate_image(api_key, prompt):
     headers = {
         "Content-Type": "application/json",
@@ -214,9 +225,9 @@ class PosterImageView(APIView):
 
             # 가장 최근의 ImageAnalysis 객체 가져오기
             try:
-                image_analysis = ImageAnalysis.objects.latest('id')
-                poster_text = image_analysis.analysis_result
-            except ImageAnalysis.DoesNotExist:
+                latest_id = Media.objects.latest('id')
+                poster_text = latest_id.text_result
+            except Media.DoesNotExist:
                 return Response({"error": "No ImageAnalysis found"}, status=status.HTTP_400_BAD_REQUEST)
 
             # 프롬프트를 영어로 번역
@@ -252,15 +263,13 @@ class PosterImageView(APIView):
                     object_url = upload_to_s3(image_data, bucket_name, object_name)
 
                     if object_url:
-                        # PosterImage 객체 생성
-                        poster_image = PosterImage.objects.create(
-                            style=style,
-                            color=color,
-                            poster_user_text=poster_user_text,
-                            poster_url=object_url,
-                            image_analysis=image_analysis  # ForeignKey 필드 설정
-                        )
-                        return Response(PosterImageSerializer(poster_image).data, status=status.HTTP_201_CREATED)
+                        latest_id = Media.objects.latest('id')
+                        # Media 모델의 poster_url 필드 업데이트
+                        latest_id.poster_url = object_url
+                        latest_id.save()
+
+                        # 올바른 필드로 MediaSerializer 생성
+                        return Response(PosterURLSerializer({'poster_url': object_url}).data,status=status.HTTP_201_CREATED)
                     else:
                         return Response({"error": "Failed to upload to S3"},
                                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -277,6 +286,7 @@ class PosterImageView(APIView):
 
 
 class LogoImageView(APIView):
+    permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
         request_body=LogoImageSerializer,
@@ -297,7 +307,7 @@ class LogoImageView(APIView):
             logger.info(f"Generated prompt for logo: {prompt}")
 
             try:
-                response = generate_image(prompt)
+                response = generate_image(api_key, prompt)
 
                 if "data" in response and len(response["data"]) > 0:
                     logo_url = response["data"][0]["url"]
@@ -311,8 +321,21 @@ class LogoImageView(APIView):
                         object_url = upload_to_s3(image_data, bucket_name, object_name)
 
                         if object_url:
-                            serializer.save(logo_url=object_url)
-                            return Response(serializer.data, status=status.HTTP_201_CREATED)
+                            # 로그인한 사용자 정보를 추가
+                            user = request.user
+
+                            # 기존 Media 객체를 찾기
+                            try:
+                                media = Media.objects.get(user=user)
+                                media.logo_url = object_url
+                                media.save()
+                            except Media.DoesNotExist:
+                                return Response({"error": "Media object not found for the user"}, status=status.HTTP_404_NOT_FOUND)
+
+                            return Response({
+                                'user_id': media.user.id,
+                                'logo_url': media.logo_url
+                            }, status=status.HTTP_201_CREATED)
                         else:
                             return Response({"error": "Failed to upload to S3"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                     else:
@@ -336,7 +359,6 @@ def download_file(url, local_filename):
     except Exception as e:
         logger.error(f"Failed to download file: {e}")
         return None
-
 class SunoClipView(APIView):
 
     def post(self, request):
@@ -395,6 +417,14 @@ class SunoClipView(APIView):
             s3_url = upload_to_s3(downloaded_file, bucket_name, s3_object_name)
 
             if s3_url:
+                # 가장 최근의 Media 객체 가져오기
+                try:
+                    latest_media = Media.objects.latest('id')
+                    latest_media.music_url = s3_url
+                    latest_media.save()
+                except Media.DoesNotExist:
+                    return Response({"error": "No Media found"}, status=status.HTTP_400_BAD_REQUEST)
+
                 return Response({"audio_url": s3_url}, status=status.HTTP_201_CREATED)
             else:
                 return Response({"error": "Failed to upload to S3"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
