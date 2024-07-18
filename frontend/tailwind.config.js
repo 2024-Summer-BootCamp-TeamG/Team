@@ -28,7 +28,7 @@ export default {
       },
       animation: {
         float: 'float 2s ease-in-out infinite',
-        morphDramatic: 'morphDramatic 4s ease-in-out infinite',
+        morphDramatic: 'morphDramatic 20s ease-in-out infinite',
       },
       colors: {
         'purple-gradient-start': '#DC92FF',

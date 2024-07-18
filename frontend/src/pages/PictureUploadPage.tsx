@@ -5,22 +5,25 @@ import React, {
   useState,
   useEffect,
 } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './style.scss';
 import UploadIcon from '../assets/UploadIcon.svg';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import CloseIcon from '../assets/CloseIcon.svg';
-import { Link } from 'react-router-dom';
 
 interface IFileTypes {
   id: number;
   object: File;
-  preview: string; // 이미지 미리보기를 위한 URL
+  preview: string;
 }
 
 const PictureUploadPage = () => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [files, setFiles] = useState<IFileTypes[]>([]);
+  const navigate = useNavigate();
+  const [message, setMessage] = useState('');
 
   const dragRef = useRef<HTMLLabelElement | null>(null);
   const fileId = useRef<number>(0);
@@ -46,12 +49,12 @@ const PictureUploadPage = () => {
             {
               id: fileId.current++,
               object: file,
-              preview: reader.result as string, // 이미지 미리보기 URL 설정
+              preview: reader.result as string,
             },
           ];
           setFiles(tempFiles);
         };
-        reader.readAsDataURL(file); // 파일을 데이터 URL로 읽기
+        reader.readAsDataURL(file);
       }
     },
     [files],
@@ -111,6 +114,43 @@ const PictureUploadPage = () => {
     }
   }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
 
+  const uploadImages = async () => {
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append('image', file.object);
+    });
+
+    try {
+      const response = await axios.post(
+        'http://localhost:8000/prompts/analysis_text',
+        {
+          withCredentials: true, // 세션 유지
+        },
+      );
+
+      if (response.status === 200) {
+        setMessage('업로드 성공');
+
+        alert('이미지 업로드가 성공적으로 완료되었습니다.');
+        navigate('/busin');
+      } else {
+        setMessage(`오류 발생: ${response.statusText}`);
+
+        alert('이미지 업로드에 실패했습니다.');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 403) {
+          setMessage('접근 금지: 권한이 없습니다.');
+        } else {
+          setMessage(`오류 발생: ${error.message}`);
+        }
+      } else {
+        setMessage(`오류 발생: ${String(error)}`);
+      }
+    }
+  };
+
   useEffect(() => {
     initDragEvents();
     return () => resetDragEvents();
@@ -120,8 +160,8 @@ const PictureUploadPage = () => {
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
       <Background>
         <NavBar />
-        <div className="relative flex w-full items-center justify-around">
-          <div className="relative mb-12 mr-16 flex flex-col items-center justify-center">
+        <div className="flex justify-around">
+          <div className="mb-12 flex flex-col items-center justify-center">
             <div className="DragDrop mb-12 flex h-[37.5rem] w-[37.5rem] items-center justify-center rounded-full border-4 border-dashed border-black bg-white opacity-80 shadow backdrop-blur-sm">
               <input
                 type="file"
@@ -130,19 +170,23 @@ const PictureUploadPage = () => {
                 multiple={true}
                 onChange={onChangeFiles}
               />
-              {files.length === 0 && (
-                <label
-                  className={
-                    isDragging ? 'DragDrop-File-Dragging' : 'DragDrop-File'
-                  }
-                  htmlFor="fileUpload"
-                  ref={dragRef}
-                >
-                  <img src={UploadIcon} alt="upload" />
-                  <p className="text-[2rem]">사진 업로드하기</p>
-                  <p className="text-[2rem]">이미지를 드래그해주세요</p>
-                </label>
-              )}
+              <label
+                className={
+                  isDragging ? 'DragDrop-File-Dragging' : 'DragDrop-File'
+                }
+                htmlFor="fileUpload"
+                ref={dragRef}
+              >
+                {files.length === 0 ? (
+                  <>
+                    <img src={UploadIcon} alt="upload" />
+                    <p className="text-[2rem]">사진 업로드하기</p>
+                    <p className="text-[2rem]">이미지를 드래그해주세요</p>
+                  </>
+                ) : (
+                  <div className="DragDrop-ImagePreview"></div>
+                )}
+              </label>
 
               <div className="DragDrop-Files">
                 {files.length > 0 &&
@@ -163,20 +207,19 @@ const PictureUploadPage = () => {
                   })}
               </div>
             </div>
-            <Link to="/busin">
-              <button className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white">
-                앨범 생성 Start
-              </button>
-            </Link>
+            <button
+              className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white"
+              onClick={uploadImages}
+            >
+              앨범 생성 Start
+            </button>
           </div>
 
-          <div className="mb-[8rem] flex flex-col items-center">
-            <div className="flex h-[20rem] w-[50rem] items-center justify-center rounded-[2.5rem] border-4 border-white text-center font-['Inter'] text-4xl font-black tracking-wide text-cyan-50">
-              <div>
-                지금부터 마음을 담음 앨범 만들기를 시작합니다!
-                <br />
-                앨범을 만들고 싶은 그림을 드래그 해주세요
-              </div>
+          <div className="left-[68.75rem] top-[31.5rem] flex h-[10rem] w-[44rem] items-center justify-center rounded-[2.5rem] border-4 border-white text-center font-['Inter'] text-3xl font-black tracking-wide text-cyan-50">
+            <div>
+              지금부터 마음을 담음 앨범 만들기를 시작합니다!
+              <br />
+              앨범을 만들고 싶은 그림을 드래그 해주세요
             </div>
           </div>
         </div>
