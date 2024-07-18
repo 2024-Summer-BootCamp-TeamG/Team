@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 DEBUG = True ##배포할땐 False로
 
 ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost']
-AUTH_USER_MODEL = 'users.Member'
+AUTH_USER_MODEL = 'users.User'
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': True,
     'SECURITY_DEFINITIONS': {
@@ -121,9 +121,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated', 모든페이지에 권한이있어야만 가능하게 설정해뒀음 ;
+    # ],
 }
 #배포할땐 얘로 갈아끼워야할듯 스웨거 데코레이션지우고. 얘를 미리해두면 스웨거로 테스트할 수가 없음. 보안걸려서
 # REST_FRAMEWORK = {

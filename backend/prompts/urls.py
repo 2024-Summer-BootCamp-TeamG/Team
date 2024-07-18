@@ -5,7 +5,7 @@ from .views import SunoClipView
 from .views import AnalyzeImageView
 urlpatterns = [
     path('analysis_text',AnalyzeImageView.as_view(), name='analyze_image'),
-    path('poster_generate', PosterImageView.as_view(), name='create_poster'),
-    path('logo_generate',LogoImageView.as_view(),name='create_logo'),
-    path('music',SunoClipView.as_view(), name='create_song'),
+    path('generate_poster', PosterImageView.as_view(), name='create_poster'),
+    path('generate_logo',LogoImageView.as_view(),name='create_logo'),
+    path('generate_music',SunoClipView.as_view(), name='create_song'),
 ]

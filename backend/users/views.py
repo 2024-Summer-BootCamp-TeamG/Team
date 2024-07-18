@@ -2,7 +2,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import MemberRegistrationSerializer
+from .serializers import UserRegistrationSerializer
 from drf_yasg import openapi
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate, login
@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
 # 회원관리 뷰
-class MemberManageView(APIView):
+class UserManageView(APIView):
     # 회원가입인 POST형 메소드에 대해서는 인증 절차 적용 안함
     def get_permissions(self):
         if self.request.method == 'POST':
@@ -20,11 +20,11 @@ class MemberManageView(APIView):
         return [IsAuthenticated()]
 
     @swagger_auto_schema(
-        request_body=MemberRegistrationSerializer,
+        request_body=UserRegistrationSerializer,
         responses={201: '회원가입 완료', 400: '잘못된 요청'}
     )
     def post(self, request):
-        serializer = MemberRegistrationSerializer(data=request.data)
+        serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({
