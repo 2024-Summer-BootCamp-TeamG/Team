@@ -5,16 +5,21 @@ import NavBar from '../components/NavBar';
 import StyleButton from '../components/StyleButton2'; // StyleButton2로 수정
 import { Link } from 'react-router-dom';
 import MoveButton from '../components/MoveButton.tsx';
+import { useRecoilState } from 'recoil';
+import { ChooseColorState } from '../recoil/ChooseColorAtom.ts';
 
 function ChooseColorPage() {
-  const [selectedButton, setSelectedButton] = useState<string>('');
+  const [selectedButton, setSelectedButton] = useRecoilState<string>('');
 
   const toggleButton = (buttonText: string) => {
-    setSelectedButton((prevSelected) => (prevSelected === buttonText ? '' : buttonText));
+    setSelectedButton((prevSelected) =>
+      prevSelected === buttonText ? '' : buttonText,
+    );
   };
 
   const getButtonStyle = (color: string) => ({
-    backgroundColor: selectedButton === color ? color.toLowerCase() : 'transparent',
+    backgroundColor:
+      selectedButton === color ? color.toLowerCase() : 'transparent',
   });
 
   return (
@@ -128,7 +133,3 @@ function ChooseColorPage() {
 }
 
 export default ChooseColorPage;
-
-
-
-

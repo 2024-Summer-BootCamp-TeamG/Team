@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { SelectStyleState } from '../recoil/SelectStyleAtom.ts';
 import Background from '../components/Background.tsx';
 import NavBar from '../components/NavBar.tsx';
 import StyleButton from '../components/StyleButton.tsx';
@@ -7,13 +9,16 @@ import { Link } from 'react-router-dom';
 
 // 스타일 선택 페이지
 function SelectStylePage() {
-  const [selectedButton, setSelectedButton] = useState<string>(''); // 선택된 버튼 상태
+  const [selectedButton, setSelectedButton] =
+    useRecoilState<string>(SelectStyleState); // 선택된 버튼 상태
 
   // 특정 버튼의 선택 상태 토글 함수
   const toggleButton = (buttonText: string) => {
-    setSelectedButton((prevSelected) =>
-      prevSelected === buttonText ? '' : buttonText,
-    );
+    setSelectedButton((prevSelected) => {
+      const newSelected = prevSelected === buttonText ? '' : buttonText;
+      console.log('Button selected:', newSelected);
+      return newSelected;
+    });
   };
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
