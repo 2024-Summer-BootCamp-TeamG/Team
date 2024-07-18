@@ -1,15 +1,15 @@
 from rest_framework import serializers
-from django.apps import apps
+from .models import SavedContent
+from prompts.models import Media
 
-SavedContent = apps.get_model('contents', 'SavedContent')
+class MediaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Media
+        fields = ['id', 'logo_url', 'poster_url', 'music_url']  # 'music_url'로 수정
 
 class SavedContentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SavedContent
-        fields = ['id', 'logo_url']
-        ref_name = 'ListsSavedContentSerializer'  # 명시적으로 ref_name 설정
+    media = MediaSerializer()  # 중첩된 시리얼라이저 사용
 
-class SavedContentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = SavedContent
-        fields = ['id', 'logo_url', 'poster_url', 'audio_url']
+        fields = ['id', 'user', 'media']  # 필요한 필드만 포함
