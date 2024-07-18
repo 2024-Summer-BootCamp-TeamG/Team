@@ -3,6 +3,7 @@ import uuid
 import django
 import textwrap
 import boto3
+from botocore.config import Config
 from botocore.exceptions import NoCredentialsError
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -155,23 +156,45 @@ def translate_to_english(text):
 def truncate_text(text, limit):
     return textwrap.shorten(text, width=limit, placeholder="...")
 
+# def upload_to_s3(image_data, bucket_name, object_name):
+#     s3 = boto3.client(
+#         's3',
+#         aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+#         aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+#         region_name=os.getenv('AWS_DEFAULT_REGION')
+#     )
+#     try:
+#         s3.upload_fileobj(
+#             image_data,
+#             bucket_name,
+#             object_name,
+#             ExtraArgs={'ACL': 'public-read'}  # 공개 읽기 권한 설정
+#         )
+#         object_url = f"https://{bucket_name}.s3.{os.getenv('AWS_DEFAULT_REGION')}.amazonaws.com/{object_name}"
+#         return object_url
+#     except NoCredentialsError:
+#         logger.error("S3 Upload Error: No AWS credentials found.")
+#         return None
+#     except Exception as e:
+#         logger.error(f"S3 Upload Error: {e}")
+#         return None
 def upload_to_s3(image_data, bucket_name, object_name):
-    s3 = boto3.client(
+    # TODO 1 사진을 s3 버킷에 올리기
+    s3 = boto3.resource(  # S3 버킷 등록하기
         's3',
         aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
         aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-        region_name=os.getenv('AWS_DEFAULT_REGION')
+        config=Config(signature_version='s3v4')  # 이건 뭘까
     )
-    try:
-        s3.upload_fileobj(image_data, bucket_name, object_name)
-        s3_url = f"https://{bucket_name}.s3.amazonaws.com/{object_name}"
-        return s3_url
-    except NoCredentialsError:
-        logger.error("S3 Upload Error: No AWS credentials found.")
-        return None
-    except Exception as e:
-        logger.error(f"S3 Upload Error: {e}")
-        return None
+    random_number = str(uuid.uuid4())
+    s3.Bucket(bucket_name).put_object(Key=random_number, Body=image_data, ContentType='image/jpg')
+
+    # TODO 2 사진 url을 받아옴
+    image_url = f"https://{bucket_name}.s3.ap-northeast-2.amazonaws.com/{random_number}"
+    print("###############")
+    print(image_url)
+    print("###############")
+    return image_url
 
 
 class PosterImageView(APIView):
@@ -209,7 +232,7 @@ class PosterImageView(APIView):
 
             logging.info(f"Generated prompt: {prompt}")
 
-            api_key = os.getenv("MY_API_KEY")
+            api_key = os.getenv("OPENAI_API_KEY")
             response = generate_image(api_key, prompt)
 
             # 응답 데이터 로그 추가
@@ -225,16 +248,16 @@ class PosterImageView(APIView):
 
                     # S3에 업로드
                     bucket_name = os.getenv("AWS_STORAGE_BUCKET_NAME")
-                    object_name = f"Poster/{os.path.basename(poster_url)}"
-                    s3_url = upload_to_s3(image_data, bucket_name, object_name)
+                    object_name = f"Poster/{uuid.uuid4().hex}.png"
+                    object_url = upload_to_s3(image_data, bucket_name, object_name)
 
-                    if s3_url:
+                    if object_url:
                         # PosterImage 객체 생성
                         poster_image = PosterImage.objects.create(
                             style=style,
                             color=color,
                             poster_user_text=poster_user_text,
-                            poster_url=s3_url,
+                            poster_url=object_url,
                             image_analysis=image_analysis  # ForeignKey 필드 설정
                         )
                         return Response(PosterImageSerializer(poster_image).data, status=status.HTTP_201_CREATED)
@@ -285,10 +308,10 @@ class LogoImageView(APIView):
 
                         bucket_name = os.getenv("AWS_STORAGE_BUCKET_NAME")
                         object_name = f"Logo/{os.path.basename(logo_url)}"
-                        s3_url = upload_to_s3(image_data, bucket_name, object_name)
+                        object_url = upload_to_s3(image_data, bucket_name, object_name)
 
-                        if s3_url:
-                            serializer.save(logo_url=s3_url)
+                        if object_url:
+                            serializer.save(logo_url=object_url)
                             return Response(serializer.data, status=status.HTTP_201_CREATED)
                         else:
                             return Response({"error": "Failed to upload to S3"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -319,17 +342,17 @@ class SunoClipView(APIView):
     def post(self, request):
         create_url = "https://api.sunoapi.com/api/v1/suno/create"
         create_payload = {
-            "prompt": "참깨방 위에 순쇠고기 패티두장 특별한 소스 양상추 치즈피클 양파까지 따따따라따",
+            "prompt": "",
             "tags": "CM song",
             "custom_mode": True,
-            "title": "롯데리아"
+            "title": ""
         }
 
         logger.debug(f"Suno API Create payload: {create_payload}")
 
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {os.getenv('OPENAI_API_KEY')}"
+            "Authorization": f"Bearer {os.getenv('SUNO_API_KEY')}"
         }
 
         try:
@@ -363,7 +386,7 @@ class SunoClipView(APIView):
             local_file_name = 'downloaded_file.mp3'
             bucket_name = os.getenv('AWS_STORAGE_BUCKET_NAME')
             unique_id = uuid.uuid4()
-            s3_object_name = f'uploaded_file_{unique_id}.mp3'
+            s3_object_name = f'music/{unique_id}.mp3'
 
             downloaded_file = download_file(audio_url, local_file_name)
             if not downloaded_file:

@@ -86,7 +86,7 @@ function LogoMusicPage() {
               </div>
               <div className="mb-10 w-full flex flex-col items-center justify-end">
                 <audio ref={audioRef} src="/audio3.mp3"></audio> {/* 오디오 파일 경로 변경 */}
-                <div className="w-[5rem] flex items-center justify-between text-white">
+                <div className="w-[55rem] flex items-center justify-between text-white">
                   <span>{formatTime(currentTime)}</span>
                   <button onClick={togglePlayPause} className="mx-4">
                     {isPlaying ? (
