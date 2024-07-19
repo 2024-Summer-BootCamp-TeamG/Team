@@ -11,7 +11,6 @@ import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import CloseIcon from '../assets/CloseIcon.svg';
 import { Link } from 'react-router-dom';
-
 interface IFileTypes {
   id: number;
   object: File;
@@ -120,8 +119,8 @@ const PictureUploadPage = () => {
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
       <Background>
         <NavBar />
-        <div className="flex justify-around">
-          <div className="mb-12 flex flex-col items-center justify-center">
+        <div className="relative flex w-full items-center justify-around">
+          <div className="relative mb-12 mr-16 flex flex-col items-center justify-center">
             <div className="DragDrop mb-12 flex h-[37.5rem] w-[37.5rem] items-center justify-center rounded-full border-4 border-dashed border-black bg-white opacity-80 shadow backdrop-blur-sm">
               <input
                 type="file"
@@ -130,23 +129,19 @@ const PictureUploadPage = () => {
                 multiple={true}
                 onChange={onChangeFiles}
               />
-              <label
-                className={
-                  isDragging ? 'DragDrop-File-Dragging' : 'DragDrop-File'
-                }
-                htmlFor="fileUpload"
-                ref={dragRef}
-              >
-                {files.length === 0 ? (
-                  <>
-                    <img src={UploadIcon} alt="upload" />
-                    <p className="text-[2rem]">사진 업로드하기</p>
-                    <p className="text-[2rem]">이미지를 드래그해주세요</p>
-                  </>
-                ) : (
-                  <div className="DragDrop-ImagePreview"></div>
-                )}
-              </label>
+              {files.length === 0 && (
+                <label
+                  className={
+                    isDragging ? 'DragDrop-File-Dragging' : 'DragDrop-File'
+                  }
+                  htmlFor="fileUpload"
+                  ref={dragRef}
+                >
+                  <img src={UploadIcon} alt="upload" />
+                  <p className="text-[2rem]">사진 업로드하기</p>
+                  <p className="text-[2rem]">이미지를 드래그해주세요</p>
+                </label>
+              )}
 
               <div className="DragDrop-Files">
                 {files.length > 0 &&
@@ -169,16 +164,18 @@ const PictureUploadPage = () => {
             </div>
             <Link to="/busin">
               <button className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white">
-                앨범 생성 Start
+                브랜딩 start
               </button>
             </Link>
           </div>
 
-          <div className="left-[68.75rem] top-[31.5rem] flex h-[10rem] w-[44rem] items-center justify-center rounded-[2.5rem] border-4 border-white text-center font-['Inter'] text-3xl font-black tracking-wide text-cyan-50">
-            <div>
-              지금부터 마음을 담음 앨범 만들기를 시작합니다!
-              <br />
-              앨범을 만들고 싶은 그림을 드래그 해주세요
+          <div className="mb-[8rem] flex flex-col items-center">
+            <div className="flex h-[20rem] w-[50rem] items-center justify-center rounded-[2.5rem] border-4 border-white text-center font-['Inter'] text-4xl font-black tracking-wide text-cyan-50">
+              <div>
+                지금부터 나만의 브랜딩 작업 시작합니다!
+                <br />
+                로고와 포스터에 반영할 사진을 드래그 해주세요
+              </div>
             </div>
           </div>
         </div>
