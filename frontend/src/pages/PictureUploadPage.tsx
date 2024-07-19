@@ -16,6 +16,31 @@ interface IFileTypes {
   object: File;
   preview: string; // 이미지 미리보기를 위한 URL
 }
+const uploadImageToServer = async (file: File) => {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  try {
+    const response = await fetch('http://0.0.0.0:8000/prompts/analysis_text', {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+      },
+      credentials: 'include', // 쿠키를 포함시키도록 설정
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error('이미지 업로드 실패');
+    }
+
+    const data = await response.json();
+    console.log('서버 응답:', data);
+    // 서버 응답 처리 로직 추가
+  } catch (error) {
+    console.error('업로드 에러:', error);
+  }
+};
 
 const PictureUploadPage = () => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -49,6 +74,8 @@ const PictureUploadPage = () => {
             },
           ];
           setFiles(tempFiles);
+          console.log('File added:', file);
+          uploadImageToServer(file); // 파일을 추가할 때마다 서버로 전송
         };
         reader.readAsDataURL(file); // 파일을 데이터 URL로 읽기
       }
