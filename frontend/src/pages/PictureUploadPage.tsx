@@ -11,7 +11,6 @@ import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import CloseIcon from '../assets/CloseIcon.svg';
 import { Link } from 'react-router-dom';
-
 interface IFileTypes {
   id: number;
   object: File;
@@ -165,7 +164,7 @@ const PictureUploadPage = () => {
             </div>
             <Link to="/busin">
               <button className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white">
-                앨범 생성 Start
+                브랜딩 start
               </button>
             </Link>
           </div>
@@ -173,9 +172,9 @@ const PictureUploadPage = () => {
           <div className="mb-[8rem] flex flex-col items-center">
             <div className="flex h-[20rem] w-[50rem] items-center justify-center rounded-[2.5rem] border-4 border-white text-center font-['Inter'] text-4xl font-black tracking-wide text-cyan-50">
               <div>
-                지금부터 마음을 담음 앨범 만들기를 시작합니다!
+                지금부터 나만의 브랜딩 작업 시작합니다!
                 <br />
-                앨범을 만들고 싶은 그림을 드래그 해주세요
+                로고와 포스터에 반영할 사진을 드래그 해주세요
               </div>
             </div>
           </div>

@@ -28,7 +28,7 @@ function BusinessInputPage() {
               {/* 폼 제출 시 handleSubmit 함수가 호출됩니다. */}
               <div className="left-[27rem] top-[27rem] h-[12.88rem] w-[68.63rem]">
                 <textarea
-                  className="absolute left-[27rem] top-[27rem] h-[12.88rem] w-[68.63rem] resize-none overflow-auto rounded-[2.5rem] border-2 bg-gradient-to-b from-white/20 to-slate-400/10 p-2 text-3xl placeholder-violet-600 opacity-50 shadow outline-none backdrop-blur-xl"
+                  className="absolute left-[27rem] top-[27rem] h-[12.88rem] w-[68.63rem] resize-none overflow-auto rounded-[2.5rem] border-2 bg-white bg-gradient-to-b from-white/20 to-slate-400/10 p-2 text-3xl placeholder-violet-600 opacity-50 shadow outline-none backdrop-blur-xl"
                   placeholder="ex) 회사명은 OO이고 어떤 유형의 회사입니다. (선택)"
                   value={businessInput}
                   onChange={(event) => setBusinessInput(event.target.value)}

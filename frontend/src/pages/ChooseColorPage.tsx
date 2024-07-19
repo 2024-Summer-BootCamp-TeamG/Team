@@ -1,21 +1,81 @@
-// ChooseColorPage.tsx
-
 import React, { useState } from 'react';
 import NavBar from '../components/NavBar';
-import StyleButton from '../components/StyleButton2'; // StyleButton2로 수정
+import StyleButton from '../components/StyleButton';
 import { Link } from 'react-router-dom';
 import MoveButton from '../components/MoveButton.tsx';
 
 function ChooseColorPage() {
-  const [selectedButton, setSelectedButton] = useState<string>('');
+  const [activeColor, setActiveColor] = useState(null);
 
-  const toggleButton = (buttonText: string) => {
-    setSelectedButton((prevSelected) => (prevSelected === buttonText ? '' : buttonText));
+  const colors = [
+    {
+      name: 'RED',
+      color: 'bg-red-500/80',
+      hover: 'hover:bg-white/80 hover:text-black',
+    },
+    {
+      name: 'ORANGE',
+      color: 'bg-orange-400/80',
+      hover: 'hover:bg-white/80 hover:text-black',
+    },
+    {
+      name: 'YELLOW',
+      color: 'bg-yellow-300/80',
+      hover: 'hover:bg-white/80 hover:text-black',
+    },
+    {
+      name: 'GRAY',
+      color: 'bg-gray-400/80',
+      hover: 'hover:bg-white/80 hover:text-black',
+    },
+    {
+      name: 'GREEN',
+      color: 'bg-green-500/80',
+      hover: 'hover:bg-white/70 hover:text-black',
+    },
+    {
+      name: 'BLUE',
+      color: 'bg-blue-600/80',
+      hover: 'hover:bg-white/70 hover:text-black',
+    },
+    {
+      name: 'PINK',
+      color: 'bg-pink-400/80',
+      hover: 'hover:bg-white/70 hover:text-black',
+    },
+    {
+      name: 'AQUA',
+      color: 'bg-cyan-200/80',
+      hover: 'hover:bg-white/70 hover:text-black',
+    },
+    {
+      name: 'PURPLE',
+      color: 'bg-purple-400/80',
+      hover: 'hover:bg-white/70 hover:text-black',
+    },
+    {
+      name: 'WHITE',
+      color: 'bg-white/80',
+      border: 'border border-white',
+      hover: 'hover:bg-black/70 hover:text-white',
+    },
+    {
+      name: 'BLACK',
+      color: 'bg-black/80',
+      border: 'border border-white',
+      hover: 'hover:bg-white/70 hover:text-black',
+    },
+    {
+      name: 'RANDOM',
+      color:
+        'bg-gradient-to-tl from-fuchsia-500/80 via-teal-400/80 to-yellow-300/80',
+      hover: 'hover:bg-white/70 hover:text-black',
+    },
+  ];
+
+  const handleButtonClick = (color: any) => {
+    setActiveColor(color);
   };
-
-  const getButtonStyle = (color: string) => ({
-    backgroundColor: selectedButton === color ? color.toLowerCase() : 'transparent',
-  });
 
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-black bg-cover">
@@ -27,98 +87,29 @@ function ChooseColorPage() {
 
         <div className="relative top-14 flex flex-col items-center justify-center text-center">
           <div className="grid grid-cols-4 gap-9">
-            <StyleButton
-              className="h-[9rem] w-[20rem]"
-              buttonText="RED"
-              isSelected={selectedButton === 'RED'}
-              onToggle={() => toggleButton('RED')}
-              style={getButtonStyle('RED')}
-            />
-            <StyleButton
-              className="h-[9rem] w-[20rem]"
-              buttonText="ORANGE"
-              isSelected={selectedButton === 'ORANGE'}
-              onToggle={() => toggleButton('ORANGE')}
-              style={getButtonStyle('ORANGE')}
-            />
-            <StyleButton
-              className="h-[9rem] w-[20rem]"
-              buttonText="YELLOW"
-              isSelected={selectedButton === 'YELLOW'}
-              onToggle={() => toggleButton('YELLOW')}
-              style={getButtonStyle('YELLOW')}
-            />
-            <StyleButton
-              className="h-[9rem] w-[20rem]"
-              buttonText="GRAY"
-              isSelected={selectedButton === 'GRAY'}
-              onToggle={() => toggleButton('GRAY')}
-              style={getButtonStyle('GRAY')}
-            />
-            <StyleButton
-              className="h-[9rem] w-[20rem]"
-              buttonText="GREEN"
-              isSelected={selectedButton === 'GREEN'}
-              onToggle={() => toggleButton('GREEN')}
-              style={getButtonStyle('GREEN')}
-            />
-            <StyleButton
-              className="h-[9rem] w-[20rem]"
-              buttonText="BLUE"
-              isSelected={selectedButton === 'BLUE'}
-              onToggle={() => toggleButton('BLUE')}
-              style={getButtonStyle('BLUE')}
-            />
-            <StyleButton
-              className="h-[9rem] w-[20rem]"
-              buttonText="PINK"
-              isSelected={selectedButton === 'PINK'}
-              onToggle={() => toggleButton('PINK')}
-              style={getButtonStyle('PINK')}
-            />
-            <StyleButton
-              className="h-[9rem] w-[20rem]"
-              buttonText="AQUA"
-              isSelected={selectedButton === 'AQUA'}
-              onToggle={() => toggleButton('AQUA')}
-              style={getButtonStyle('AQUA')}
-            />
-            <StyleButton
-              className="h-[9rem] w-[20rem]"
-              buttonText="PURPLE"
-              isSelected={selectedButton === 'PURPLE'}
-              onToggle={() => toggleButton('PURPLE')}
-              style={getButtonStyle('PURPLE')}
-            />
-            <StyleButton
-              className="h-[9rem] w-[20rem]"
-              buttonText="WHITE"
-              isSelected={selectedButton === 'WHITE'}
-              onToggle={() => toggleButton('WHITE')}
-              style={getButtonStyle('WHITE')}
-            />
-            <StyleButton
-              className="h-[9rem] w-[20rem]"
-              buttonText="BLACK"
-              isSelected={selectedButton === 'BLACK'}
-              onToggle={() => toggleButton('BLACK')}
-              style={getButtonStyle('BLACK')}
-            />
-            <StyleButton
-              className="h-[9rem] w-[20rem]"
-              buttonText="RANDOM"
-              isSelected={selectedButton === 'RANDOM'}
-              onToggle={() => toggleButton('RANDOM')}
-              style={getButtonStyle('RANDOM')}
-            />
+            {colors.map(({ name, color, hover, border }) => (
+              <button
+                key={name}
+                className={`relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl text-[2rem] text-white transition-colors duration-300 ${color} ${border} ${
+                  activeColor === name ? 'bg-white/80 text-black' : hover
+                }`}
+                onClick={() => handleButtonClick(name)}
+              >
+                {name}
+              </button>
+            ))}
           </div>
-          <div className="mt-28 flex w-full justify-around">
+          <div className="mt-28 flex w-full justify-between">
             <Link to="/textinput">
-              <MoveButton buttonText="이전" />
+              <div className="ml-[10rem]">
+                <MoveButton className="ml-[5rem]" buttonText="이전" />
+              </div>
             </Link>
 
             <Link to="/selectstyle">
-              <MoveButton buttonText="다음" />
+              <div className="mr-[10rem]">
+                <MoveButton className="ml-[5rem]" buttonText="다음" />
+              </div>
             </Link>
           </div>
         </div>
@@ -128,7 +119,3 @@ function ChooseColorPage() {
 }
 
 export default ChooseColorPage;
-
-
-
-
