@@ -11,7 +11,6 @@ import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import CloseIcon from '../assets/CloseIcon.svg';
 import { Link } from 'react-router-dom';
-
 interface IFileTypes {
   id: number;
   object: File;
