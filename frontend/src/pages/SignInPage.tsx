@@ -3,9 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-import { useNavigate } from 'react-router-dom';
 
-// Input 컴포넌트 정의
 const Input: React.FC<{
   type: string;
   placeholder: string;
@@ -42,7 +40,7 @@ const Button: React.FC<{
 function SignInPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -70,8 +68,7 @@ function SignInPage() {
 
       if (response.status === 200) {
         alert('로그인이 성공적으로 완료되었습니다.');
-        // 여기서 로그인 성공 후의 로직을 추가할 수 있습니다. 예를 들어, 리다이렉션 등.
-        navigate('/pictureupload'); // 로그인 성공 후 페이지 이동
+        navigate('/pictureupload');
       } else {
         alert('로그인에 실패했습니다.');
       }
@@ -93,10 +90,10 @@ function SignInPage() {
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-cover">
       <Background>
         <NavBar />
-        <div className="h-[67.5rem] w-[120rem]">
-          <div className="absolute left-[20rem] top-[7.19rem] h-[53.13rem] w-[50rem] rounded-[2.5rem] border-2 border-white bg-white/30 opacity-60 shadow backdrop-blur-[3.44rem]" />
+        <div className="relative h-[67.5rem] w-[120rem]">
+          <div className="absolute left-[35rem] top-[7.19rem] h-[53.13rem] w-[50rem] rounded-[2.5rem] border-2 border-white bg-white/30 opacity-60 shadow backdrop-blur-[3.44rem]" />
           <form onSubmit={handleSubmit}>
-            <div className="bg-white/opacity-20 absolute left-[34.5rem] top-[38rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
+            <div className="bg-white/opacity-20 absolute left-[47.5rem] top-[38rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
               <Input
                 type="password"
                 placeholder="비밀번호"
@@ -104,7 +101,7 @@ function SignInPage() {
                 onChange={handlePasswordChange}
               />
             </div>
-            <div className="bg-white/opacity-20 absolute left-[34.5rem] top-[32rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
+            <div className="bg-white/opacity-20 absolute left-[47.5rem] top-[32rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
               <Input
                 type="text"
                 placeholder="아이디"
@@ -112,10 +109,10 @@ function SignInPage() {
                 onChange={handleUsernameChange}
               />
             </div>
-            <div className="font-['Cafe24 Danjunghae'] absolute left-[38rem] top-[15.25rem] text-center text-[6rem] font-normal text-white">
+            <div className="font-['Cafe24 Danjunghae'] absolute left-[52rem] top-[15.25rem] text-center text-[6rem] font-normal text-white">
               로그인
             </div>
-            <div className="font-['Cafe24 Danjunghae'] absolute left-[34.5rem] top-[52.5rem] flex w-[25rem] items-center justify-center rounded-[1.25rem] text-xl font-normal text-black">
+            <div className="font-['Cafe24 Danjunghae'] absolute left-[47.5rem] top-[52.5rem] flex w-[25rem] items-center justify-center rounded-[1.25rem] text-xl font-normal text-black">
               <Button type="submit" label="로그인하기" onClick={handleSubmit} />
             </div>
           </form>
