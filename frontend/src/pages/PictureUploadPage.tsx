@@ -5,6 +5,8 @@ import React, {
   useState,
   useEffect,
 } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './style.scss';
 import UploadIcon from '../assets/UploadIcon.svg';
 import Background from '../components/Background';
@@ -45,6 +47,7 @@ const uploadImageToServer = async (file: File) => {
 const PictureUploadPage = () => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [files, setFiles] = useState<IFileTypes[]>([]);
+  const navigate = useNavigate();
 
   const dragRef = useRef<HTMLLabelElement | null>(null);
   const fileId = useRef<number>(0);
@@ -136,6 +139,36 @@ const PictureUploadPage = () => {
       dragRef.current.removeEventListener('drop', handleDrop);
     }
   }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
+
+  const uploadImages = async () => {
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append('image', file.object);
+    });
+
+    try {
+      const response = await axios.post(
+        'http://localhost:8000/prompts/analysis_text',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          withCredentials: true, // 쿠키를 요청에 포함시키도록 설정
+        },
+      );
+
+      if (response.status === 200) {
+        alert('이미지 업로드가 성공적으로 완료되었습니다.');
+        navigate('/busin'); // 이미지 업로드 성공 후 리다이렉션
+      } else {
+        alert('이미지 업로드에 실패했습니다.');
+      }
+    } catch (error) {
+      alert('이미지 업로드 도중 오류가 발생했습니다.');
+      console.error('There was an error!', error);
+    }
+  };
 
   useEffect(() => {
     initDragEvents();
