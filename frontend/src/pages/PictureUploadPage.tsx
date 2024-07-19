@@ -5,44 +5,19 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import axios from 'axios';
+import axiosInstance from '../api/axios'; // axiosInstance를 import
 import { useNavigate } from 'react-router-dom';
 import './style.scss';
 import UploadIcon from '../assets/UploadIcon.svg';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import CloseIcon from '../assets/CloseIcon.svg';
-import { Link } from 'react-router-dom';
+
 interface IFileTypes {
   id: number;
   object: File;
   preview: string; // 이미지 미리보기를 위한 URL
 }
-const uploadImageToServer = async (file: File) => {
-  const formData = new FormData();
-  formData.append('image', file);
-
-  try {
-    const response = await fetch('http://0.0.0.0:8000/prompts/analysis_text', {
-      method: 'POST',
-      headers: {
-        accept: 'application/json',
-      },
-      credentials: 'include', // 쿠키를 포함시키도록 설정
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error('이미지 업로드 실패');
-    }
-
-    const data = await response.json();
-    console.log('서버 응답:', data);
-    // 서버 응답 처리 로직 추가
-  } catch (error) {
-    console.error('업로드 에러:', error);
-  }
-};
 
 const PictureUploadPage = () => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -78,7 +53,6 @@ const PictureUploadPage = () => {
           ];
           setFiles(tempFiles);
           console.log('File added:', file);
-          uploadImageToServer(file); // 파일을 추가할 때마다 서버로 전송
         };
         reader.readAsDataURL(file); // 파일을 데이터 URL로 읽기
       }
@@ -147,8 +121,8 @@ const PictureUploadPage = () => {
     });
 
     try {
-      const response = await axios.post(
-        'http://localhost:8000/prompts/analysis_text',
+      const response = await axiosInstance.post(
+        '/prompts/analysis_text',
         formData,
         {
           headers: {
@@ -222,11 +196,12 @@ const PictureUploadPage = () => {
                   })}
               </div>
             </div>
-            <Link to="/busin">
-              <button className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white">
-                브랜딩 start
-              </button>
-            </Link>
+            <button
+              className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white"
+              onClick={uploadImages}
+            >
+              브랜딩 start
+            </button>
           </div>
 
           <div className="mb-[8rem] flex flex-col items-center">

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import axiosInstance from '../api/axios'; // 커스텀 axios 인스턴스를 불러옴
+
 import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-import { useNavigate } from 'react-router-dom';
 
 // Input 컴포넌트 정의
 const Input: React.FC<{
@@ -26,7 +27,7 @@ const Input: React.FC<{
 const Button: React.FC<{
   type: 'button' | 'submit' | 'reset';
   label: string;
-  onClick: () => void;
+  onClick: (event: React.FormEvent) => void;
 }> = ({ type, label, onClick }) => {
   return (
     <button
@@ -55,22 +56,29 @@ function SignInPage() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        'http://localhost:8000/users/signin',
+      // const csrfToken = document.cookie
+      //   .split('; ')
+      //   .find((row) => row.startsWith('csrftoken='))
+      //   ?.split('=')[1];
+
+      const response = await axiosInstance.post(
+        '/users/signin',
         {
           email: username,
           password,
         },
         {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          withCredentials: true,
+          // headers: {
+          //   'X-CSRFToken': csrfToken || '',
+          // },
         },
       );
 
       if (response.status === 200) {
         alert('로그인이 성공적으로 완료되었습니다.');
-        // 여기서 로그인 성공 후의 로직을 추가할 수 있습니다. 예를 들어, 리다이렉션 등.
+        setUsername('');
+        setPassword('');
         navigate('/pictureupload'); // 로그인 성공 후 페이지 이동
       } else {
         alert('로그인에 실패했습니다.');
@@ -85,6 +93,9 @@ function SignInPage() {
           alert('로그인 도중 오류가 발생했습니다.');
         }
         console.error('There was an error!', error);
+      } else {
+        alert('로그인 도중 예기치 않은 오류가 발생했습니다.');
+        console.error('There was an unexpected error!', error);
       }
     }
   };

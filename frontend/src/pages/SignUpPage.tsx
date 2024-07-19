@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import axiosInstance from '../api/axios'; // axios.ts에서 import
 import axios from 'axios';
+
 import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-import { Link } from 'react-router-dom';
 
 // Input 컴포넌트 정의
 const Input: React.FC<{
@@ -26,12 +27,10 @@ const Input: React.FC<{
 const Button: React.FC<{
   type: 'button' | 'submit' | 'reset';
   label: string;
-  onClick: () => void;
-}> = ({ type, label, onClick }) => {
+}> = ({ type, label }) => {
   return (
     <button
       type={type}
-      onClick={onClick}
       className="h-[3.75rem] w-full rounded-[1.5rem] bg-white px-4 py-2 text-black hover:bg-black/50 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
     >
       {label}
@@ -39,7 +38,7 @@ const Button: React.FC<{
   );
 };
 
-function SignUpPage() {
+const SignUpPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -62,21 +61,16 @@ function SignUpPage() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        'http://localhost:8000/users/signup',
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
+      const response = await axiosInstance.post('/users/signup', {
+        email,
+        password,
+      });
 
       if (response.status === 201) {
         alert('회원가입이 성공적으로 완료되었습니다.');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
         navigate('/signin');
       } else {
         alert('회원가입에 실패했습니다.');
@@ -91,6 +85,9 @@ function SignUpPage() {
           alert('회원가입 도중 오류가 발생했습니다.');
         }
         console.error('There was an error!', error);
+      } else {
+        alert('회원가입 도중 예기치 않은 오류가 발생했습니다.');
+        console.error('There was an unexpected error!', error);
       }
     }
   };
@@ -130,17 +127,13 @@ function SignUpPage() {
               회원가입
             </div>
             <div className="font-['Cafe24 Danjunghae'] absolute left-[47.5rem] top-[52.5rem] flex w-[25rem] items-center justify-center text-2xl font-normal text-black">
-              <Button
-                type="submit"
-                label="회원가입하기"
-                onClick={handleSubmit}
-              />
+              <Button type="submit" label="회원가입하기" />
             </div>
           </form>
         </div>
       </Background>
     </div>
   );
-}
+};
 
 export default SignUpPage;
