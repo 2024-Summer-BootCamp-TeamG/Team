@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +23,6 @@ const Input: React.FC<{
   );
 };
 
-// Button 컴포넌트 정의
 const Button: React.FC<{
   type: 'button' | 'submit' | 'reset';
   label: string;
@@ -39,29 +39,26 @@ const Button: React.FC<{
   );
 };
 
-// SignInPage 컴포넌트 정의
 function SignInPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate(); // useNavigate 훅 사용
 
-  // 사용자 이름 변경 처리 함수
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
 
-  // 비밀번호 변경 처리 함수
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  // 로그인 버튼 클릭 처리 함수
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     try {
       const response = await axios.post(
-        'http://0.0.0.0:8000/users/signin',
+        'http://localhost:8000/users/signin',
         {
-          email: username, // 서버 API가 email 필드를 요구한다고 가정
+          email: username,
           password,
         },
         {
@@ -81,7 +78,6 @@ function SignInPage() {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
-          // 서버 응답이 400 상태 코드일 경우의 처리
           alert(
             `로그인 도중 오류가 발생했습니다: ${error.response.data.message || error.response.data}`,
           );
@@ -97,39 +93,32 @@ function SignInPage() {
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-cover">
       <Background>
         <NavBar />
-        <div className="relative h-[67.5rem] w-[120rem]">
-          {/* 로그인 박스 */}
-          <div className="absolute left-[35rem] top-[7.19rem] h-[53.13rem] w-[50rem] rounded-[2.5rem] border-2 border-white bg-white/30 opacity-60 shadow backdrop-blur-[3.44rem]" />
-
-          {/* 비밀번호 입력 필드 */}
-          <div className="bg-white/opacity-20 absolute left-[47.5rem] top-[38rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
-            <Input
-              type="password"
-              placeholder="비밀번호"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-          </div>
-
-          {/* 아이디 입력 필드 */}
-          <div className="bg-white/opacity-20 absolute left-[47.5rem] top-[32rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
-            <Input
-              type="text"
-              placeholder="아이디"
-              value={username}
-              onChange={handleUsernameChange}
-            />
-          </div>
-
-          {/* 로그인 제목 */}
-          <div className="font-['Cafe24 Danjunghae'] absolute left-[52rem] top-[15.25rem] text-center text-[6rem] font-normal text-white">
-            로그인
-          </div>
-
-          {/* 로그인 버튼 */}
-          <div className="font-['Cafe24 Danjunghae'] absolute left-[47.5rem] top-[52.5rem] flex w-[25rem] items-center justify-center rounded-[1.25rem] text-xl font-normal text-black">
-            <Button type="button" label="로그인하기" onClick={handleSubmit} />
-          </div>
+        <div className="h-[67.5rem] w-[120rem]">
+          <div className="absolute left-[20rem] top-[7.19rem] h-[53.13rem] w-[50rem] rounded-[2.5rem] border-2 border-white bg-white/30 opacity-60 shadow backdrop-blur-[3.44rem]" />
+          <form onSubmit={handleSubmit}>
+            <div className="bg-white/opacity-20 absolute left-[34.5rem] top-[38rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
+              <Input
+                type="password"
+                placeholder="비밀번호"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+            </div>
+            <div className="bg-white/opacity-20 absolute left-[34.5rem] top-[32rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
+              <Input
+                type="text"
+                placeholder="아이디"
+                value={username}
+                onChange={handleUsernameChange}
+              />
+            </div>
+            <div className="font-['Cafe24 Danjunghae'] absolute left-[38rem] top-[15.25rem] text-center text-[6rem] font-normal text-white">
+              로그인
+            </div>
+            <div className="font-['Cafe24 Danjunghae'] absolute left-[34.5rem] top-[52.5rem] flex w-[25rem] items-center justify-center rounded-[1.25rem] text-xl font-normal text-black">
+              <Button type="submit" label="로그인하기" onClick={handleSubmit} />
+            </div>
+          </form>
         </div>
       </Background>
     </div>
