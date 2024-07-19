@@ -167,28 +167,23 @@ def translate_to_english(text):
 def truncate_text(text, limit):
     return textwrap.shorten(text, width=limit, placeholder="...")
 
-# def upload_to_s3(image_data, bucket_name, object_name):
-#     s3 = boto3.client(
-#         's3',
-#         aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-#         aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-#         region_name=os.getenv('AWS_DEFAULT_REGION')
-#     )
-#     try:
-#         s3.upload_fileobj(
-#             image_data,
-#             bucket_name,
-#             object_name,
-#             ExtraArgs={'ACL': 'public-read'}  # 공개 읽기 권한 설정
-#         )
-#         object_url = f"https://{bucket_name}.s3.{os.getenv('AWS_DEFAULT_REGION')}.amazonaws.com/{object_name}"
-#         return object_url
-#     except NoCredentialsError:
-#         logger.error("S3 Upload Error: No AWS credentials found.")
-#         return None
-#     except Exception as e:
-#         logger.error(f"S3 Upload Error: {e}")
-#         return None
+def upload_to_s3_music(file_name, bucket, object_name=None):
+    s3_client = boto3.client('s3')
+    if object_name is None:
+        object_name = file_name
+
+    try:
+        with open(file_name, 'rb') as file_obj:
+            s3_client.upload_fileobj(file_obj, bucket, object_name)
+        s3_url = f"https://{bucket}.s3.amazonaws.com/{object_name}"
+        return s3_url
+    except NoCredentialsError:
+        logger.error("S3 credentials not available")
+        return None
+    except Exception as e:
+        logger.error(f"S3 Upload Error: {e}")
+        return None
+
 def upload_to_s3(image_data, bucket_name, object_name):
     # TODO 1 사진을 s3 버킷에 올리기
     s3 = boto3.resource(  # S3 버킷 등록하기
@@ -324,9 +319,9 @@ class LogoImageView(APIView):
                             # 로그인한 사용자 정보를 추가
                             user = request.user
 
-                            # 기존 Media 객체를 찾기
+                            # 가장 최근에 생성된 Media 객체를 찾기
                             try:
-                                media = Media.objects.get(user=user)
+                                media = Media.objects.filter(user=user).latest('created_at')
                                 media.logo_url = object_url
                                 media.save()
                             except Media.DoesNotExist:
@@ -414,7 +409,7 @@ class SunoClipView(APIView):
             if not downloaded_file:
                 return Response({"error": "Failed to download file"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-            s3_url = upload_to_s3(downloaded_file, bucket_name, s3_object_name)
+            s3_url = upload_to_s3_music(downloaded_file, bucket_name, s3_object_name)
 
             if s3_url:
                 # 가장 최근의 Media 객체 가져오기

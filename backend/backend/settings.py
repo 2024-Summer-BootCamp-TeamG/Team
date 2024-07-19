@@ -83,7 +83,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'prompts',
     'rest_framework',
-    'contents',
     'lists',
 
 ]
