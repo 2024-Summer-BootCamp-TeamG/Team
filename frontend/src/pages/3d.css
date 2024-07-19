@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-200;
+  background-image: repeating-linear-gradient(
+      to right,
+      transparent 0 100px,
+      #25283b22 100px 101px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 100px,
+      #25283b22 100px 101px
+    );
+}
+
+.banner {
+  position: relative;
+}
+
+.slider {
+  display: flex;
+  gap: 1rem;
+}
+
+.item img {
+  width: 100px;
+  height: 100px;
+}
+
+.content {
+  text-align: center;
+}
+
+.content h1 {
+  font-size: 4rem;
+  color: white;
+}
+
+.author h2 {
+  font-size: 2rem;
+}
+
+.author p {
+  font-size: 1rem;
+}
+
+.model {
+  margin-top: 1rem;
+}

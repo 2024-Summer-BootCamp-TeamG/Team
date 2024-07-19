@@ -3,7 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
+import { useNavigate } from 'react-router-dom';
 
+// Input 컴포넌트 정의
 const Input: React.FC<{
   type: string;
   placeholder: string;
@@ -40,7 +42,7 @@ const Button: React.FC<{
 function SignInPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // useNavigate 훅 사용
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -68,7 +70,8 @@ function SignInPage() {
 
       if (response.status === 200) {
         alert('로그인이 성공적으로 완료되었습니다.');
-        navigate('/pictureupload');
+        // 여기서 로그인 성공 후의 로직을 추가할 수 있습니다. 예를 들어, 리다이렉션 등.
+        navigate('/pictureupload'); // 로그인 성공 후 페이지 이동
       } else {
         alert('로그인에 실패했습니다.');
       }
