@@ -83,7 +83,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'prompts',
     'rest_framework',
-    'lists',
+    'promotions',
 
 ]
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
