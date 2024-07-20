@@ -12,14 +12,13 @@ import DragDrop from './pages/DragDrop';
 import MainPage from './pages/MainPage';
 import LogoMusicPage from './pages/LogoMusicPage';
 import ChooseColorPage from './pages/ChooseColorPage';
-
+import AlbumListPage from './pages/AlbumListPage';
 import StyleButton from './components/StyleButton';
 
 import BlurText from './components/Blurtext';
 import SelectStylePage from './pages/SelectStylePage';
 import PictureUploadPage from './pages/PictureUploadPage';
 import CarouselPage from './pages/Carousel';
-
 
 import './App.css';
 
@@ -47,9 +46,7 @@ function App() {
         <Route path="/main" element={<MainPage children={undefined} />} />
         <Route path="/logomusic" element={<LogoMusicPage />} />
         <Route path="/choosecolor" element={<ChooseColorPage />} />
-
-
-
+        <Route path="/albumlist" element={<AlbumListPage />} />
       </Routes>
     </>
   );

@@ -79,7 +79,7 @@ function SignInPage() {
         alert('로그인이 성공적으로 완료되었습니다.');
         setUsername('');
         setPassword('');
-        navigate('/pictureupload'); // 로그인 성공 후 페이지 이동
+        navigate('/albumlist'); // 로그인 성공 후 페이지 이동
       } else {
         alert('로그인에 실패했습니다.');
       }
