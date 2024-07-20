@@ -96,8 +96,8 @@ const SignUpPage: React.FC = () => {
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-cover">
       <Background>
         <NavBar />
-        <div className="relative h-[67.5rem] w-[120rem]">
-          <div className="absolute left-[35rem] top-[7.19rem] h-[53.13rem] w-[50rem] rounded-[2.5rem] border-2 border-white bg-white/30 opacity-60 shadow backdrop-blur-[3.44rem]" />
+        <div className="relative flex items-center justify-center">
+          <div className="absolute left-[35rem] top-[7.19rem] flex h-[40.13rem] w-[40rem] items-center justify-center rounded-[2.5rem] border-2 border-white bg-white/30 opacity-60 shadow backdrop-blur-[3.44rem]" />
           <form onSubmit={handleSubmit}>
             <div className="bg-white/opacity-20 absolute left-[47.5rem] top-[30.18rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
               <Input

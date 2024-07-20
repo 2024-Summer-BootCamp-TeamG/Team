@@ -1,5 +1,6 @@
 import React from 'react';
 import '../index.css';
+import './style.scss';
 function MoveButton({ buttonText = '다음', className = '' }) {
   return (
     <>
@@ -8,7 +9,7 @@ function MoveButton({ buttonText = '다음', className = '' }) {
       >
         <button
           type="button"
-          className="button-custom-stroke w-full rounded-[60px] border py-2 text-center text-[1.5rem] text-white hover:bg-white hover:text-black"
+          className="btn button-custom-stroke w-full rounded-[60px] border py-2 text-center text-[1.5rem] text-white hover:bg-white hover:text-black"
         >
           {buttonText}
         </button>

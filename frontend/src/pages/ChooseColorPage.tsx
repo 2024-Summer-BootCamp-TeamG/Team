@@ -1,79 +1,83 @@
 import React, { useState } from 'react';
 import NavBar from '../components/NavBar';
-import StyleButton from '../components/StyleButton';
 import { Link } from 'react-router-dom';
-import MoveButton from '../components/MoveButton.tsx';
+import MoveButton from '../components/MoveButton';
+import '../pages/mouse/style.css';
+
+interface Color {
+  name: string;
+  color: string;
+  hoverClass: string;
+}
 
 function ChooseColorPage() {
-  const [activeColor, setActiveColor] = useState(null);
+  const [activeColor, setActiveColor] = useState<string | null>(null);
 
-  const colors = [
+  const colors: Color[] = [
     {
       name: 'RED',
-      color: 'bg-red-500/80',
-      hover: 'hover:bg-white/80 hover:text-black',
+      color: '#ff0000',
+      hoverClass: 'raise',
     },
     {
       name: 'ORANGE',
-      color: 'bg-orange-400/80',
-      hover: 'hover:bg-white/80 hover:text-black',
+      color: '#ff7f00',
+      hoverClass: 'raise',
     },
     {
       name: 'YELLOW',
-      color: 'bg-yellow-300/80',
-      hover: 'hover:bg-white/80 hover:text-black',
+      color: '#ffff00',
+      hoverClass: 'raise',
     },
     {
       name: 'GRAY',
-      color: 'bg-gray-400/80',
-      hover: 'hover:bg-white/80 hover:text-black',
+      color: '#808080',
+      hoverClass: 'raise',
     },
     {
       name: 'GREEN',
-      color: 'bg-green-500/80',
-      hover: 'hover:bg-white/70 hover:text-black',
+      color: '#00ff00',
+      hoverClass: 'raise',
     },
     {
       name: 'BLUE',
-      color: 'bg-blue-600/80',
-      hover: 'hover:bg-white/70 hover:text-black',
+      color: '#0000ff',
+      hoverClass: 'raise',
     },
     {
       name: 'PINK',
-      color: 'bg-pink-400/80',
-      hover: 'hover:bg-white/70 hover:text-black',
+      color: '#ff1493',
+      hoverClass: 'raise',
     },
     {
       name: 'AQUA',
-      color: 'bg-cyan-200/80',
-      hover: 'hover:bg-white/70 hover:text-black',
+      color: '#00ffff',
+      hoverClass: 'raise',
     },
     {
       name: 'PURPLE',
-      color: 'bg-purple-400/80',
-      hover: 'hover:bg-white/70 hover:text-black',
+      color: '#800080',
+      hoverClass: 'raise',
     },
     {
       name: 'WHITE',
-      color: 'bg-white/80',
-      border: 'border border-white',
-      hover: 'hover:bg-black/70 hover:text-white',
+      color: '#ffffff',
+      hoverClass: 'raise',
     },
     {
       name: 'BLACK',
-      color: 'bg-black/80',
-      border: 'border border-white',
-      hover: 'hover:bg-white/70 hover:text-black',
+      color: '#000000',
+      hoverClass: 'raise',
     },
     {
       name: 'RANDOM',
       color:
-        'bg-gradient-to-tl from-fuchsia-500/80 via-teal-400/80 to-yellow-300/80',
-      hover: 'hover:bg-white/70 hover:text-black',
+        'linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3)',
+      hoverClass: 'raise',
     },
   ];
 
-  const handleButtonClick = (color: any) => {
+  const handleButtonClick = (color: string) => {
     setActiveColor(color);
   };
 
@@ -87,17 +91,27 @@ function ChooseColorPage() {
 
         <div className="relative top-14 flex flex-col items-center justify-center text-center">
           <div className="grid grid-cols-4 gap-9">
-            {colors.map(({ name, color, hover, border }) => (
-              <button
-                key={name}
-                className={`relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl text-[2rem] text-white transition-colors duration-300 ${color} ${border} ${
-                  activeColor === name ? 'bg-white/80 text-black' : hover
-                }`}
-                onClick={() => handleButtonClick(name)}
-              >
-                {name}
-              </button>
-            ))}
+            {colors.map(({ name, color, hoverClass }) => {
+              const buttonStyle: React.CSSProperties = {
+                '--c': color,
+                backgroundColor: color,
+                ...(activeColor === name && {
+                  backgroundColor: 'white',
+                  color: 'black',
+                }),
+              } as React.CSSProperties;
+
+              return (
+                <button
+                  key={name}
+                  className={`relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl text-[2rem] text-white transition-colors duration-300 ${hoverClass}`}
+                  style={buttonStyle}
+                  onClick={() => handleButtonClick(name)}
+                >
+                  {name}
+                </button>
+              );
+            })}
           </div>
           <div className="mt-28 flex w-full justify-between">
             <Link to="/textinput">
