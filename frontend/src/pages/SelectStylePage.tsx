@@ -91,6 +91,7 @@ function SelectStylePage() {
                 isSelected={selectedButton === '귀여운'}
                 onToggle={() => toggleButton('귀여운')}
               />
+              ㅣ
             </div>
             <div className="mt-56 flex w-full flex-row justify-between px-4">
               <Link to="/choosecolor">

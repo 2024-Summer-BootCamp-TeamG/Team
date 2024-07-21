@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const ChooseColorState = atom({
+export const ChooseColorState = atom<string>({
   key: 'choosecolorstate',
-  default: [],
+  default: '',
 });

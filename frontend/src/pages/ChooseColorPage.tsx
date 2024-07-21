@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import NavBar from '../components/NavBar';
 import StyleButton from '../components/StyleButton';
-import { Link } from 'react-router-dom';
-import MoveButton from '../components/MoveButton.tsx';
+import { Link, useNavigate } from 'react-router-dom';
+import MoveButton from '../components/MoveButton';
 import { useRecoilState } from 'recoil';
-import { ChooseColorState } from '../recoil/ChooseColorAtom.ts';
+import { ChooseColorState } from '../recoil/ChooseColorAtom';
 
 function ChooseColorPage() {
-  const [activeColor, setActiveColor] = useState(null);
+  const [selectedButton, setSelectedButton] = useRecoilState(ChooseColorState);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const navigate = useNavigate();
 
   const colors = [
     {
@@ -75,8 +77,15 @@ function ChooseColorPage() {
     },
   ];
 
-  const handleButtonClick = (color: any) => {
-    setActiveColor(color);
+  const handleButtonClick = (color) => {
+    setSelectedButton(color);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Selected color:', selectedButton);
+    setIsButtonClicked(true);
+    navigate('/selectstyle'); // 폼 제출 후 다음 페이지로 이동
   };
 
   return (
@@ -86,14 +95,13 @@ function ChooseColorPage() {
         <div className="mt-56 flex items-center justify-center text-center text-4xl text-white">
           원하는 색상을 선택해주세요!
         </div>
-
         <div className="relative top-14 flex flex-col items-center justify-center text-center">
           <div className="grid grid-cols-4 gap-9">
             {colors.map(({ name, color, hover, border }) => (
               <button
                 key={name}
                 className={`relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl text-[2rem] text-white transition-colors duration-300 ${color} ${border} ${
-                  activeColor === name ? 'bg-white/80 text-black' : hover
+                  selectedButton === name ? 'bg-white/80 text-black' : hover
                 }`}
                 onClick={() => handleButtonClick(name)}
               >
@@ -101,19 +109,19 @@ function ChooseColorPage() {
               </button>
             ))}
           </div>
-          <div className="mt-28 flex w-full justify-between">
+          <form
+            className="mt-28 flex w-full justify-between"
+            onSubmit={handleSubmit}
+          >
             <Link to="/textinput">
-              <div className="ml-[10rem]">
-                <MoveButton className="ml-[5rem]" buttonText="이전" />
-              </div>
+              <MoveButton className="ml-[5rem]" buttonText="이전" />
             </Link>
-
-            <Link to="/selectstyle">
-              <div className="mr-[10rem]">
-                <MoveButton className="ml-[5rem]" buttonText="다음" />
-              </div>
-            </Link>
-          </div>
+            <MoveButton
+              className="ml-[5rem]"
+              buttonText="다음"
+              onClick={handleSubmit}
+            />
+          </form>
         </div>
       </div>
     </div>
