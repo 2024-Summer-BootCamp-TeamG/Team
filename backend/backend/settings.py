@@ -28,9 +28,9 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True ##배포할땐 False로
+DEBUG = False ##배포할땐 False로
 
-ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost']
+ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','43.201.61.78']
 AUTH_USER_MODEL = 'users.User'
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': True,
@@ -46,7 +46,8 @@ SWAGGER_SETTINGS = {
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://localhost:8000",
-    "http://0.0.0.0:8000"
+    "http://0.0.0.0:8000",
+    "http://43.201.61.78:8000",
     #앞으로 사용할 도메인들 추가해야함 프론트호스트들도f
     #예시) 'http://doodlefilm.store', 'https://doodlefilm.store', 'http://www.doodlefilm.store', 'https://www.doodlefilm.store'
 
