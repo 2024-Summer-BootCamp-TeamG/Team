@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import NavBar from '../components/NavBar';
-import { Link } from 'react-router-dom';
 import MoveButton from '../components/MoveButton';
 import '../pages/mouse/style.css';
+import { Link, useNavigate } from 'react-router-dom';
 
+import { useRecoilState } from 'recoil';
+import { ChooseColorState } from '../recoil/ChooseColorAtom';
 interface Color {
   name: string;
   color: string;
@@ -13,6 +15,9 @@ interface Color {
 
 function ChooseColorPage() {
   const [activeColor, setActiveColor] = useState<string | null>(null);
+  const [selectedButton, setSelectedButton] = useRecoilState(ChooseColorState);
+  // const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const navigate = useNavigate();
 
   const colors: Color[] = [
     {
@@ -93,7 +98,7 @@ function ChooseColorPage() {
     {
       name: 'RANDOM',
       color:
-        'linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3)',
+        'bg-gradient-to-tl from-fuchsia-500/80 via-teal-400/80 to-yellow-300/80',
       // hoverColor: '#ffb366',
 
       hoverClass: 'raise',
@@ -102,8 +107,13 @@ function ChooseColorPage() {
 
   const handleButtonClick = (color: string) => {
     setActiveColor(color);
+    setSelectedButton(color);
   };
-
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    console.log('Selected color:', selectedButton);
+    navigate('/selectstyle'); // 폼 제출 후 다음 페이지로 이동
+  };
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-black bg-cover">
       <div className="relative h-full w-full">
@@ -136,7 +146,7 @@ function ChooseColorPage() {
               );
             })}
           </div>
-          <div className="mt-20 flex w-full justify-around">
+          <form className="mt-20 flex w-full justify-around">
             <Link to="/textinput">
               <div className="ml-[5rem]">
                 <MoveButton className="ml-[5rem]" buttonText="이전" />
@@ -145,10 +155,14 @@ function ChooseColorPage() {
 
             <Link to="/selectstyle">
               <div className="mr-[5rem]">
-                <MoveButton className="ml-[5rem]" buttonText="다음" />
+                <MoveButton
+                  className="ml-[5rem]"
+                  buttonText="다음"
+                  onClick={handleSubmit}
+                />
               </div>
             </Link>
-          </div>
+          </form>
         </div>
       </div>
     </div>

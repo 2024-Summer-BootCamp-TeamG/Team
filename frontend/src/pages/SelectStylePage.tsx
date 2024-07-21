@@ -1,20 +1,72 @@
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 import Background from '../components/Background.tsx';
 import NavBar from '../components/NavBar.tsx';
 import StyleButton from '../components/StyleButton.tsx';
 import MoveButton from '../components/MoveButton.tsx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { ChooseColorState } from '../recoil/ChooseColorAtom';
+import { SelectStyleState } from '../recoil/SelectStyleAtom.ts';
+import { businessInputState } from '../recoil/BusinessInputAtom.ts';
+import axiosInstance from '../api/axios'; // axios 인스턴스 경로에 맞게 조정
+import axios from 'axios';
 
-// 스타일 선택 페이지
 function SelectStylePage() {
-  const [selectedButton, setSelectedButton] = useState<string>(''); // 선택된 버튼 상태
+  const [selectedButton, setSelectedButton] = useRecoilState(SelectStyleState); // 선택된 버튼 상태
+  const [color, setColor] = useRecoilState(ChooseColorState); // 색상 상태
+  const [logoText, setLogoText] = useRecoilState(businessInputState); // 로고 텍스트 상태
+  const [selectStyle, setSelectStyle] = useRecoilState(SelectStyleState); // 로고 텍스트 상태
+
+  const navigate = useNavigate();
 
   // 특정 버튼의 선택 상태 토글 함수
   const toggleButton = (buttonText: string) => {
-    setSelectedButton((prevSelected) =>
-      prevSelected === buttonText ? '' : buttonText,
-    );
+    setSelectedButton((prevSelected) => {
+      const newSelected = prevSelected === buttonText ? '' : buttonText;
+      console.log('Button selected:', newSelected);
+      return newSelected;
+    });
   };
+  const handleGenerateClick = async () => {
+    try {
+      const response = await axiosInstance.post(
+        '/prompts/generate_logo',
+        {
+          style: selectedButton,
+          color: color,
+          logo_text: logoText,
+        },
+        {
+          withCredentials: true,
+          // headers: {
+          //   'X-CSRFToken': csrfToken || '',
+          // },
+        },
+      );
+      if (response.status === 200) {
+        alert('로고가 성공적으로 생성되었습니다.');
+        console.log('API Response:', response.data);
+        navigate('/logomusic');
+      } else {
+        alert('로고 생성에 실패했습니다.');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          alert(
+            `로그인 도중 오류가 발생했습니다: ${error.response.data.message || error.response.data}`,
+          );
+        } else {
+          alert('로그인 도중 오류가 발생했습니다.');
+        }
+        console.error('There was an error!', error);
+      } else {
+        alert('로그인 도중 예기치 않은 오류가 발생했습니다.');
+        console.error('There was an unexpected error!', error);
+      }
+    }
+  };
+
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
       <div className="relative h-full w-full">
@@ -92,9 +144,9 @@ function SelectStylePage() {
                 <Link to="/choosecolor">
                   <MoveButton buttonText="이전" />
                 </Link>
-                <Link to="/logomusic">
+                <button onClick={handleGenerateClick}>
                   <MoveButton buttonText="생성" />
-                </Link>
+                </button>
               </div>
             </div>
           </div>
