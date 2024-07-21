@@ -12,9 +12,9 @@ body {
   padding: 1em 2em;
   border: 0.125em solid $c;
   font-weight: bold;
-  box-shadow:
-    0.5em 0.5em 0 -0.125em #fff,
-    0.5em 0.5em lighten($c, 35%);
+  // box-shadow:
+  //   0.5em 0.5em 0 -0.125em #fff,
+  //   0.5em 0.5em lighten($c, 35%);
   overflow: hidden;
   position: relative;
   color: $c;
