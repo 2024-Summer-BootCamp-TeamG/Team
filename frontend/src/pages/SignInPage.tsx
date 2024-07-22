@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-import { useNavigate } from 'react-router-dom';
 
 // Input 컴포넌트 정의
 const Input: React.FC<{

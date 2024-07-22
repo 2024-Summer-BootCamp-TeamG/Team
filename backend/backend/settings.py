@@ -28,9 +28,10 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True ##배포할땐 False로
+DEBUG = False ##배포할땐 False로
 
-ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost']
+# ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','43.201.61.78''43.200.193.60']
+ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'users.User'
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': True,
@@ -43,21 +44,26 @@ SWAGGER_SETTINGS = {
     },
     'VALIDATOR_URL': None,
 }
-CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:8000",
-    "http://localhost:8000",
-    "http://0.0.0.0:8000"
-    #앞으로 사용할 도메인들 추가해야함 프론트호스트들도f
-    #예시) 'http://doodlefilm.store', 'https://doodlefilm.store', 'http://www.doodlefilm.store', 'https://www.doodlefilm.store'
+CSRF_TRUSTED_ORIGINS = ['*'
+    # "http://127.0.0.1:8000",
+    # "http://localhost:8000",
+    # "http://0.0.0.0:8000",
+    # "http://43.201.61.78:8000",
+    # #앞으로 사용할 도메인들 추가해야함 프론트호스트들도f
+    # #예시) 'http://doodlefilm.store', 'https://doodlefilm.store', 'http://www.doodlefilm.store', 'https://www.doodlefilm.store'
 
 ]
 CSRF_USE_SESSIONS = True
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React 앱이 실행되는 주소
-    "http://127.0.0.1:3000",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+
+CORS_ALLOWED_ORIGINS = ['*'
+    # "http://localhost:3000",  # React 앱이 실행되는 주소
+    # "http://127.0.0.1:3000",
+    # "http://localhost:8000",
+    # "http://127.0.0.1:8000",
+    # "http://43.201.61.78:8000",
+    # "http://43.200.193.60:8000",# EC2 IP 추가
 ]
 # settings.py
 
@@ -104,7 +110,7 @@ MAX_UPLOAD_SIZE = 5242880
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -208,7 +214,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -225,3 +231,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
