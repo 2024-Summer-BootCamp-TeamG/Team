@@ -62,7 +62,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "http://43.201.61.78:8000",
-    "http://43.200.193.60",# EC2 IP 추가
+    "http://43.200.193.60:8000",# EC2 IP 추가
 ]
 # settings.py
 
