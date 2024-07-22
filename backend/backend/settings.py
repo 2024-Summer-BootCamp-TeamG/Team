@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False ##배포할땐 False로
 
-ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','43.201.61.78']
+ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','43.201.61.78''43.200.193.60']
 AUTH_USER_MODEL = 'users.User'
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': True,
@@ -61,7 +61,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
-    "http://43.201.61.78:8000",  # EC2 IP 추가
+    "http://43.201.61.78:8000",
+    "http://43.200.193.60",# EC2 IP 추가
 ]
 # settings.py
 
