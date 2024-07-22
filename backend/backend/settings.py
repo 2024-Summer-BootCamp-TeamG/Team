@@ -28,10 +28,9 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False ##배포할땐 False로
+DEBUG = True ##배포할땐 False로
 
-# ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','43.201.61.78''43.200.193.60']
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','43.201.61.78''43.200.193.60']
 AUTH_USER_MODEL = 'users.User'
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': True,
