@@ -1,6 +1,6 @@
 import React from 'react';
 import '../index.css';
-function MoveButton({ buttonText = '다음', className = '' }) {
+function MoveButton({ buttonText = '다음', className = '', onClick }) {
   return (
     <>
       <div
@@ -8,6 +8,7 @@ function MoveButton({ buttonText = '다음', className = '' }) {
       >
         <button
           type="button"
+          onClick={onClick}
           className="button-custom-stroke w-full rounded-[60px] border py-2 text-center text-[1.5rem] text-white hover:bg-white hover:text-black"
         >
           {buttonText}

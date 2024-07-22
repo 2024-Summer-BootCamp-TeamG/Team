@@ -19,7 +19,6 @@ interface Coordinate {
 }
 export default function MainPage({ children }: MainPageProps) {
   const notes: Coordinate[] = [
-
     { src: FullNote1, right: '90%', top: '70%' },
     { src: FullNote2, left: '10%', top: '80%' },
     { src: FullNote3, left: '90%', top: '70%' },
@@ -30,8 +29,8 @@ export default function MainPage({ children }: MainPageProps) {
   ];
 
   return (
-    <div className="relative flex w-screen h-screen flex-col items-center justify-center bg-black bg-cover">
-      <div className="relative w-full h-full">
+    <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-black bg-cover">
+      <div className="relative h-full w-full">
         {notes.map((note, index) => (
           <img
             key={index}
@@ -47,18 +46,26 @@ export default function MainPage({ children }: MainPageProps) {
           />
         ))}
         {children}
-        <div className="absolute items-center justify-center left-1/2">
-          <div className="relative text-teal-200 text-8xl">HOW ARE YOU <br />FEELING TODAY?</div>
-          <div className="relative text-5xl text-teal-200 mt-4">오늘 당신의 기분과 음악을 알려드릴게요!</div>
+        <div className="absolute left-1/2 items-center justify-center">
+          <div className="relative text-8xl text-teal-200">
+            HOW ARE YOU <br />
+            FEELING TODAY?
+          </div>
+          <div className="relative mt-4 text-5xl text-teal-200">
+            오늘 당신의 기분과 음악을 알려드릴게요!
+          </div>
         </div>
-        <div className="relative text-center flex items-center justify-center left-1/3 top-2/5">
-          <div className="flex items-center justify-center w-[14rem] h-[3rem] text-xl bg-gray-800 border border-white border text-white rounded-3xl mr-9">로그인</div>
-          <div className="flex items-center justify-center w-[14rem] h-[3rem] text-xl bg-slate-300 text-black items-center border border-white rounded-3xl ml-9">회원가입</div>
+        <div className="top-2/5 relative left-1/3 flex items-center justify-center text-center">
+          <div className="mr-9 flex h-[3rem] w-[14rem] items-center justify-center rounded-3xl border border-white bg-gray-800 text-xl text-white">
+            로그인
+          </div>
+          <div className="ml-9 flex h-[3rem] w-[14rem] items-center justify-center rounded-3xl border border-white bg-slate-300 text-xl text-black">
+            회원가입
+          </div>
         </div>
-        <img className="absolute w-[30rem] h-[20rem] bg-gradient-to-br from-slate-50 to-violet-600 left-[15rem] top-[20rem] origin-top-left rotate-[24.20deg] rounded-full shadow" />
-        <img className="w-[20rem] h-[13rem] bg-gradient-to-tl from-neutral-50 to-teal-300 left-[23rem] top-[20rem] absolute origin-top-left rotate-[-22deg] rounded-full shadow"  />
+        <img className="absolute left-[15rem] top-[20rem] h-[20rem] w-[30rem] origin-top-left rotate-[24.20deg] rounded-full bg-gradient-to-br from-slate-50 to-violet-600 shadow" />
+        <img className="absolute left-[23rem] top-[20rem] h-[13rem] w-[20rem] origin-top-left rotate-[-22deg] rounded-full bg-gradient-to-tl from-neutral-50 to-teal-300 shadow" />
       </div>
-    </div >
+    </div>
   );
 }
-
