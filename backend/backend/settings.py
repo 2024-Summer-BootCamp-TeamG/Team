@@ -54,6 +54,8 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 CSRF_USE_SESSIONS = True
 
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React 앱이 실행되는 주소
     "http://127.0.0.1:3000",
@@ -226,3 +228,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
