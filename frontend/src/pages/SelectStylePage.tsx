@@ -1,23 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRecoilState } from 'recoil';
-import Background from '../components/Background.tsx';
-import NavBar from '../components/NavBar.tsx';
-import StyleButton from '../components/StyleButton.tsx';
-import MoveButton from '../components/MoveButton.tsx';
+import Background from '../components/Background';
+import NavBar from '../components/NavBar';
+import StyleButton from '../components/StyleButton';
+import MoveButton from '../components/MoveButton';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChooseColorState } from '../recoil/ChooseColorAtom';
-import { SelectStyleState } from '../recoil/SelectStyleAtom.ts';
-import { businessInputState } from '../recoil/BusinessInputAtom.ts';
-import axiosInstance from '../api/axios'; // axios 인스턴스 경로에 맞게 조정
+import { SelectStyleState } from '../recoil/SelectStyleAtom';
+import { businessInputState } from '../recoil/BusinessInputAtom';
+// import axiosInstance from '../api/axios'; // CSRF 토큰 설정이 포함된 axios 인스턴스
 import axios from 'axios';
+
+const getSessionId = () => {
+  const name = 'sessionid='; // 쿠키 이름
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const cookies = decodedCookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i].trim();
+    if (cookie.startsWith(name)) {
+      return cookie.substring(name.length);
+    }
+  }
+  return '';
+};
 
 function SelectStylePage() {
   const [selectedButton, setSelectedButton] = useRecoilState(SelectStyleState); // 선택된 버튼 상태
   const [color, setColor] = useRecoilState(ChooseColorState); // 색상 상태
   const [logoText, setLogoText] = useRecoilState(businessInputState); // 로고 텍스트 상태
-  const [selectStyle, setSelectStyle] = useRecoilState(SelectStyleState); // 로고 텍스트 상태
-
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = React.useState(false);
 
   // 특정 버튼의 선택 상태 토글 함수
   const toggleButton = (buttonText: string) => {
@@ -27,25 +39,33 @@ function SelectStylePage() {
       return newSelected;
     });
   };
+
   const handleGenerateClick = async () => {
+    if (isLoading) return; // 이미 요청 중이면 무시
+
+    setIsLoading(true); // 요청 시작
     try {
-      const response = await axiosInstance.post(
-        '/prompts/generate_logo',
+      const sessionId = getSessionId();
+      console.log('Session ID:', sessionId);
+
+      const response = await axios.post(
+        'http://localhost:8000/prompts/generate_logo',
         {
           style: selectedButton,
           color: color,
           logo_text: logoText,
         },
         {
-          withCredentials: true,
-          // headers: {
-          //   'X-CSRFToken': csrfToken || '',
-          // },
+          withCredentials: true, // 쿠키와 자격 증명을 포함하도록 설정
+          headers: {
+            'x-session-id': sessionId || '',
+          },
         },
       );
-      if (response.status === 200) {
+
+      console.log('API Response:', response.data);
+      if (response.status === 201) {
         alert('로고가 성공적으로 생성되었습니다.');
-        console.log('API Response:', response.data);
         navigate('/logomusic');
       } else {
         alert('로고 생성에 실패했습니다.');
@@ -53,17 +73,20 @@ function SelectStylePage() {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
-          alert(
-            `로그인 도중 오류가 발생했습니다: ${error.response.data.message || error.response.data}`,
-          );
+          const errorMessage =
+            error.response.data.detail || JSON.stringify(error.response.data);
+          console.log(JSON.stringify(error.response.data));
+          alert(`로고 생성 도중 오류가 발생했습니다1: ${errorMessage}`);
         } else {
-          alert('로그인 도중 오류가 발생했습니다.');
+          alert('로고 생성 도중 오류가 발생했습니다2.');
         }
         console.error('There was an error!', error);
       } else {
-        alert('로그인 도중 예기치 않은 오류가 발생했습니다.');
+        alert('로고 생성 도중 예기치 않은 오류가 발생했습니다3.');
         console.error('There was an unexpected error!', error);
       }
+    } finally {
+      setIsLoading(false); // 요청 완료
     }
   };
 

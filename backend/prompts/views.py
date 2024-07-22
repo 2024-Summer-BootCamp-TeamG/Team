@@ -279,7 +279,6 @@ class PosterImageView(APIView):
         logging.error(f"Invalid data: {serializer.errors}")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 class LogoImageView(APIView):
     permission_classes = [IsAuthenticated]
 

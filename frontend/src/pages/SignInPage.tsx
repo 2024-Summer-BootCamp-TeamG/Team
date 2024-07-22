@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import axiosInstance from '../api/axios'; // 커스텀 axios 인스턴스를 불러옴
-
 import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
@@ -37,7 +36,22 @@ const Button: React.FC<{
     </button>
   );
 };
-
+// const getSessionId = () => {
+//   const name = 'sessionid=';
+//   const decodedCookie = decodeURIComponent(document.cookie);
+//   console.log('Cookies:', decodedCookie); // 쿠키를 로그로 출력
+//   const cookies = decodedCookie.split(';');
+//   for (let i = 0; i < cookies.length; i++) {
+//     let cookie = cookies[i].trim();
+//     if (cookie.startsWith(name)) {
+//       const sessionId = cookie.substring(name.length);
+//       console.log('Found session ID:', sessionId); // 찾은 세션 ID 로그 출력
+//       return sessionId;
+//     }
+//   }
+//   console.log('Session ID not found'); // 세션 ID를 찾지 못한 경우 로그 출력
+//   return '';
+// };
 function SignInPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -54,6 +68,8 @@ function SignInPage() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
+      // const sessionId = getSessionId();
+      // console.log('Session ID:', sessionId);
       // const csrfToken = document.cookie
       //   .split('; ')
       //   .find((row) => row.startsWith('csrftoken='))
@@ -67,9 +83,6 @@ function SignInPage() {
         },
         {
           withCredentials: true,
-          // headers: {
-          //   'X-CSRFToken': csrfToken || '',
-          // },
         },
       );
 
@@ -77,7 +90,7 @@ function SignInPage() {
         alert('로그인이 성공적으로 완료되었습니다.');
         setUsername('');
         setPassword('');
-        navigate('/albumlist'); // 로그인 성공 후 페이지 이동
+        navigate('/busin'); // 로그인 성공 후 페이지 이동
       } else {
         alert('로그인에 실패했습니다.');
       }
