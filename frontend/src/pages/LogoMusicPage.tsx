@@ -1,140 +1,153 @@
-import React, { useState, useRef, useEffect } from 'react';
-import Background from '../components/Background.tsx';
-import NavBar from '../components/NavBar.tsx';
-import Poster from '../assets/Poster.png';
-import Taehologo from '../assets/TaehoLogo.png';
-import TaehoPoster from '../assets/legoposter.png';
+import React, { useEffect, useState } from 'react';
+import Background from '../components/Background';
+import Album from '../assets/Album.png';
+import '../pages/Index/style.css';
 
-function LogoMusicPage() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [isFrontImage, setIsFrontImage] = useState(true);
-  const audioRef = useRef(null);
+function DetailedInquiryPage() {
+  const [showDetail, setShowDetail] = useState(false);
 
   useEffect(() => {
-    const audio = audioRef.current;
+    if (!showDetail) {
+      const galleryContainer = document.querySelector(
+        '.gallery-container',
+      ) as HTMLElement;
+      const galleryControlsContainer = document.querySelector(
+        '.gallery-controls',
+      ) as HTMLElement;
+      const galleryControls = ['이전', '다음'];
+      const galleryItems = document.querySelectorAll(
+        '.gallery-item',
+      ) as NodeListOf<HTMLElement>;
 
-    const setAudioData = () => {
-      setDuration(audio.duration || 0);
-      setCurrentTime(audio.currentTime);
-    };
+      class Carousel {
+        private carouselContainer: HTMLElement;
+        private carouselControls: string[];
+        private carouselArray: HTMLElement[];
+        private currentItem: number;
 
-    const setAudioTime = () => {
-      setCurrentTime(audio.currentTime);
-      // 음악이 끝날 때 재생 바가 끝까지 가도록 보정
-      if (audio.currentTime >= audio.duration - 0.1) {
-        setCurrentTime(audio.duration);
-        setIsPlaying(false);
+        constructor(
+          container: HTMLElement,
+          items: NodeListOf<HTMLElement>,
+          controls: string[],
+        ) {
+          this.carouselContainer = container;
+          this.carouselControls = controls;
+          this.carouselArray = [...items];
+          this.currentItem = 0;
+        }
+
+        private updateGallery(): void {
+          this.carouselArray.forEach((el, i) => {
+            el.style.order =
+              ((i - this.currentItem + this.carouselArray.length) %
+                this.carouselArray.length) +
+              '';
+            el.className = el.className.replace(
+              /gallery-item-\d/,
+              `gallery-item-${((i - this.currentItem + this.carouselArray.length) % this.carouselArray.length) + 1}`,
+            );
+          });
+        }
+
+        private setCurrentState(direction: HTMLElement): void {
+          if (direction.className.includes('gallery-controls-previous')) {
+            this.currentItem =
+              (this.currentItem - 1 + this.carouselArray.length) %
+              this.carouselArray.length;
+          } else if (direction.className.includes('gallery-controls-next')) {
+            this.currentItem =
+              (this.currentItem + 1) % this.carouselArray.length;
+          }
+          this.updateGallery();
+        }
+
+        public setControls(): void {
+          this.carouselControls.forEach((control) => {
+            const button = document.createElement('button');
+            button.className = `gallery-controls-${control === '이전' ? 'previous' : 'next'}`;
+            button.innerText = control;
+            galleryControlsContainer.appendChild(button);
+          });
+        }
+
+        public useControls(): void {
+          const triggers = [...galleryControlsContainer.children];
+          triggers.forEach((control) => {
+            control.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.setCurrentState(control as HTMLElement);
+            });
+          });
+        }
       }
-    };
 
-    audio.addEventListener('loadeddata', setAudioData);
-    audio.addEventListener('timeupdate', setAudioTime);
-    audio.addEventListener('ended', () => setCurrentTime(audio.duration));
+      const exampleCarousel = new Carousel(
+        galleryContainer,
+        galleryItems,
+        galleryControls,
+      );
 
-    return () => {
-      audio.removeEventListener('loadeddata', setAudioData);
-      audio.removeEventListener('timeupdate', setAudioTime);
-      audio.removeEventListener('ended', () => setCurrentTime(audio.duration));
-    };
-  }, []);
-
-  const togglePlayPause = () => {
-    const audio = audioRef.current;
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play();
+      exampleCarousel.setControls();
+      exampleCarousel.useControls();
     }
-    setIsPlaying(!isPlaying);
-  };
-
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  };
-
-  const toggleImage = () => {
-    setIsFrontImage(!isFrontImage);
-  };
+  }, [showDetail]);
 
   return (
-    <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-black bg-cover">
-      <div className="relative h-full w-full">
-        <Background>
-          <NavBar />
-          <div className="flex h-full flex-col items-center justify-center">
-            <div className="relative top-32 flex h-[46rem] w-[80rem] flex-col items-center justify-center rounded-[2.5rem] border border-white bg-gradient-to-b from-white/20 to-slate-400/10 p-6 backdrop-blur-xl">
-              <div className="ml-3 mt-3 text-7xl text-white">Complete!</div>
-              <div className="ml-3 mt-2 text-4xl text-white">
-                로고와 CM송이 완성되었어요!
-              </div>
-              <div className="flex flex-grow items-center justify-center">
-                <div
-                  className="perspective-1000 relative h-80 w-80 cursor-pointer"
-                  onClick={toggleImage}
-                >
-                  <div
-                    className={`transform-style-preserve-3d relative h-full w-full transition-transform duration-700 ${isFrontImage ? 'rotate-y-0' : 'rotate-y-180'}`}
-                  >
-                    <img
-                      src={Taehologo}
-                      alt="Taeho Logo"
-                      className={`backface-hidden absolute inset-0 h-full w-full object-cover ${isFrontImage ? 'opacity-100' : 'opacity-0'}`}
-                    />
-                    <img
-                      src={TaehoPoster}
-                      alt="Poster"
-                      className={`backface-hidden absolute inset-0 h-full w-full object-cover ${isFrontImage ? 'opacity-0' : 'rotate-y-180 opacity-100'}`}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="mb-10 flex w-full flex-col items-center justify-end">
-                <audio ref={audioRef} src="/lego.mp3"></audio>{' '}
-                {/* 오디오 파일 경로 변경 */}
-                <div className="flex w-[55rem] items-center justify-between text-white">
-                  <span>{formatTime(currentTime)}</span>
-                  <button onClick={togglePlayPause} className="mx-4">
-                    {isPlaying ? (
-                      <svg
-                        className="h-10 w-10"
-                        fill="white"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M6 4h4v16H6zm8 0h4v16h-4z" />
-                      </svg>
-                    ) : (
-                      <svg
-                        className="h-10 w-10"
-                        fill="white"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    )}
-                  </button>
-                  <span>{formatTime(duration)}</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max={duration}
-                  value={currentTime}
-                  onChange={(e) =>
-                    (audioRef.current.currentTime = e.target.value)
-                  }
-                  className="mt-2 w-[55rem]"
-                />
-              </div>
-            </div>
+    <>
+      <Background>
+        <div className="gallery" style={{ zIndex: 1 }}>
+          <div className="gallery-container">
+            <img
+              className="gallery-item gallery-item-1"
+              src={Album}
+              alt="gallery image"
+              data-index="1"
+              onClick={() => setShowDetail(true)}
+            />
+            <img
+              className="gallery-item gallery-item-2"
+              src={Album}
+              alt="gallery image"
+              data-index="2"
+              onClick={() => setShowDetail(true)}
+            />
+            <img
+              className="gallery-item gallery-item-3"
+              src={Album}
+              alt="gallery image"
+              data-index="3"
+              onClick={() => setShowDetail(true)}
+            />
+            <img
+              className="gallery-item gallery-item-4"
+              src={Album}
+              alt="gallery image"
+              data-index="4"
+              onClick={() => setShowDetail(true)}
+            />
+            <img
+              className="gallery-item gallery-item-5"
+              src={Album}
+              alt="gallery image"
+              data-index="5"
+              onClick={() => setShowDetail(true)}
+            />
           </div>
-        </Background>
-      </div>
-    </div>
+          <div className="gallery-controls"></div>
+        </div>
+      </Background>
+      {showDetail && (
+        <div className="absolute left-[10rem] top-8 flex h-[46rem] w-[64rem] flex-col items-center justify-center rounded-[2.5rem] border border-white bg-gradient-to-b from-white/20 to-slate-400/10 p-6 backdrop-blur-xl">
+          <button
+            style={{ position: 'absolute', right: 0, top: 0, padding: '2rem' }}
+            onClick={() => setShowDetail(false)}
+          >
+            X
+          </button>
+        </div>
+      )}
+    </>
   );
 }
 
-export default LogoMusicPage;
+export default DetailedInquiryPage;

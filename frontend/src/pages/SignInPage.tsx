@@ -4,6 +4,27 @@ import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 
+// CSRF 토큰을 가져오는 함수
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === name + '=') {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+// axios 기본 설정
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+axios.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken');
+
 const Input: React.FC<{
   type: string;
   placeholder: string;
@@ -62,14 +83,25 @@ function SignInPage() {
         {
           headers: {
             'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'), // CSRF 토큰을 헤더에 추가합니다.
           },
         },
       );
 
       if (response.status === 200) {
+        // 로그인 성공
         alert('로그인이 성공적으로 완료되었습니다.');
+
+        // 토큰 추출 및 저장
+        const token = response.data.token;
+        localStorage.setItem('token', token);
+
+        // axios 기본 헤더 설정
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
         navigate('/pictureupload');
       } else {
+        // 로그인 실패
         alert('로그인에 실패했습니다.');
       }
     } catch (error) {

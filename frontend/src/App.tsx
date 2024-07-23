@@ -7,6 +7,7 @@ import TextGenerationPage from './pages/TextGenerationPage';
 import MusicCoverGenerationPage from './pages/MusicCoverGenerationPage';
 import BusinessInputPage from './pages/BusinessInputPage';
 import TextInputPage from './pages/TextInputPage';
+import DetailedInquiryPage from './pages/DetailedInquiryPage';
 
 import DragDrop from './pages/DragDrop';
 import MainPage from './pages/MainPage';
@@ -19,7 +20,6 @@ import BlurText from './components/Blurtext';
 import SelectStylePage from './pages/SelectStylePage';
 import PictureUploadPage from './pages/PictureUploadPage';
 import CarouselPage from './pages/Carousel';
-
 
 import './App.css';
 
@@ -44,12 +44,10 @@ function App() {
         <Route path="/busin" element={<BusinessInputPage />} />
         <Route path="/texi" element={<TextInputPage />} />
         <Route path="/carousel" element={<CarouselPage />} />
+        <Route path="/detain" element={<DetailedInquiryPage />} />
         <Route path="/main" element={<MainPage children={undefined} />} />
         <Route path="/logomusic" element={<LogoMusicPage />} />
         <Route path="/choosecolor" element={<ChooseColorPage />} />
-
-
-
       </Routes>
     </>
   );
