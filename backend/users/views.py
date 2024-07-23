@@ -15,7 +15,7 @@ from django.utils.decorators import method_decorator
 class UserManageView(APIView):
     # 회원가입인 POST형 메소드에 대해서는 인증 절차 적용 안함
     def get_permissions(self):
-        if self.request.method == 'POST':
+        if self.request.method == 'GET':
             return [AllowAny()]
         return [IsAuthenticated()]
 
