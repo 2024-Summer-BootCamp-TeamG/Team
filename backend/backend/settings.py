@@ -43,15 +43,15 @@ SWAGGER_SETTINGS = {
     },
     'VALIDATOR_URL': None,
 }
-# CSRF_TRUSTED_ORIGINS = [
-#     # "http://127.0.0.1:8000",
-#     # "http://localhost:8000",
-#     # "http://0.0.0.0:8000",
-#     # "http://43.201.61.78:8000",
-#     # #앞으로 사용할 도메인들 추가해야함 프론트호스트들도f
-#     # #예시) 'http://doodlefilm.store', 'https://doodlefilm.store', 'http://www.doodlefilm.store', 'https://www.doodlefilm.store'
-#
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+    "http://0.0.0.0:8000",
+    "http://43.200.193.60:8000",
+    # #앞으로 사용할 도메인들 추가해야함 프론트호스트들도f
+    # #예시) 'http://doodlefilm.store', 'https://doodlefilm.store', 'http://www.doodlefilm.store', 'https://www.doodlefilm.store'
+
+]
 
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
