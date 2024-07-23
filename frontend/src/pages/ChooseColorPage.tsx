@@ -17,6 +17,7 @@ function ChooseColorPage() {
   const [activeColor, setActiveColor] = useState<string | null>(null);
   const [selectedButton, setSelectedButton] = useRecoilState(ChooseColorState);
   // const [isButtonClicked, setIsButtonClicked] = useState(false);
+
   const navigate = useNavigate();
 
   const colors: Color[] = [
@@ -112,6 +113,7 @@ function ChooseColorPage() {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     console.log('Selected color:', selectedButton);
+
     navigate('/selectstyle'); // 폼 제출 후 다음 페이지로 이동
   };
   return (
@@ -162,6 +164,7 @@ function ChooseColorPage() {
                 />
               </div>
             </Link>
+
           </form>
         </div>
       </div>

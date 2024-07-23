@@ -11,6 +11,7 @@ import { businessInputState } from '../recoil/BusinessInputAtom';
 import axiosInstance from '../api/axios'; // 커스텀 axios 인스턴스 임포트
 import axios from 'axios';
 
+
 function SelectStylePage() {
   const [selectedButton, setSelectedButton] = useRecoilState(SelectStyleState);
   const [color, setColor] = useRecoilState(ChooseColorState);
@@ -18,11 +19,14 @@ function SelectStylePage() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
 
+
   // 특정 버튼의 선택 상태 토글 함수
   const toggleButton = (buttonText: string) => {
-    setSelectedButton((prevSelected) =>
-      prevSelected === buttonText ? '' : buttonText,
-    );
+    setSelectedButton((prevSelected) => {
+      const newSelected = prevSelected === buttonText ? '' : buttonText;
+      console.log('Button selected:', newSelected);
+      return newSelected;
+    });
   };
 
   const handleGenerateClick = async () => {
@@ -168,6 +172,7 @@ function SelectStylePage() {
                   <MoveButton buttonText="생성" />
                 </button>
               </div>
+
             </div>
           </div>
         </Background>

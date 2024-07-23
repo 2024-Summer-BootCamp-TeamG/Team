@@ -23,6 +23,7 @@ class UserManageView(APIView):
     #     # 회원가입 페이지를 보여주거나 사용자 정보를 반환하는 로직
     #     return Response({"message": "Signup page"}, status=status.HTTP_200_OK)
 
+
     @swagger_auto_schema(
         request_body=UserRegistrationSerializer,
         responses={201: '회원가입 완료', 400: '잘못된 요청'}
