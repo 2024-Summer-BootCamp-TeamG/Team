@@ -49,7 +49,7 @@ class AuthenticatedAPIView(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
-@method_decorator(csrf_exempt, name='dispatch')
+
 class AnalyzeImageView(AuthenticatedAPIView):
     parser_classes = (MultiPartParser, FormParser)
 

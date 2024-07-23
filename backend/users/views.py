@@ -19,9 +19,10 @@ class UserManageView(APIView):
             return [AllowAny()]
         return [IsAuthenticated()]
 
-    def get(self, request):
-        # 회원가입 페이지를 보여주거나 사용자 정보를 반환하는 로직
-        return Response({"message": "Signup page"}, status=status.HTTP_200_OK)
+    # def get(self, request):
+    #     # 회원가입 페이지를 보여주거나 사용자 정보를 반환하는 로직
+    #     return Response({"message": "Signup page"}, status=status.HTTP_200_OK)
+
 
     @swagger_auto_schema(
         request_body=UserRegistrationSerializer,
@@ -102,6 +103,4 @@ class LogoutAPIView(APIView):
             return Response({
                 'message': '로그인된 사용자가 없습니다.'
             }, status=status.HTTP_401_UNAUTHORIZED)
-            
-
             

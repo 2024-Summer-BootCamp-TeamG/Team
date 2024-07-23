@@ -28,9 +28,20 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False ##배포할땐 False로
+DEBUG = True ##배포할땐 False로
+# settings.py
 
-ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','43.201.61.78','43.200.193.60']
+
+# RabbitMQ 브로커 URL 설정
+CELERY_BROKER_URL = 'amqp://taeho4523:K-71505863@rabbitmq:5672/'
+CELERY_RESULT_BACKEND = 'rpc://'
+
+# 타임존 설정
+CELERY_TIMEZONE = 'UTC'
+CELERY_ENABLE_UTC = True
+
+ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','43.201.61.78','43.200.193.60','*']
+
 AUTH_USER_MODEL = 'users.User'
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': True,
@@ -43,15 +54,16 @@ SWAGGER_SETTINGS = {
     },
     'VALIDATOR_URL': None,
 }
-CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:8000",
-    "http://localhost:8000",
-    "http://0.0.0.0:8000",
-    "http://43.200.193.60:8000",
-    # #앞으로 사용할 도메인들 추가해야함 프론트호스트들도f
-    # #예시) 'http://doodlefilm.store', 'https://doodlefilm.store', 'http://www.doodlefilm.store', 'https://www.doodlefilm.store'
+# CSRF_TRUSTED_ORIGINS = [
+#     # "http://127.0.0.1:8000",
+#     # "http://localhost:8000",
+#     # "http://0.0.0.0:8000",
+#     # "http://43.201.61.78:8000",
+#     # #앞으로 사용할 도메인들 추가해야함 프론트호스트들도f
+#     # #예시) 'http://doodlefilm.store', 'https://doodlefilm.store', 'http://www.doodlefilm.store', 'https://www.doodlefilm.store'
+#
+# ]
 
-]
 
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
@@ -64,6 +76,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://43.201.61.78:8000",
     "http://43.200.193.60:8000",
     "http://43.200.193.60:8080",# EC2 IP 추가
+    "http://localhost:5173",
+
 ]
 # settings.py
 
@@ -109,7 +123,8 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
+
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -228,5 +243,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
