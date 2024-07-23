@@ -20,8 +20,14 @@ ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','*']
 AUTH_USER_MODEL = 'users.User'
 
 SWAGGER_SETTINGS = {
-    'USE_SESSION_AUTH': False,
-    'SECURITY_DEFINITIONS': None,
+    'USE_SESSION_AUTH': True,
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
     'VALIDATOR_URL': None,
 }
 
