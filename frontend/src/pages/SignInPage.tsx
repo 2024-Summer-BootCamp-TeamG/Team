@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import axiosInstance from '../api/axios'; // 커스텀 axios 인스턴스를 불러옴
+import axios from 'axios'; // 커스텀 axios 인스턴스를 불러옴
 import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-
+import axiosInstance from '../api/axios';
 // Input 컴포넌트 정의
 const Input: React.FC<{
   type: string;
@@ -36,22 +35,7 @@ const Button: React.FC<{
     </button>
   );
 };
-// const getSessionId = () => {
-//   const name = 'sessionid=';
-//   const decodedCookie = decodeURIComponent(document.cookie);
-//   console.log('Cookies:', decodedCookie); // 쿠키를 로그로 출력
-//   const cookies = decodedCookie.split(';');
-//   for (let i = 0; i < cookies.length; i++) {
-//     let cookie = cookies[i].trim();
-//     if (cookie.startsWith(name)) {
-//       const sessionId = cookie.substring(name.length);
-//       console.log('Found session ID:', sessionId); // 찾은 세션 ID 로그 출력
-//       return sessionId;
-//     }
-//   }
-//   console.log('Session ID not found'); // 세션 ID를 찾지 못한 경우 로그 출력
-//   return '';
-// };
+
 function SignInPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -68,21 +52,17 @@ function SignInPage() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      // const sessionId = getSessionId();
-      // console.log('Session ID:', sessionId);
-      // const csrfToken = document.cookie
-      //   .split('; ')
-      //   .find((row) => row.startsWith('csrftoken='))
-      //   ?.split('=')[1];
-
-      const response = await axiosInstance.post(
-        '/users/signin',
+      const response = await axios.post(
+        'http://localhost:8000/users/signin',
         {
           email: username,
           password,
         },
         {
           withCredentials: true,
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken'), // CSRF 토큰을 요청 헤더에 포함
+          },
         },
       );
 
@@ -110,6 +90,13 @@ function SignInPage() {
       }
     }
   };
+
+  // 쿠키에서 CSRF 토큰 가져오는 함수 예시
+  function getCookie(name: string) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift();
+  }
 
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-cover">

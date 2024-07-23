@@ -1,32 +1,11 @@
+// axios.ts 파일
+
 import axios from 'axios';
 
-// Axios 인스턴스를 생성할 때 withCredentials를 true로 설정하여 쿠키를 포함
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8000', // 서버의 기본 URL
-  withCredentials: true, // 쿠키를 포함하여 요청
+  baseURL: 'http://localhost:8000', // 서버의 baseURL에 맞게 설정
+  timeout: 10000, // 요청 타임아웃 설정 (ms)
+  withCredentials: true, // 쿠키 및 인증 정보를 포함한 요청을 보낼 때 설정
 });
-
-// 요청 인터셉터 추가
-axiosInstance.interceptors.request.use(
-  (config) => {
-    console.log('Request config:', config); // 요청 설정 로그 출력
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  },
-);
-
-// 응답 인터셉터 추가 (선택 사항)
-axiosInstance.interceptors.response.use(
-  (response) => {
-    console.log('Response data:', response.data); // 응답 데이터 로그 출력
-    return response;
-  },
-  (error) => {
-    console.error('Response error:', error); // 응답 오류 로그 출력
-    return Promise.reject(error);
-  },
-);
 
 export default axiosInstance;

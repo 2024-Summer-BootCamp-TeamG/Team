@@ -8,36 +8,21 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ChooseColorState } from '../recoil/ChooseColorAtom';
 import { SelectStyleState } from '../recoil/SelectStyleAtom';
 import { businessInputState } from '../recoil/BusinessInputAtom';
-// import axiosInstance from '../api/axios'; // CSRF 토큰 설정이 포함된 axios 인스턴스
+import axiosInstance from '../api/axios'; // 커스텀 axios 인스턴스 임포트
 import axios from 'axios';
 
-const getSessionId = () => {
-  const name = 'sessionid='; // 쿠키 이름
-  const decodedCookie = decodeURIComponent(document.cookie);
-  const cookies = decodedCookie.split(';');
-  for (let i = 0; i < cookies.length; i++) {
-    let cookie = cookies[i].trim();
-    if (cookie.startsWith(name)) {
-      return cookie.substring(name.length);
-    }
-  }
-  return '';
-};
-
 function SelectStylePage() {
-  const [selectedButton, setSelectedButton] = useRecoilState(SelectStyleState); // 선택된 버튼 상태
-  const [color, setColor] = useRecoilState(ChooseColorState); // 색상 상태
-  const [logoText, setLogoText] = useRecoilState(businessInputState); // 로고 텍스트 상태
+  const [selectedButton, setSelectedButton] = useRecoilState(SelectStyleState);
+  const [color, setColor] = useRecoilState(ChooseColorState);
+  const [logoText, setLogoText] = useRecoilState(businessInputState);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
 
   // 특정 버튼의 선택 상태 토글 함수
   const toggleButton = (buttonText: string) => {
-    setSelectedButton((prevSelected) => {
-      const newSelected = prevSelected === buttonText ? '' : buttonText;
-      console.log('Button selected:', newSelected);
-      return newSelected;
-    });
+    setSelectedButton((prevSelected) =>
+      prevSelected === buttonText ? '' : buttonText,
+    );
   };
 
   const handleGenerateClick = async () => {
@@ -45,20 +30,33 @@ function SelectStylePage() {
 
     setIsLoading(true); // 요청 시작
     try {
+      // API 요청에 필요한 세션 ID를 얻기 위한 함수
+      const getSessionId = () => {
+        const name = 'sessionid='; // 쿠키 이름
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const cookies = decodedCookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          let cookie = cookies[i].trim();
+          if (cookie.startsWith(name)) {
+            return cookie.substring(name.length);
+          }
+        }
+        return '';
+      };
+
       const sessionId = getSessionId();
       console.log('Session ID:', sessionId);
 
-      const response = await axios.post(
-        'http://localhost:8000/prompts/generate_logo',
+      const response = await axiosInstance.post(
+        '/prompts/generate_logo',
         {
           style: selectedButton,
           color: color,
           logo_text: logoText,
         },
         {
-          withCredentials: true, // 쿠키와 자격 증명을 포함하도록 설정
           headers: {
-            'x-session-id': sessionId || '',
+            'x-session-id': sessionId, // 세션 ID를 헤더에 추가
           },
         },
       );
@@ -75,14 +73,13 @@ function SelectStylePage() {
         if (error.response) {
           const errorMessage =
             error.response.data.detail || JSON.stringify(error.response.data);
-          console.log(JSON.stringify(error.response.data));
-          alert(`로고 생성 도중 오류가 발생했습니다1: ${errorMessage}`);
+          alert(`로고 생성 도중 오류가 발생했습니다: ${errorMessage}`);
         } else {
-          alert('로고 생성 도중 오류가 발생했습니다2.');
+          alert('로고 생성 도중 오류가 발생했습니다.');
         }
         console.error('There was an error!', error);
       } else {
-        alert('로고 생성 도중 예기치 않은 오류가 발생했습니다3.');
+        alert('로고 생성 도중 예기치 않은 오류가 발생했습니다.');
         console.error('There was an unexpected error!', error);
       }
     } finally {

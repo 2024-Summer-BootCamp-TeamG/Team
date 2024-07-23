@@ -48,8 +48,8 @@ logger = logging.getLogger(__name__)
 class AuthenticatedAPIView(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
-    
-@method_decorator(csrf_exempt, name='dispatch')
+
+
 class AnalyzeImageView(AuthenticatedAPIView):
     parser_classes = (MultiPartParser, FormParser)
 
@@ -69,7 +69,7 @@ class AnalyzeImageView(AuthenticatedAPIView):
                 type=openapi.TYPE_OBJECT,
                 properties={
                     'text_result': openapi.Schema(type=openapi.TYPE_STRING,
-description='OpenAI로부터의 분석 결과'),
+                                                      description='OpenAI로부터의 분석 결과'),
                 }
             )),
             400: '잘못된 요청',
@@ -278,6 +278,7 @@ class PosterImageView(APIView):
 
         logging.error(f"Invalid data: {serializer.errors}")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class LogoImageView(APIView):
     permission_classes = [IsAuthenticated]

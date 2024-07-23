@@ -61,7 +61,7 @@ const SignUpPage: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axiosInstance.post('/users/signup', {
+      const response = await axios.post('http://localhost:8000/users/signup', {
         email,
         password,
       });
