@@ -63,7 +63,7 @@ SWAGGER_SETTINGS = {
 #     # #예시) 'http://doodlefilm.store', 'https://doodlefilm.store', 'http://www.doodlefilm.store', 'https://www.doodlefilm.store'
 #
 # ]
-
+APPEND_SLASH = False
 
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
