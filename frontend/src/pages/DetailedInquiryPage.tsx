@@ -200,8 +200,8 @@ function DetailedInquiryPage() {
             </div>
             <img
               className="left-center h-[20rem] w-[20rem] rounded-[3.5rem]"
-              //src="https://teammg.s3.ap-northeast-2.amazonaws.com/bcc5ff5c-5324-42f1-b82d-f8ee14bc3fec" // 제공된 포스터 URL로 설정
-              src={posterUrl} // 상태 변수에서 포스터 URL 가져오기 나중에 위와 주석 위치 수정
+              src="https://teammg.s3.ap-northeast-2.amazonaws.com/bcc5ff5c-5324-42f1-b82d-f8ee14bc3fec" // 제공된 포스터 URL로 설정
+              //src={posterUrl} // 상태 변수에서 포스터 URL 가져오기 나중에 위와 주석 위치 수정
             />
 
             <audio ref={audioRef} src={audioUrl} className="mt-4">
