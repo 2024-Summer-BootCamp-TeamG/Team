@@ -1,23 +1,50 @@
+version: '3.8'
+
 services:
   db:
     image: mysql/mysql-server:8.0
-    env_file:
-      - .env
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
       - "mysqldata:/var/lib/mysql"
     networks:
       - teamg
+
+  rabbitmq:
+    image: rabbitmq:management
     environment:
-      MYSQL_DATABASE: teamg
-      MYSQL_USER: teamg
-      MYSQL_PASSWORD: teamg!
-      MYSQL_ROOT_PASSWORD: rootteamg!
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    env_file:
+      - .env
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - teamg
+
+  celery:
+    build:
+      context: ./backend  # Dockerfile이 있는 디렉토리를 지정
+    command: celery -A backend worker -l info
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env  # 환경 변수 파일 추가
+    depends_on:
+      - rabbitmq
+      - db  # 데이터베이스에 접근할 수 있도록 설정
+    networks:
+      - teamg
 
   web:
     build:
-      context: ./backend
+      context: ./backend  # Dockerfile이 있는 디렉토리를 지정
     command: >
       sh -c "python manage.py makemigrations &&
              python manage.py migrate &&
@@ -30,6 +57,8 @@ services:
       - .env
     depends_on:
       - db
+      - rabbitmq
+      - celery
     networks:
       - teamg
 
@@ -47,7 +76,6 @@ services:
     networks:
       - teamg
 
-
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
@@ -59,6 +87,7 @@ services:
       - db
     networks:
       - teamg
+
 volumes:
   mysqldata:
 

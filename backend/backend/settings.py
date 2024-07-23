@@ -28,9 +28,19 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True ##배포할땐 False로
+DEBUG = False ##배포할땐 False로
+# settings.py
 
-ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','43.201.61.78''43.200.193.60']
+
+# RabbitMQ 브로커 URL 설정
+CELERY_BROKER_URL = 'amqp://taeho4523:K-71505863@rabbitmq:5672/'
+CELERY_RESULT_BACKEND = 'rpc://'
+
+# 타임존 설정
+CELERY_TIMEZONE = 'UTC'
+CELERY_ENABLE_UTC = True
+
+ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','43.201.61.78','43.200.193.60']
 AUTH_USER_MODEL = 'users.User'
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': True,
@@ -109,7 +119,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -139,6 +149,7 @@ REST_FRAMEWORK = {
 # }
 
 ROOT_URLCONF = 'backend.urls'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # 기본 값
 
 TEMPLATES = [
     {
