@@ -28,9 +28,6 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
-class AuthenticatedAPIView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
 
 # Load environment variables
 load_dotenv()
@@ -49,6 +46,49 @@ class AuthenticatedAPIView(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
+
+from .tasks import analyze_image_task, suno_clip_task
+
+class AnalyzeAndSunoView(AuthenticatedAPIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    @swagger_auto_schema(
+        operation_description="이미지를 업로드하여 분석하고, Suno 클립을 생성합니다",
+        manual_parameters=[
+            openapi.Parameter(
+                name="image",
+                in_=openapi.IN_FORM,
+                type=openapi.TYPE_FILE,
+                required=True,
+                description="분석할 이미지 파일"
+            ),
+        ],
+        responses={
+            200: openapi.Response('성공적인 응답', schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description='작업 시작 메시지'),
+                }
+            )),
+            400: '잘못된 요청',
+            401: '인증되지 않음',
+            500: '내부 서버 오류',
+        }
+    )
+    def post(self, request):
+        if not request.user.is_authenticated:
+            return Response({'error': 'Authentication required'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        image_file = request.FILES.get('image')
+        if not image_file:
+            return Response({'error': 'Image file is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        image_data = image_file.read()
+
+        # Celery 비동기 작업 시작
+        analyze_image_task.delay(base64.b64encode(image_data).decode('utf-8'), request.user.id)
+
+        return Response({'message': 'Tasks started'}, status=status.HTTP_200_OK)
 
 class AnalyzeImageView(AuthenticatedAPIView):
     parser_classes = (MultiPartParser, FormParser)
