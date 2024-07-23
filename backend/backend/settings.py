@@ -28,7 +28,9 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = False ##배포할땐 False로
+
 # settings.py
 
 
@@ -40,7 +42,10 @@ CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_TIMEZONE = 'UTC'
 CELERY_ENABLE_UTC = True
 
-ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','43.201.61.78','43.200.193.60']
+
+ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','43.201.61.78','43.200.193.60','*']
+
+
 AUTH_USER_MODEL = 'users.User'
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': True,
@@ -62,6 +67,7 @@ SWAGGER_SETTINGS = {
 #     # #예시) 'http://doodlefilm.store', 'https://doodlefilm.store', 'http://www.doodlefilm.store', 'https://www.doodlefilm.store'
 #
 # ]
+APPEND_SLASH = False
 
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
@@ -73,7 +79,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://43.201.61.78:8000",
     "http://43.200.193.60:8000",
-    "http://43.200.193.60:8080"# EC2 IP 추가
+    "http://43.200.193.60:8080",# EC2 IP 추가
+    "http://localhost:5173",
+
 ]
 # settings.py
 
@@ -83,6 +91,25 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 # Application definition
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
+ORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -239,5 +266,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 

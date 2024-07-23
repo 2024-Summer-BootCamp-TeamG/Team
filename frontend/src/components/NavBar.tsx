@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 
 function NavBar() {
   return (
-    <>
-      <div className="absolute left-0 top-0 flex items-center justify-center space-x-8 p-4">
+    <div>
+      <div className="absolute left-0 top-0 flex items-center justify-center p-4">
         <Link to="/main">
           <button type="button" className="flex flex-row items-center">
             <img
@@ -30,11 +30,14 @@ function NavBar() {
         </button>
         {/* </Link> */}
       </div>
-      <div className="absolute left-1/2 top-0 -translate-x-1/2 transform p-4">
-        <img src={Logo} alt="로고" />
+      <div className="absolute left-1/2 top-0 -translate-x-1/2 transform p-4 text-[1.2rem]">
+        <p className="text-[2rem] text-white">Brandify</p>
       </div>
       <div className="absolute right-0 top-0 flex items-center p-4">
-        <button type="button" className="flex flex-row">
+        <button
+          type="button"
+          className="flex flex-row items-center justify-center"
+        >
           <img
             className="h-[2rem] w-[2rem]"
             src={SignoutIcon}
@@ -42,8 +45,8 @@ function NavBar() {
           />{' '}
           <p className="ml-[5px] rounded text-[1.2rem] text-white">로그아웃</p>
         </button>
-      </div>{' '}
-    </>
+      </div>
+    </div>
   );
 }
 

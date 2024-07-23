@@ -46,6 +46,7 @@ class AuthenticatedAPIView(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
+
 from .tasks import analyze_image_task, suno_clip_task
 
 class AnalyzeAndSunoView(AuthenticatedAPIView):
@@ -88,6 +89,7 @@ class AnalyzeAndSunoView(AuthenticatedAPIView):
         analyze_image_task.delay(base64.b64encode(image_data).decode('utf-8'), request.user.id)
 
         return Response({'message': 'Tasks started'}, status=status.HTTP_200_OK)
+
 class AnalyzeImageView(AuthenticatedAPIView):
     parser_classes = (MultiPartParser, FormParser)
 
