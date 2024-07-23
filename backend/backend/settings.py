@@ -28,9 +28,9 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True ##배포할땐 False로
+DEBUG = False ##배포할땐 False로
 
-ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','43.201.61.78''43.200.193.60']
+ALLOWED_HOSTS = ['127.0.0.1','0.0.0.0','localhost','43.201.61.78','43.200.193.60']
 AUTH_USER_MODEL = 'users.User'
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': True,
@@ -63,7 +63,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://43.201.61.78:8000",
     "http://43.200.193.60:8000",
-    "http://43.200.193.60:8080"# EC2 IP 추가
+    "http://43.200.193.60:8080",# EC2 IP 추가
 ]
 # settings.py
 
@@ -109,7 +109,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
