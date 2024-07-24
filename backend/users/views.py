@@ -13,11 +13,14 @@ from django.utils.decorators import method_decorator
 
 # 회원관리 뷰
 class UserManageView(APIView):
+    permission_classes = [AllowAny]  # 기본 권한 설정
     # 회원가입인 POST형 메소드에 대해서는 인증 절차 적용 안함
-    def get_permissions(self):
-        if self.request.method == 'POST':
-            return [AllowAny()]
-        return [IsAuthenticated()]
+
+
+    def get(self, request):
+        # 회원가입 페이지를 보여주거나 사용자 정보를 반환하는 로직
+        return Response({"message": "Signup page"}, status=status.HTTP_200_OK)
+
 
     @swagger_auto_schema(
         request_body=UserRegistrationSerializer,
@@ -98,6 +101,4 @@ class LogoutAPIView(APIView):
             return Response({
                 'message': '로그인된 사용자가 없습니다.'
             }, status=status.HTTP_401_UNAUTHORIZED)
-            
-
             

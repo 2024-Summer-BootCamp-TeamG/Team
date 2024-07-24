@@ -1,117 +1,171 @@
 import React, { useState } from 'react';
 import NavBar from '../components/NavBar';
-import StyleButton from '../components/StyleButton';
-import { Link } from 'react-router-dom';
-import MoveButton from '../components/MoveButton.tsx';
+import MoveButton from '../components/MoveButton';
+import '../pages/mouse/style.css';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { useRecoilState } from 'recoil';
+import { ChooseColorState } from '../recoil/ChooseColorAtom';
+interface Color {
+  name: string;
+  color: string;
+  hoverClass: string;
+  // hoverColor: string;
+}
 
 function ChooseColorPage() {
-  const [activeColor, setActiveColor] = useState(null);
+  const [activeColor, setActiveColor] = useState<string | null>(null);
+  const [selectedButton, setSelectedButton] = useRecoilState(ChooseColorState);
+  // const [isButtonClicked, setIsButtonClicked] = useState(false);
 
-  const colors = [
+  const navigate = useNavigate();
+
+  const colors: Color[] = [
     {
       name: 'RED',
-      color: 'bg-red-500/80',
-      hover: 'hover:bg-white/80 hover:text-black',
+      color: '#ff0000',
+      // hoverColor: '#ff0000',
+
+      hoverClass: 'raise',
     },
     {
       name: 'ORANGE',
-      color: 'bg-orange-400/80',
-      hover: 'hover:bg-white/80 hover:text-black',
+      color: '#ff7f00',
+      // hoverColor: '#ff7f00',
+
+      hoverClass: 'raise',
     },
     {
       name: 'YELLOW',
-      color: 'bg-yellow-300/80',
-      hover: 'hover:bg-white/80 hover:text-black',
+      color: '#ffff00',
+      // hoverColor: '#ffff00',
+
+      hoverClass: 'raise',
     },
     {
       name: 'GRAY',
-      color: 'bg-gray-400/80',
-      hover: 'hover:bg-white/80 hover:text-black',
+      color: '#808080',
+      // hoverColor: '#808080',
+
+      hoverClass: 'raise',
     },
     {
       name: 'GREEN',
-      color: 'bg-green-500/80',
-      hover: 'hover:bg-white/70 hover:text-black',
+      color: '#00ff00',
+      // hoverColor: '#ffb366',
+
+      hoverClass: 'raise',
     },
     {
       name: 'BLUE',
-      color: 'bg-blue-600/80',
-      hover: 'hover:bg-white/70 hover:text-black',
+      color: '#0000ff',
+      // hoverColor: '#0000ff',
+
+      hoverClass: 'raise',
     },
     {
       name: 'PINK',
-      color: 'bg-pink-400/80',
-      hover: 'hover:bg-white/70 hover:text-black',
+      color: '#ff1493',
+      // hoverColor: '#ffb366',
+
+      hoverClass: 'raise',
     },
     {
       name: 'AQUA',
-      color: 'bg-cyan-200/80',
-      hover: 'hover:bg-white/70 hover:text-black',
+      color: '#00ffff',
+      // hoverColor: '#ffb366',
+
+      hoverClass: 'raise',
     },
     {
       name: 'PURPLE',
-      color: 'bg-purple-400/80',
-      hover: 'hover:bg-white/70 hover:text-black',
+      color: '#800080',
+      // hoverColor: '#ffb366',
+
+      hoverClass: 'raise',
     },
     {
       name: 'WHITE',
-      color: 'bg-white/80',
-      border: 'border border-white',
-      hover: 'hover:bg-black/70 hover:text-white',
+      color: '#ffffff',
+      hoverClass: 'raise',
     },
     {
       name: 'BLACK',
-      color: 'bg-black/80',
-      border: 'border border-white',
-      hover: 'hover:bg-white/70 hover:text-black',
+      color: '#000000',
+      // hoverColor: '#ffb366',
+
+      hoverClass: 'raise',
     },
     {
       name: 'RANDOM',
       color:
         'bg-gradient-to-tl from-fuchsia-500/80 via-teal-400/80 to-yellow-300/80',
-      hover: 'hover:bg-white/70 hover:text-black',
+      // hoverColor: '#ffb366',
+
+      hoverClass: 'raise',
     },
   ];
 
-  const handleButtonClick = (color: any) => {
+  const handleButtonClick = (color: string) => {
     setActiveColor(color);
+    setSelectedButton(color);
   };
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    console.log('Selected color:', selectedButton);
 
+    navigate('/selectstyle'); // 폼 제출 후 다음 페이지로 이동
+  };
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-black bg-cover">
       <div className="relative h-full w-full">
         <NavBar />
-        <div className="mt-56 flex items-center justify-center text-center text-4xl text-white">
+        <div className="mb-12 mt-32 flex items-center justify-center text-center text-xl text-white">
           원하는 색상을 선택해주세요!
         </div>
 
-        <div className="relative top-14 flex flex-col items-center justify-center text-center">
-          <div className="grid grid-cols-4 gap-9">
-            {colors.map(({ name, color, hover, border }) => (
-              <button
-                key={name}
-                className={`relative flex h-[9rem] w-[20rem] items-center justify-center rounded-xl text-[2rem] text-white transition-colors duration-300 ${color} ${border} ${
-                  activeColor === name ? 'bg-white/80 text-black' : hover
-                }`}
-                onClick={() => handleButtonClick(name)}
-              >
-                {name}
-              </button>
-            ))}
+        <div className="relative flex flex-col items-center justify-center text-center">
+          <div className="grid grid-cols-4 gap-3">
+            {colors.map(({ name, color, hoverClass }) => {
+              const buttonStyle: React.CSSProperties = {
+                '--c': color,
+                backgroundColor: color,
+                ...(activeColor === name && {
+                  backgroundColor: 'white',
+                  color: 'black',
+                }),
+              } as React.CSSProperties;
+
+              return (
+                <button
+                  key={name}
+                  className={`relative flex h-[6rem] w-[12rem] items-center justify-center rounded-xl text-[1rem] text-white transition-colors duration-300 ${hoverClass}`}
+                  style={buttonStyle}
+                  onClick={() => handleButtonClick(name)}
+                >
+                  {name}
+                </button>
+              );
+            })}
           </div>
-          <div className="mt-28 flex w-full justify-between">
+          <form className="mt-20 flex w-full justify-around">
             <Link to="/textinput">
-              <div className="ml-[10rem]">
+              <div className="ml-[5rem]">
                 <MoveButton className="ml-[5rem]" buttonText="이전" />
               </div>
             </Link>
 
             <Link to="/selectstyle">
-              <div className="mr-[10rem]">
-                <MoveButton className="ml-[5rem]" buttonText="다음" />
+              <div className="mr-[5rem]">
+                <MoveButton
+                  className="ml-[5rem]"
+                  buttonText="다음"
+                  onClick={handleSubmit}
+                />
               </div>
             </Link>
-          </div>
+
+          </form>
         </div>
       </div>
     </div>
