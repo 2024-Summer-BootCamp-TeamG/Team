@@ -68,8 +68,10 @@ class LoginAPIView(APIView):
         user = authenticate(request, email=email, password=password)  # 사용자 인증
         if user is not None:
             login(request, user)
+            sessionid = request.session.session_key
+
             return Response({
-                'message': '로그인 성공!'
+                'message': '로그인 성공!', 'sessionid': sessionid
             }, status=status.HTTP_200_OK)
         return Response({
             'message': '로그인 실패. 이메일 또는 비밀번호를 확인해주세요.'
