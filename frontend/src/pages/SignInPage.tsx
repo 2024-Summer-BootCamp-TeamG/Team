@@ -61,13 +61,12 @@ function SignInPage() {
         },
         {
           withCredentials: true,
-          headers: {
-            'X-CSRFToken': getCookie('csrftoken'), // CSRF 토큰을 요청 헤더에 포함
-          },
         },
       );
 
       if (response.status === 200) {
+        console.log('Session ID:', response.data.sessionid); // 서버에서 받은 세션 ID를 콘솔에 출력
+
         alert('로그인이 성공적으로 완료되었습니다.');
         setUsername('');
         setPassword('');
@@ -91,13 +90,6 @@ function SignInPage() {
       }
     }
   };
-
-  // 쿠키에서 CSRF 토큰 가져오는 함수 예시
-  function getCookie(name: string) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(';').shift();
-  }
 
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-cover">
