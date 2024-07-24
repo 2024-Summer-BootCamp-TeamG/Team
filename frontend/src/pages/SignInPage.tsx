@@ -6,28 +6,6 @@ import NavBar from '../components/NavBar';
 
 import axiosInstance from '../api/axios';
 
-
-// CSRF 토큰을 가져오는 함수
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      if (cookie.substring(0, name.length + 1) === name + '=') {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-}
-
-// axios 기본 설정
-axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-axios.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken');
-
 const Input: React.FC<{
   type: string;
   placeholder: string;
@@ -83,13 +61,11 @@ function SignInPage() {
         },
         {
           withCredentials: true,
-
         },
       );
 
       if (response.status === 200) {
         console.log('Session ID:', response.data.sessionid); // 서버에서 받은 세션 ID를 콘솔에 출력
-
 
         alert('로그인이 성공적으로 완료되었습니다.');
 
