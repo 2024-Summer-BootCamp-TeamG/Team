@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-import axiosInstance from '../api/axios'; // axios 인스턴스 경로에 맞게 조정
-
+import axios from 'axios';
 // API 응답 형식을 정의합니다.
 interface ImageData {
   id: number;
@@ -16,11 +15,16 @@ function AlbumListPage() {
   useEffect(() => {
     console.log('useEffect triggered'); // useEffect가 호출되는지 확인
 
-    axiosInstance
-      .get('/promotions/')
+    axios
+      .get('http://localhost:8000/promotions/', {
+        withCredentials: true,
+      })
       .then((response) => {
-        console.log('API response received:', response); // 응답 데이터 로그
+        console.log('API response received야호:', response); // 응답 데이터 로그
+        console.log('Session ID:', response.data.sessionid); // 서버에서 받은 세션 ID를 콘솔에 출력
+
         const data = response.data;
+        console.log(response.data.sessionid);
         if (Array.isArray(data)) {
           setImages(data);
           console.log('Images set:', data); // images 상태가 설정되었는지 확인
