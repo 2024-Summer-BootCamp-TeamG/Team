@@ -11,19 +11,38 @@ function DetailedInquiryPage() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(null);
   const audioRef = useRef(null);
 
   useEffect(() => {
-    setAudioUrl(
-      'https://teammg.s3.amazonaws.com/music/a7b92237-a45a-4c18-992b-3bd194e42877.mp3',
-    );
     async function fetchData() {
-      const response = await fetch('http://localhost:8000/promotions/3', {
+      let endpoint = '';
+      switch (selectedItem) {
+        case 1:
+          endpoint = 'http://localhost:8000/promotions/1';
+          break;
+        case 2:
+          endpoint = 'http://localhost:8000/promotions/2';
+          break;
+        case 3:
+          endpoint = 'http://localhost:8000/promotions/3';
+          break;
+        case 4:
+          endpoint = 'http://localhost:8000/promotions/4';
+          break;
+        case 5:
+          endpoint = 'http://localhost:8000/promotions/5';
+          break;
+        default:
+          return;
+      }
+
+      const response = await fetch(endpoint, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // 세션 쿠키를 포함하도록 설정
+        credentials: 'include',
       });
 
       if (response.ok) {
@@ -36,7 +55,9 @@ function DetailedInquiryPage() {
       }
     }
 
-    fetchData();
+    if (showDetail) {
+      fetchData();
+    }
 
     const audio = audioRef.current;
 
@@ -68,35 +89,21 @@ function DetailedInquiryPage() {
     }
 
     if (!showDetail) {
-      const galleryContainer = document.querySelector(
-        '.gallery-container',
-      ) as HTMLElement;
-      const galleryControlsContainer = document.querySelector(
-        '.gallery-controls',
-      ) as HTMLElement;
+      const galleryContainer = document.querySelector('.gallery-container');
+      const galleryControlsContainer =
+        document.querySelector('.gallery-controls');
       const galleryControls = ['이전', '다음'];
-      const galleryItems = document.querySelectorAll(
-        '.gallery-item',
-      ) as NodeListOf<HTMLElement>;
+      const galleryItems = document.querySelectorAll('.gallery-item');
 
       class Carousel {
-        private carouselContainer: HTMLElement;
-        private carouselControls: string[];
-        private carouselArray: HTMLElement[];
-        private currentItem: number;
-
-        constructor(
-          container: HTMLElement,
-          items: NodeListOf<HTMLElement>,
-          controls: string[],
-        ) {
+        constructor(container, items, controls) {
           this.carouselContainer = container;
           this.carouselControls = controls;
           this.carouselArray = [...items];
           this.currentItem = 0;
         }
 
-        private updateGallery(): void {
+        updateGallery() {
           this.carouselArray.forEach((el, i) => {
             el.style.order =
               ((i - this.currentItem + this.carouselArray.length) %
@@ -109,7 +116,7 @@ function DetailedInquiryPage() {
           });
         }
 
-        private setCurrentState(direction: HTMLElement): void {
+        setCurrentState(direction) {
           if (direction.className.includes('gallery-controls-previous')) {
             this.currentItem =
               (this.currentItem - 1 + this.carouselArray.length) %
@@ -121,7 +128,7 @@ function DetailedInquiryPage() {
           this.updateGallery();
         }
 
-        public setControls(): void {
+        setControls() {
           this.carouselControls.forEach((control) => {
             const button = document.createElement('button');
             button.className = `gallery-controls-${control === '이전' ? 'previous' : 'next'}`;
@@ -130,12 +137,12 @@ function DetailedInquiryPage() {
           });
         }
 
-        public useControls(): void {
+        useControls() {
           const triggers = [...galleryControlsContainer.children];
           triggers.forEach((control) => {
             control.addEventListener('click', (e) => {
               e.preventDefault();
-              this.setCurrentState(control as HTMLElement);
+              this.setCurrentState(control);
             });
           });
         }
@@ -150,7 +157,7 @@ function DetailedInquiryPage() {
       exampleCarousel.setControls();
       exampleCarousel.useControls();
     }
-  }, [showDetail]);
+  }, [showDetail, selectedItem]);
 
   const togglePlayPause = async () => {
     const audio = audioRef.current;
@@ -160,7 +167,6 @@ function DetailedInquiryPage() {
         if (isPlaying) {
           await audio.pause();
         } else {
-          // Check if the audio is already playing or not
           if (audio.readyState >= 2) {
             await audio.play();
           } else {
@@ -177,10 +183,9 @@ function DetailedInquiryPage() {
             );
           }
         }
-        setIsPlaying((prev) => !prev); // 상태 업데이트를 마지막에 수행
+        setIsPlaying((prev) => !prev);
       } catch (error) {
         console.error('Audio error:', error);
-        // 오류 처리 또는 사용자에게 알림을 추가할 수 있습니다.
       }
     }
   };
@@ -207,9 +212,32 @@ function DetailedInquiryPage() {
             >
               X
             </button>
-            <div className="font-['Cafe24 Danjunghae'] absolute left-[25rem] top-[4rem] h-[3.5rem] w-[20rem] text-[2rem] font-normal leading-[4rem] text-[#eec1fd]">
-              로고,포스터,cm송
-            </div>
+            {selectedItem === 1 && (
+              <div className="font-['Cafe24 Danjunghae'] absolute left-[25rem] top-[4rem] h-[3.5rem] w-[20rem] text-[2rem] font-normal leading-[4rem] text-[#eec1fd]">
+                내용 1
+              </div>
+            )}
+            {selectedItem === 2 && (
+              <div className="font-['Cafe24 Danjunghae'] absolute left-[25rem] top-[4rem] h-[3.5rem] w-[20rem] text-[2rem] font-normal leading-[4rem] text-[#eec1fd]">
+                내용 2
+              </div>
+            )}
+            {selectedItem === 3 && (
+              <div className="font-['Cafe24 Danjunghae'] absolute left-[25rem] top-[4rem] h-[3.5rem] w-[20rem] text-[2rem] font-normal leading-[4rem] text-[#eec1fd]">
+                내용 3
+              </div>
+            )}
+            {selectedItem === 4 && (
+              <div className="font-['Cafe24 Danjunghae'] absolute left-[25rem] top-[4rem] h-[3.5rem] w-[20rem] text-[2rem] font-normal leading-[4rem] text-[#eec1fd]">
+                내용 4
+              </div>
+            )}
+            {selectedItem === 5 && (
+              <div className="font-['Cafe24 Danjunghae'] absolute left-[25rem] top-[4rem] h-[3.5rem] w-[20rem] text-[2rem] font-normal leading-[4rem] text-[#eec1fd]">
+                내용 5
+              </div>
+            )}
+
             <img
               className="relative left-[11.5rem] h-[20rem] w-[20rem] rounded-[3.5rem]"
               src={posterUrl}
@@ -219,7 +247,6 @@ function DetailedInquiryPage() {
               src={logoUrl}
               alt="Logo"
             />
-
             <audio ref={audioRef} src={audioUrl} className="mt-4">
               Your browser does not support the audio element.
             </audio>
@@ -246,7 +273,7 @@ function DetailedInquiryPage() {
               onChange={(e) => {
                 const newTime = parseFloat(e.target.value);
                 if (audioRef.current) {
-                  audioRef.current.currentTime = e.target.value;
+                  audioRef.current.currentTime = newTime;
                   setCurrentTime(newTime);
                 }
               }}
@@ -261,35 +288,50 @@ function DetailedInquiryPage() {
                 src={Album}
                 alt="gallery image"
                 data-index="1"
-                onClick={() => setShowDetail(true)}
+                onClick={() => {
+                  setSelectedItem(1);
+                  setShowDetail(true);
+                }}
               />
               <img
                 className="gallery-item gallery-item-2"
                 src={Album}
                 alt="gallery image"
                 data-index="2"
-                onClick={() => setShowDetail(true)}
+                onClick={() => {
+                  setSelectedItem(2);
+                  setShowDetail(true);
+                }}
               />
               <img
                 className="gallery-item gallery-item-3"
                 src={Album}
                 alt="gallery image"
                 data-index="3"
-                onClick={() => setShowDetail(true)}
+                onClick={() => {
+                  setSelectedItem(3);
+                  setShowDetail(true);
+                }}
               />
               <img
                 className="gallery-item gallery-item-4"
                 src={Album}
                 alt="gallery image"
                 data-index="4"
-                onClick={() => setShowDetail(true)}
+                onClick={() => {
+                  setSelectedItem(4);
+                  setShowDetail(true);
+                }}
               />
               <img
                 className="gallery-item gallery-item-5"
                 src={Album}
                 alt="gallery image"
                 data-index="5"
-                onClick={() => setShowDetail(true)}
+                onClick={() => {
+                  setSelectedItem(5);
+                  setShowDetail(true);
+                }}
               />
             </div>
             <div className="gallery-controls"></div>
