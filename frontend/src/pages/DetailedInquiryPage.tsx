@@ -5,52 +5,42 @@ import '../pages/Index/style.css';
 
 function DetailedInquiryPage() {
   const [showDetail, setShowDetail] = useState(false);
-  const [audioUrl, setAudioUrl] = useState(''); // 제공된 오디오 URL로 설정
-  const [posterUrl, setPosterUrl] = useState(''); // 초기 포스터 URL을 빈 문자열로 설정
+  const [audioUrl, setAudioUrl] = useState('');
+  const [posterUrl, setPosterUrl] = useState('');
+  const [logoUrl, setLogoUrl] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef(null);
 
   useEffect(() => {
-    async function fetchAudioUrl() {
-      const response = await fetch(
-        'http://localhost:8000/prompts/generate_music',
-        {
-          method: 'POST', // 메서드를 POST로 변경
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          // 필요한 경우 요청 본문 추가
-          body: JSON.stringify({
-            // 요청 본문 데이터
-          }),
+    setAudioUrl(
+      'https://teammg.s3.amazonaws.com/music/a7b92237-a45a-4c18-992b-3bd194e42877.mp3',
+    );
+    async function fetchData() {
+      const response = await fetch('http://localhost:8000/promotions/3', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
-      const data = await response.json();
-      setAudioUrl(data.audio_url); // 응답에서 오디오 URL 설정
-    }
-    async function fetchPosterUrl() {
-      const response = await fetch(
-        'http://localhost:8000/prompts/generate_poster',
-        {
-          method: 'GET', // 메서드를 GET으로 변경
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-      const data = await response.json();
-      setPosterUrl(data.poster_url); // 응답에서 포스터 URL 설정
+        credentials: 'include', // 세션 쿠키를 포함하도록 설정
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setPosterUrl(data.poster_url);
+        setAudioUrl(data.audio_url);
+        setLogoUrl(data.logo_url);
+      } else {
+        console.error('Failed to fetch data:', response.status);
+      }
     }
 
-    fetchAudioUrl(); // 함수 호출
-    fetchPosterUrl(); // 함수 호출
+    fetchData();
 
     const audio = audioRef.current;
 
     if (audio) {
-      // audioRef.current의 존재 여부 확인
       const setAudioData = () => {
         setDuration(audio.duration || 0);
         setCurrentTime(audio.currentTime);
@@ -58,7 +48,6 @@ function DetailedInquiryPage() {
 
       const setAudioTime = () => {
         setCurrentTime(audio.currentTime);
-        // 음악이 끝날 때 재생 바가 끝까지 가도록 보정
         if (audio.currentTime >= audio.duration - 0.1) {
           setCurrentTime(audio.duration);
           setIsPlaying(false);
@@ -163,14 +152,37 @@ function DetailedInquiryPage() {
     }
   }, [showDetail]);
 
-  const togglePlayPause = () => {
+  const togglePlayPause = async () => {
     const audio = audioRef.current;
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play();
+
+    if (audio) {
+      try {
+        if (isPlaying) {
+          await audio.pause();
+        } else {
+          // Check if the audio is already playing or not
+          if (audio.readyState >= 2) {
+            await audio.play();
+          } else {
+            audio.addEventListener(
+              'canplaythrough',
+              async () => {
+                try {
+                  await audio.play();
+                } catch (error) {
+                  console.error('Error during play:', error);
+                }
+              },
+              { once: true },
+            );
+          }
+        }
+        setIsPlaying((prev) => !prev); // 상태 업데이트를 마지막에 수행
+      } catch (error) {
+        console.error('Audio error:', error);
+        // 오류 처리 또는 사용자에게 알림을 추가할 수 있습니다.
+      }
     }
-    setIsPlaying(!isPlaying);
   };
 
   const formatTime = (time) => {
@@ -183,7 +195,7 @@ function DetailedInquiryPage() {
     <>
       <Background>
         {showDetail ? (
-          <div className="absolute left-[10rem] top-8 flex h-[46rem] w-[64rem] flex-col items-center justify-center rounded-[2.5rem] border border-white bg-gradient-to-b from-white/20 to-slate-400/10 p-6 backdrop-blur-xl">
+          <div className="left-center absolute top-8 flex h-[46rem] w-[64rem] flex-col items-center justify-center rounded-[2.5rem] border border-white bg-gradient-to-b from-white/20 to-slate-400/10 p-6 backdrop-blur-xl">
             <button
               style={{
                 position: 'absolute',
@@ -195,13 +207,17 @@ function DetailedInquiryPage() {
             >
               X
             </button>
-            <div className="font-['Cafe24 Danjunghae'] left-center absolute top-[6rem] h-[3.5rem] w-[20rem] text-[2rem] font-normal leading-[4rem] text-[#eec1fd]">
+            <div className="font-['Cafe24 Danjunghae'] absolute left-[25rem] top-[4rem] h-[3.5rem] w-[20rem] text-[2rem] font-normal leading-[4rem] text-[#eec1fd]">
               로고,포스터,cm송
             </div>
             <img
-              className="left-center h-[20rem] w-[20rem] rounded-[3.5rem]"
-              src="https://teammg.s3.ap-northeast-2.amazonaws.com/bcc5ff5c-5324-42f1-b82d-f8ee14bc3fec" // 제공된 포스터 URL로 설정
-              //src={posterUrl} // 상태 변수에서 포스터 URL 가져오기 나중에 위와 주석 위치 수정
+              className="relative left-[11.5rem] h-[20rem] w-[20rem] rounded-[3.5rem]"
+              src={posterUrl}
+            />
+            <img
+              className="absolute left-[11.5rem] top-[10.5rem] h-[20rem] w-[20rem] rounded-[3.5rem]"
+              src={logoUrl}
+              alt="Logo"
             />
 
             <audio ref={audioRef} src={audioUrl} className="mt-4">
@@ -227,7 +243,13 @@ function DetailedInquiryPage() {
               min="0"
               max={duration}
               value={currentTime}
-              onChange={(e) => (audioRef.current.currentTime = e.target.value)}
+              onChange={(e) => {
+                const newTime = parseFloat(e.target.value);
+                if (audioRef.current) {
+                  audioRef.current.currentTime = e.target.value;
+                  setCurrentTime(newTime);
+                }
+              }}
               className="mt-2 w-[55rem]"
             />
           </div>
