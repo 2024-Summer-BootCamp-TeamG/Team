@@ -8,9 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ChooseColorState } from '../recoil/ChooseColorAtom';
 import { SelectStyleState } from '../recoil/SelectStyleAtom';
 import { businessInputState } from '../recoil/BusinessInputAtom';
-import axiosInstance from '../api/axios'; // 커스텀 axios 인스턴스 임포트
 import axios from 'axios';
-
 
 function SelectStylePage() {
   const [selectedButton, setSelectedButton] = useRecoilState(SelectStyleState);
@@ -18,7 +16,6 @@ function SelectStylePage() {
   const [logoText, setLogoText] = useRecoilState(businessInputState);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
-
 
   // 특정 버튼의 선택 상태 토글 함수
   const toggleButton = (buttonText: string) => {
@@ -34,34 +31,15 @@ function SelectStylePage() {
 
     setIsLoading(true); // 요청 시작
     try {
-      // API 요청에 필요한 세션 ID를 얻기 위한 함수
-      const getSessionId = () => {
-        const name = 'sessionid='; // 쿠키 이름
-        const decodedCookie = decodeURIComponent(document.cookie);
-        const cookies = decodedCookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-          let cookie = cookies[i].trim();
-          if (cookie.startsWith(name)) {
-            return cookie.substring(name.length);
-          }
-        }
-        return '';
-      };
-
-      const sessionId = getSessionId();
-      console.log('Session ID:', sessionId);
-
-      const response = await axiosInstance.post(
-        '/prompts/generate_logo',
+      const response = await axios.post(
+        'http://localhost:8000/prompts/generate_logo/',
         {
           style: selectedButton,
           color: color,
           logo_text: logoText,
         },
         {
-          headers: {
-            'x-session-id': sessionId, // 세션 ID를 헤더에 추가
-          },
+          withCredentials: true,
         },
       );
 
@@ -77,7 +55,7 @@ function SelectStylePage() {
         if (error.response) {
           const errorMessage =
             error.response.data.detail || JSON.stringify(error.response.data);
-          alert(`로고 생성 도중 오류가 발생했습니다: ${errorMessage}`);
+          alert(`로고 생성 도중 오류가 발생했습니다2: ${errorMessage}`);
         } else {
           alert('로고 생성 도중 오류가 발생했습니다.');
         }
@@ -172,7 +150,6 @@ function SelectStylePage() {
                   <MoveButton buttonText="생성" />
                 </button>
               </div>
-
             </div>
           </div>
         </Background>

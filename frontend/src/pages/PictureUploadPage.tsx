@@ -12,7 +12,6 @@ import UploadIcon from '../assets/UploadIcon.svg';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import CloseIcon from '../assets/CloseIcon.svg';
-import { Link } from 'react-router-dom';
 import MoveButton from '../components/MoveButton.tsx';
 
 
@@ -124,20 +123,15 @@ const PictureUploadPage = () => {
     });
 
     try {
-      const sessionId = getSessionId();
-      console.log('Session ID:', sessionId);
       const response = await axios.post(
-        'http://localhost:8000/prompts/analysis_text',
+        'http://localhost:8000/prompts/analysis_text/',
         formData,
         {
-          headers: {
-            'x-session-id': sessionId || '',
-          },
           withCredentials: true, // 쿠키를 요청에 포함시키도록 설정
         },
       );
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         alert('이미지 업로드가 성공적으로 완료되었습니다.');
         navigate('/busin'); // 이미지 업로드 성공 후 리다이렉션
       } else {
