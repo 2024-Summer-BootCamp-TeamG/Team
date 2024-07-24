@@ -8,12 +8,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ChooseColorState } from '../recoil/ChooseColorAtom';
 import { SelectStyleState } from '../recoil/SelectStyleAtom';
 import { businessInputState } from '../recoil/BusinessInputAtom';
+import { textInputState } from '../recoil/TextInputAtom';
 import axios from 'axios';
 
 function SelectStylePage() {
   const [selectedButton, setSelectedButton] = useRecoilState(SelectStyleState);
   const [color, setColor] = useRecoilState(ChooseColorState);
   const [logoText, setLogoText] = useRecoilState(businessInputState);
+  const [posterText, setPosterText] = useRecoilState(textInputState);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -31,7 +33,7 @@ function SelectStylePage() {
 
     setIsLoading(true); // 요청 시작
     try {
-      const response = await axios.post(
+      const logoResponse = await axios.post(
         'http://localhost:8000/prompts/generate_logo/',
         {
           style: selectedButton,
@@ -43,25 +45,41 @@ function SelectStylePage() {
         },
       );
 
-      console.log('API Response:', response.data);
-      if (response.status === 201) {
-        alert('로고가 성공적으로 생성되었습니다.');
+      const posterResponse = await axios.post(
+        'http://localhost:8000/prompts/generate_poster/',
+        {
+          style: selectedButton,
+          color: color,
+          poster_text: posterText,
+        },
+        {
+          withCredentials: true,
+        },
+      );
+
+      console.log('Logo API Response:', logoResponse.data);
+      console.log('Poster API Response:', posterResponse.data);
+
+      if (logoResponse.status === 201 && posterResponse.status === 201) {
+        alert('로고와 포스터가 성공적으로 생성되었습니다.');
         navigate('/logomusic');
       } else {
-        alert('로고 생성에 실패했습니다.');
+        alert('로고 또는 포스터 생성에 실패했습니다.');
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
           const errorMessage =
             error.response.data.detail || JSON.stringify(error.response.data);
-          alert(`로고 생성 도중 오류가 발생했습니다2: ${errorMessage}`);
+          alert(
+            `로고 또는 포스터 생성 도중 오류가 발생했습니다: ${errorMessage}`,
+          );
         } else {
-          alert('로고 생성 도중 오류가 발생했습니다.');
+          alert('로고 또는 포스터 생성 도중 오류가 발생했습니다.');
         }
         console.error('There was an error!', error);
       } else {
-        alert('로고 생성 도중 예기치 않은 오류가 발생했습니다.');
+        alert('로고 또는 포스터 생성 도중 예기치 않은 오류가 발생했습니다.');
         console.error('There was an unexpected error!', error);
       }
     } finally {
