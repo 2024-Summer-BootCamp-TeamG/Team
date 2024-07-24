@@ -6,7 +6,7 @@ import boto3
 from botocore.config import Config
 from botocore.exceptions import NoCredentialsError
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -108,8 +108,7 @@ class AnalyzeImageView(AuthenticatedAPIView):
             200: openapi.Response('성공적인 응답', schema=openapi.Schema(
                 type=openapi.TYPE_OBJECT,
                 properties={
-                    'text_result': openapi.Schema(type=openapi.TYPE_STRING,
-                                                      description='OpenAI로부터의 분석 결과'),
+                    'text_result': openapi.Schema(type=openapi.TYPE_STRING,description='OpenAI로부터의 분석 결과'),
                 }
             )),
             400: '잘못된 요청',
