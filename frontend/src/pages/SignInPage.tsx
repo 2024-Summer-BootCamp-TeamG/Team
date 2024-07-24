@@ -3,9 +3,31 @@ import axios from 'axios'; // 커스텀 axios 인스턴스를 불러옴
 import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
+
 import axiosInstance from '../api/axios';
 
-// Input 컴포넌트 정의
+
+// CSRF 토큰을 가져오는 함수
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === name + '=') {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+// axios 기본 설정
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+axios.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken');
+
 const Input: React.FC<{
   type: string;
   placeholder: string;
@@ -40,7 +62,7 @@ const Button: React.FC<{
 function SignInPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -62,17 +84,20 @@ function SignInPage() {
         {
           withCredentials: true,
           headers: {
-            'X-CSRFToken': getCookie('csrftoken'), // CSRF 토큰을 요청 헤더에 포함
+
           },
         },
       );
 
       if (response.status === 200) {
+        // 로그인 성공
         alert('로그인이 성공적으로 완료되었습니다.');
+
         setUsername('');
         setPassword('');
         navigate('/pictureupload'); // 로그인 성공 후 페이지 이동
       } else {
+        // 로그인 실패
         alert('로그인에 실패했습니다.');
       }
     } catch (error) {
