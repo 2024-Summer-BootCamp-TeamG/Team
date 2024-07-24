@@ -20,7 +20,7 @@ function SelectStylePage() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   // 특정 버튼의 선택 상태 토글 함수
-  const toggleButton = (buttonText: string) => {
+  const toggleButton = (buttonText) => {
     setSelectedButton((prevSelected) => {
       const newSelected = prevSelected === buttonText ? '' : buttonText;
       console.log('Button selected:', newSelected);
@@ -50,7 +50,7 @@ function SelectStylePage() {
         {
           style: selectedButton,
           color: color,
-          poster_text: posterText,
+          poster_user_text: posterText,
         },
         {
           withCredentials: true,
