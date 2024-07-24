@@ -13,7 +13,6 @@ const MoveButton: React.FC<MoveButtonProps> = ({
   className = '',
   onClick,
 }) => {
-
   return (
     <div
       className={`relative z-10 flex h-[5rem] w-[12.5rem] justify-center self-center sm:mt-0 ${className}`}
@@ -26,7 +25,6 @@ const MoveButton: React.FC<MoveButtonProps> = ({
         {buttonText}
       </button>
     </div>
-
   );
 };
 

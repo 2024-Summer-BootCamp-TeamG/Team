@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 
-import axiosInstance from '../api/axios';
-
 const Input: React.FC<{
   type: string;
   placeholder: string;

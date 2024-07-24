@@ -1,56 +1,79 @@
 import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
 import Background from '../components/Background.tsx';
 import NavBar from '../components/NavBar.tsx';
-import Poster from '../assets/Poster.png';
-import Taehologo from '../assets/TaehoLogo.png';
-import TaehoPoster from '../assets/legoposter.png';
 
 function LogoMusicPage() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isFrontImage, setIsFrontImage] = useState(true);
-  const audioRef = useRef(null);
+  const [logoUrl, setLogoUrl] = useState(null);
+  const [posterUrl, setPosterUrl] = useState(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const fetchPromotionData = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/promotions/$id', {
+        withCredentials: true, // 쿠키를 요청에 포함시킵니다.
+      });
+      setLogoUrl(response.data.logo_url);
+      setPosterUrl(response.data.poster_url);
+    } catch (error) {
+      console.error('Failed to fetch promotion data:', error);
+    }
+  };
 
   useEffect(() => {
+    fetchPromotionData();
+
     const audio = audioRef.current;
 
     const setAudioData = () => {
-      setDuration(audio.duration || 0);
-      setCurrentTime(audio.currentTime);
+      setDuration(audio?.duration || 0);
+      setCurrentTime(audio?.currentTime || 0);
     };
 
     const setAudioTime = () => {
-      setCurrentTime(audio.currentTime);
+      setCurrentTime(audio?.currentTime || 0);
       // 음악이 끝날 때 재생 바가 끝까지 가도록 보정
-      if (audio.currentTime >= audio.duration - 0.1) {
-        setCurrentTime(audio.duration);
+      if (
+        audio?.currentTime !== undefined &&
+        audio?.currentTime >= (audio?.duration || 0) - 0.1
+      ) {
+        setCurrentTime(audio?.duration || 0);
         setIsPlaying(false);
       }
     };
 
-    audio.addEventListener('loadeddata', setAudioData);
-    audio.addEventListener('timeupdate', setAudioTime);
-    audio.addEventListener('ended', () => setCurrentTime(audio.duration));
+    audio?.addEventListener('loadeddata', setAudioData);
+    audio?.addEventListener('timeupdate', setAudioTime);
+    audio?.addEventListener('ended', () =>
+      setCurrentTime(audio?.duration || 0),
+    );
 
     return () => {
-      audio.removeEventListener('loadeddata', setAudioData);
-      audio.removeEventListener('timeupdate', setAudioTime);
-      audio.removeEventListener('ended', () => setCurrentTime(audio.duration));
+      audio?.removeEventListener('loadeddata', setAudioData);
+      audio?.removeEventListener('timeupdate', setAudioTime);
+      audio?.removeEventListener('ended', () =>
+        setCurrentTime(audio?.duration || 0),
+      );
     };
   }, []);
 
   const togglePlayPause = () => {
     const audio = audioRef.current;
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play();
+    if (audio) {
+      if (isPlaying) {
+        audio.pause();
+      } else {
+        audio.play();
+      }
+      setIsPlaying(!isPlaying);
     }
-    setIsPlaying(!isPlaying);
   };
 
-  const formatTime = (time) => {
+  const formatTime = (time: any) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
@@ -80,12 +103,12 @@ function LogoMusicPage() {
                     className={`transform-style-preserve-3d relative h-full w-full transition-transform duration-700 ${isFrontImage ? 'rotate-y-0' : 'rotate-y-180'}`}
                   >
                     <img
-                      src={Taehologo}
-                      alt="Taeho Logo"
+                      src={logoUrl}
+                      alt="Logo"
                       className={`backface-hidden absolute inset-0 h-full w-full object-cover ${isFrontImage ? 'opacity-100' : 'opacity-0'}`}
                     />
                     <img
-                      src={TaehoPoster}
+                      src={posterUrl}
                       alt="Poster"
                       className={`backface-hidden absolute inset-0 h-full w-full object-cover ${isFrontImage ? 'opacity-0' : 'rotate-y-180 opacity-100'}`}
                     />
