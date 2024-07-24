@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Background from '../components/Background.tsx';
 import NavBar from '../components/NavBar.tsx';
-import Poster from "../assets/Poster.png";
-import Taehologo from "../assets/TaehoLogo.png";
+import Poster from '../assets/Poster.png';
+import Taehologo from '../assets/TaehoLogo.png';
+import TaehoPoster from '../assets/legoposter.png';
 
 function LogoMusicPage() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -60,41 +61,57 @@ function LogoMusicPage() {
   };
 
   return (
-    <div className="relative flex w-screen h-screen flex-col items-center justify-center bg-black bg-cover">
-      <div className="relative w-full h-full">
+    <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-black bg-cover">
+      <div className="relative h-full w-full">
         <Background>
           <NavBar />
-          <div className="flex flex-col justify-center items-center">
-            <div className="relative top-32 flex flex-col justify-start items-start h-[46rem] w-[80rem] rounded-[2.5rem] border border-white bg-gradient-to-b from-white/20 to-slate-400/10 backdrop-blur-xl p-6">
-              <div className="text-7xl text-white ml-3 mt-3">Complete!</div>
-              <div className="text-4xl text-white ml-3 mt-2">로고와 CM송이 완성되었어요!</div>
-              <div className="flex-grow flex items-center justify-center">
-                <div className="relative w-72 h-72 cursor-pointer perspective-1000" onClick={toggleImage}>
-                  <div className={`relative w-full h-full transition-transform duration-700 transform-style-preserve-3d ${isFrontImage ? 'rotate-y-0' : 'rotate-y-180'}`}>
+          <div className="flex h-full flex-col items-center justify-center">
+            <div className="relative top-32 flex h-[46rem] w-[80rem] flex-col items-center justify-center rounded-[2.5rem] border border-white bg-gradient-to-b from-white/20 to-slate-400/10 p-6 backdrop-blur-xl">
+              <div className="ml-3 mt-3 text-7xl text-white">Complete!</div>
+              <div className="ml-3 mt-2 text-4xl text-white">
+                로고와 CM송이 완성되었어요!
+              </div>
+              <div className="flex flex-grow items-center justify-center">
+                <div
+                  className="perspective-1000 relative h-80 w-80 cursor-pointer"
+                  onClick={toggleImage}
+                >
+                  <div
+                    className={`transform-style-preserve-3d relative h-full w-full transition-transform duration-700 ${isFrontImage ? 'rotate-y-0' : 'rotate-y-180'}`}
+                  >
                     <img
                       src={Taehologo}
                       alt="Taeho Logo"
-                      className={`absolute inset-0 w-full h-full object-cover backface-hidden ${isFrontImage ? 'opacity-100' : 'opacity-0'}`}
+                      className={`backface-hidden absolute inset-0 h-full w-full object-cover ${isFrontImage ? 'opacity-100' : 'opacity-0'}`}
                     />
                     <img
-                      src={Poster}
+                      src={TaehoPoster}
                       alt="Poster"
-                      className={`absolute inset-0 w-full h-full object-cover backface-hidden ${isFrontImage ? 'opacity-0' : 'opacity-100 rotate-y-180'}`}
+                      className={`backface-hidden absolute inset-0 h-full w-full object-cover ${isFrontImage ? 'opacity-0' : 'rotate-y-180 opacity-100'}`}
                     />
                   </div>
                 </div>
               </div>
-              <div className="mb-10 w-full flex flex-col items-center justify-end">
-                <audio ref={audioRef} src="/audio3.mp3"></audio> {/* 오디오 파일 경로 변경 */}
-                <div className="w-[55rem] flex items-center justify-between text-white">
+              <div className="mb-10 flex w-full flex-col items-center justify-end">
+                <audio ref={audioRef} src="/lego.mp3"></audio>{' '}
+                {/* 오디오 파일 경로 변경 */}
+                <div className="flex w-[55rem] items-center justify-between text-white">
                   <span>{formatTime(currentTime)}</span>
                   <button onClick={togglePlayPause} className="mx-4">
                     {isPlaying ? (
-                      <svg className="w-10 h-10" fill="white" viewBox="0 0 24 24">
+                      <svg
+                        className="h-10 w-10"
+                        fill="white"
+                        viewBox="0 0 24 24"
+                      >
                         <path d="M6 4h4v16H6zm8 0h4v16h-4z" />
                       </svg>
                     ) : (
-                      <svg className="w-10 h-10" fill="white" viewBox="0 0 24 24">
+                      <svg
+                        className="h-10 w-10"
+                        fill="white"
+                        viewBox="0 0 24 24"
+                      >
                         <path d="M8 5v14l11-7z" />
                       </svg>
                     )}
@@ -106,8 +123,10 @@ function LogoMusicPage() {
                   min="0"
                   max={duration}
                   value={currentTime}
-                  onChange={(e) => (audioRef.current.currentTime = e.target.value)}
-                  className="w-[55rem] mt-2"
+                  onChange={(e) =>
+                    (audioRef.current.currentTime = e.target.value)
+                  }
+                  className="mt-2 w-[55rem]"
                 />
               </div>
             </div>
@@ -119,7 +138,3 @@ function LogoMusicPage() {
 }
 
 export default LogoMusicPage;
-
-
-
-

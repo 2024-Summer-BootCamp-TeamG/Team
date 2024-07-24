@@ -5,12 +5,15 @@ import React, {
   useState,
   useEffect,
 } from 'react';
+import axios from 'axios'; // axiosInstance를 import
+import { useNavigate } from 'react-router-dom';
 import './style.scss';
 import UploadIcon from '../assets/UploadIcon.svg';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import CloseIcon from '../assets/CloseIcon.svg';
-import { Link } from 'react-router-dom';
+import MoveButton from '../components/MoveButton.tsx';
+
 
 interface IFileTypes {
   id: number;
@@ -21,6 +24,7 @@ interface IFileTypes {
 const PictureUploadPage = () => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [files, setFiles] = useState<IFileTypes[]>([]);
+  const navigate = useNavigate();
 
   const dragRef = useRef<HTMLLabelElement | null>(null);
   const fileId = useRef<number>(0);
@@ -50,6 +54,7 @@ const PictureUploadPage = () => {
             },
           ];
           setFiles(tempFiles);
+          console.log('File added:', file);
         };
         reader.readAsDataURL(file); // 파일을 데이터 URL로 읽기
       }
@@ -111,6 +116,45 @@ const PictureUploadPage = () => {
     }
   }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
 
+  const uploadImages = async () => {
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append('image', file.object);
+    });
+
+    try {
+      const response = await axios.post(
+        'http://localhost:8000/prompts/analysis_text/',
+        formData,
+        {
+          withCredentials: true, // 쿠키를 요청에 포함시키도록 설정
+        },
+      );
+
+      if (response.status === 200) {
+        alert('이미지 업로드가 성공적으로 완료되었습니다.');
+        navigate('/busin'); // 이미지 업로드 성공 후 리다이렉션
+      } else {
+        alert('이미지 업로드에 실패했습니다.');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          const errorMessage =
+            error.response.data.detail || JSON.stringify(error.response.data);
+          console.log(JSON.stringify(error.response.data));
+          alert(`로고 생성 도중 오류가 발생했습니다1: ${errorMessage}`);
+        } else {
+          alert('로고 생성 도중 오류가 발생했습니다2.');
+        }
+        console.error('There was an error!', error);
+      } else {
+        alert('로고 생성 도중 예기치 않은 오류가 발생했습니다3.');
+        console.error('There was an unexpected error!', error);
+      }
+    }
+  };
+
   useEffect(() => {
     initDragEvents();
     return () => resetDragEvents();
@@ -167,11 +211,13 @@ const PictureUploadPage = () => {
                   })}
               </div>
             </div>
-            <Link to="/busin">
-              <button className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white">
-                앨범 생성 Start
-              </button>
-            </Link>
+            <button
+              className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white"
+              onClick={uploadImages}
+            >
+
+              브랜딩 start
+            </button>
           </div>
 
           <div className="left-[68.75rem] top-[31.5rem] flex h-[10rem] w-[44rem] items-center justify-center rounded-[2.5rem] border-4 border-white text-center font-['Inter'] text-3xl font-black tracking-wide text-cyan-50">

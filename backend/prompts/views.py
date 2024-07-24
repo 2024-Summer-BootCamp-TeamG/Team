@@ -6,7 +6,7 @@ import boto3
 from botocore.config import Config
 from botocore.exceptions import NoCredentialsError
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -26,11 +26,8 @@ from drf_yasg import openapi
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import BasicAuthentication
 
-class AuthenticatedAPIView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
 
 # Load environment variables
 load_dotenv()
@@ -46,10 +43,53 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class AuthenticatedAPIView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
-@method_decorator(csrf_exempt, name='dispatch')
+
+from .tasks import analyze_image_task, suno_clip_task
+
+class AnalyzeAndSunoView(AuthenticatedAPIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    @swagger_auto_schema(
+        operation_description="이미지를 업로드하여 분석하고, Suno 클립을 생성합니다",
+        manual_parameters=[
+            openapi.Parameter(
+                name="image",
+                in_=openapi.IN_FORM,
+                type=openapi.TYPE_FILE,
+                required=True,
+                description="분석할 이미지 파일"
+            ),
+        ],
+        responses={
+            200: openapi.Response('성공적인 응답', schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description='작업 시작 메시지'),
+                }
+            )),
+            400: '잘못된 요청',
+            401: '인증되지 않음',
+            500: '내부 서버 오류',
+        }
+    )
+    def post(self, request):
+        if not request.user.is_authenticated:
+            return Response({'error': 'Authentication required'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        image_file = request.FILES.get('image')
+        if not image_file:
+            return Response({'error': 'Image file is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        image_data = image_file.read()
+
+        # Celery 비동기 작업 시작
+        analyze_image_task.delay(base64.b64encode(image_data).decode('utf-8'), request.user.id)
+
+        return Response({'message': 'Tasks started'}, status=status.HTTP_200_OK)
+
 class AnalyzeImageView(AuthenticatedAPIView):
     parser_classes = (MultiPartParser, FormParser)
 
@@ -68,8 +108,7 @@ class AnalyzeImageView(AuthenticatedAPIView):
             200: openapi.Response('성공적인 응답', schema=openapi.Schema(
                 type=openapi.TYPE_OBJECT,
                 properties={
-                    'text_result': openapi.Schema(type=openapi.TYPE_STRING,
-                                                      description='OpenAI로부터의 분석 결과'),
+                    'text_result': openapi.Schema(type=openapi.TYPE_STRING,description='OpenAI로부터의 분석 결과'),
                 }
             )),
             400: '잘못된 요청',
