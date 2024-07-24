@@ -4,7 +4,7 @@ import App from './App.tsx';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil'; // RecoilRoot를 import합니다.
-
+import '../src/api/axios.ts';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <RecoilRoot>
     {' '}

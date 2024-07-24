@@ -1,0 +1,47 @@
+$c: #c6c2c2;
+
+body {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  padding: 1em 2em;
+  border: 0.125em solid $c;
+  font-weight: bold;
+  // box-shadow:
+  //   0.5em 0.5em 0 -0.125em #fff,
+  //   0.5em 0.5em lighten($c, 35%);
+  overflow: hidden;
+  position: relative;
+  color: $c;
+  font: 18px 'Space Mono';
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 0.3s;
+  &:after {
+    content: '';
+    background: $c;
+    width: 150%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transform: rotate(-45deg) translateY(-3em);
+    transform-origin: 0% 100%;
+    transition: 0.3s;
+  }
+  &:hover {
+    color: #080808;
+    box-shadow:
+      1em 1em 0 -0.125em #fff,
+      1em 1em lighten($c, 35%);
+    &:after {
+      transform: rotate(0deg);
+    }
+  }
+}

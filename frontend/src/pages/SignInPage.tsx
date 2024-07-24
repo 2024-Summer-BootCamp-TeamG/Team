@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from 'axios'; // 커스텀 axios 인스턴스를 불러옴
 import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
+import axiosInstance from '../api/axios';
 
 // Input 컴포넌트 정의
 const Input: React.FC<{
@@ -17,7 +18,7 @@ const Input: React.FC<{
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className="custom-placeholder h-full w-full rounded-[1.25rem] border-gray-300 bg-white bg-opacity-30 p-2 placeholder-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="h-full w-full rounded-[1.25rem] border-gray-300 bg-white bg-opacity-30 p-2 placeholder-black focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
   );
 };
@@ -25,13 +26,11 @@ const Input: React.FC<{
 const Button: React.FC<{
   type: 'button' | 'submit' | 'reset';
   label: string;
-  onClick: () => void;
-}> = ({ type, label, onClick }) => {
+}> = ({ type, label }) => {
   return (
     <button
       type={type}
-      onClick={onClick}
-      className="h-[3.75rem] w-full rounded-[1.5rem] bg-white px-4 py-2 text-black hover:bg-black/50 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
+      className="h-[3rem] w-full rounded-[1.5rem] bg-white px-4 py-2 text-black hover:bg-black/50 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
     >
       {label}
     </button>
@@ -61,15 +60,17 @@ function SignInPage() {
           password,
         },
         {
+          withCredentials: true,
           headers: {
-            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'), // CSRF 토큰을 요청 헤더에 포함
           },
         },
       );
 
       if (response.status === 200) {
         alert('로그인이 성공적으로 완료되었습니다.');
-        // 여기서 로그인 성공 후의 로직을 추가할 수 있습니다. 예를 들어, 리다이렉션 등.
+        setUsername('');
+        setPassword('');
         navigate('/pictureupload'); // 로그인 성공 후 페이지 이동
       } else {
         alert('로그인에 실패했습니다.');
@@ -84,42 +85,61 @@ function SignInPage() {
           alert('로그인 도중 오류가 발생했습니다.');
         }
         console.error('There was an error!', error);
+      } else {
+        alert('로그인 도중 예기치 않은 오류가 발생했습니다.');
+        console.error('There was an unexpected error!', error);
       }
     }
   };
 
+  // 쿠키에서 CSRF 토큰 가져오는 함수 예시
+  function getCookie(name: string) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift();
+  }
+
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-cover">
-      <Background>
-        <NavBar />
-        <div className="h-[67.5rem] w-[120rem]">
-          <div className="absolute left-[20rem] top-[7.19rem] h-[53.13rem] w-[50rem] rounded-[2.5rem] border-2 border-white bg-white/30 opacity-60 shadow backdrop-blur-[3.44rem]" />
-          <form onSubmit={handleSubmit}>
-            <div className="bg-white/opacity-20 absolute left-[34.5rem] top-[38rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
-              <Input
-                type="password"
-                placeholder="비밀번호"
-                value={password}
-                onChange={handlePasswordChange}
-              />
+      <div className="relative h-full w-full">
+        <Background>
+          <NavBar />
+          <div className="mt-[5rem] flex items-center justify-center">
+            <div className="flex-col items-center justify-around space-y-8">
+              <div className="flex w-full items-center justify-between space-x-12 rounded-[2.5rem] border-2 border-white bg-white/30 opacity-60">
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex h-[35rem] w-[30rem] flex-col items-center justify-center rounded-xl bg-opacity-20"
+                >
+                  <div className="font-['Cafe24 Danjunghae'] mb-8 text-center text-[2rem] font-normal text-white">
+                    로그인
+                  </div>
+                  <div className="mb-6 h-[3rem] w-[20rem] rounded-[1.25rem] border-2 border-white bg-white/20">
+                    <Input
+                      type="text"
+                      placeholder="아이디"
+                      value={username}
+                      onChange={handleUsernameChange}
+                    />
+                  </div>
+                  <div className="mb-6 h-[3rem] w-[20rem] rounded-[1.25rem] border-2 border-white bg-white/20">
+                    <Input
+                      type="password"
+                      placeholder="비밀번호"
+                      value={password}
+                      onChange={handlePasswordChange}
+                    />
+                  </div>
+
+                  <div className="font-['Cafe24 Danjunghae'] flex h-[3rem] w-[20rem] items-center justify-center text-xl font-normal text-black">
+                    <Button type="submit" label="로그인하기" />
+                  </div>
+                </form>
+              </div>
             </div>
-            <div className="bg-white/opacity-20 absolute left-[34.5rem] top-[32rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
-              <Input
-                type="text"
-                placeholder="아이디"
-                value={username}
-                onChange={handleUsernameChange}
-              />
-            </div>
-            <div className="font-['Cafe24 Danjunghae'] absolute left-[38rem] top-[15.25rem] text-center text-[6rem] font-normal text-white">
-              로그인
-            </div>
-            <div className="font-['Cafe24 Danjunghae'] absolute left-[34.5rem] top-[52.5rem] flex w-[25rem] items-center justify-center rounded-[1.25rem] text-xl font-normal text-black">
-              <Button type="submit" label="로그인하기" onClick={handleSubmit} />
-            </div>
-          </form>
-        </div>
-      </Background>
+          </div>
+        </Background>
+      </div>
     </div>
   );
 }

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import axiosInstance from '../api/axios'; // axios.ts에서 import
 import axios from 'axios';
+
 import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-import { Link } from 'react-router-dom';
 
 // Input 컴포넌트 정의
 const Input: React.FC<{
@@ -26,20 +27,18 @@ const Input: React.FC<{
 const Button: React.FC<{
   type: 'button' | 'submit' | 'reset';
   label: string;
-  onClick: () => void;
-}> = ({ type, label, onClick }) => {
+}> = ({ type, label }) => {
   return (
     <button
       type={type}
-      onClick={onClick}
-      className="h-[3.75rem] w-full rounded-[1.5rem] bg-white px-4 py-2 text-black hover:bg-black/50 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
+      className="h-[3rem] w-full rounded-[1.5rem] bg-white px-4 py-2 text-black hover:bg-black/50 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
     >
       {label}
     </button>
   );
 };
 
-function SignUpPage() {
+const SignUpPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -62,21 +61,16 @@ function SignUpPage() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        'http://localhost:8000/users/signup',
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
+      const response = await axios.post('http://localhost:8000/users/signup', {
+        email,
+        password,
+      });
 
       if (response.status === 201) {
         alert('회원가입이 성공적으로 완료되었습니다.');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
         navigate('/signin');
       } else {
         alert('회원가입에 실패했습니다.');
@@ -91,56 +85,63 @@ function SignUpPage() {
           alert('회원가입 도중 오류가 발생했습니다.');
         }
         console.error('There was an error!', error);
+      } else {
+        alert('회원가입 도중 예기치 않은 오류가 발생했습니다.');
+        console.error('There was an unexpected error!', error);
       }
     }
   };
 
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-cover">
-      <Background>
-        <NavBar />
-        <div className="relative h-[67.5rem] w-[120rem]">
-          <div className="absolute left-[35rem] top-[7.19rem] h-[53.13rem] w-[50rem] rounded-[2.5rem] border-2 border-white bg-white/30 opacity-60 shadow backdrop-blur-[3.44rem]" />
-          <form onSubmit={handleSubmit}>
-            <div className="bg-white/opacity-20 absolute left-[47.5rem] top-[30.18rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
-              <Input
-                type="email"
-                placeholder="이메일"
-                value={email}
-                onChange={handleEmailChange}
-              />
+      <div className="relative h-full w-full">
+        <Background>
+          <NavBar />
+          <div className="mt-[5rem] flex items-center justify-center">
+            <div className="flex-col items-center justify-around space-y-8">
+              <div className="flex w-full items-center justify-between space-x-12 rounded-[2.5rem] border-2 border-white bg-white/30 opacity-60">
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex h-[35rem] w-[30rem] flex-col items-center justify-center rounded-xl bg-opacity-20"
+                >
+                  <div className="font-['Cafe24 Danjunghae'] mb-8 text-center text-[2rem] font-normal text-white">
+                    회원가입
+                  </div>
+                  <div className="mb-6 h-[3rem] w-[20rem] rounded-[1.25rem] border-2 border-white bg-white/20">
+                    <Input
+                      type="email"
+                      placeholder="아이디"
+                      value={email}
+                      onChange={handleEmailChange}
+                    />
+                  </div>
+                  <div className="mb-6 h-[3rem] w-[20rem] rounded-[1.25rem] border-2 border-white bg-white/20">
+                    <Input
+                      type="password"
+                      placeholder="비밀번호"
+                      value={password}
+                      onChange={handlePasswordChange}
+                    />
+                  </div>
+                  <div className="mb-8 h-[3rem] w-[20rem] rounded-[1.25rem] border-2 border-white bg-white/20">
+                    <Input
+                      type="password"
+                      placeholder="비밀번호 확인"
+                      value={confirmPassword}
+                      onChange={handleConfirmPasswordChange}
+                    />
+                  </div>
+                  <div className="font-['Cafe24 Danjunghae'] mt-[2rem] flex h-[3rem] w-[20rem] items-center justify-center text-xl font-normal text-black">
+                    <Button type="submit" label="회원가입하기" />
+                  </div>
+                </form>
+              </div>
             </div>
-            <div className="bg-white/opacity-20 absolute left-[47.5rem] top-[36.35rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
-              <Input
-                type="password"
-                placeholder="비밀번호"
-                value={password}
-                onChange={handlePasswordChange}
-              />
-            </div>
-            <div className="bg-white/opacity-20 absolute left-[47.5rem] top-[42.52rem] h-[3.75rem] w-[25rem] rounded-[1.25rem] border-2 border-white">
-              <Input
-                type="password"
-                placeholder="비밀번호 확인"
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-              />
-            </div>
-            <div className="font-['Cafe24 Danjunghae'] absolute left-[49.5rem] top-[15.25rem] text-center text-[6rem] font-normal text-white">
-              회원가입
-            </div>
-            <div className="font-['Cafe24 Danjunghae'] absolute left-[47.5rem] top-[52.5rem] flex w-[25rem] items-center justify-center text-2xl font-normal text-black">
-              <Button
-                type="submit"
-                label="회원가입하기"
-                onClick={handleSubmit}
-              />
-            </div>
-          </form>
-        </div>
-      </Background>
+          </div>
+        </Background>
+      </div>
     </div>
   );
-}
+};
 
 export default SignUpPage;
