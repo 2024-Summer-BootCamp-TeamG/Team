@@ -10,10 +10,12 @@ function BusinessInputPage() {
   const [businessInput, setBusinessInput] = useRecoilState(businessInputState);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
 
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     console.log('입력된 텍스트:', businessInput);
     setIsButtonClicked(true);
+   
   };
 
   return (
@@ -37,6 +39,7 @@ function BusinessInputPage() {
                   className={`font-['Cafe24 Danjunghae'] absolute left-[83.1rem] top-[40rem] h-[5rem] w-[12.5rem] rounded-[2.5rem] bg-white/50 text-center text-3xl font-normal focus:outline-none ${isButtonClicked ? 'text-blue-800' : 'text-white'}`}
                 />
               </Link>
+
             </form>
           </div>
           <div className="font-['Playfair Display'] absolute left-[33rem] top-[15rem] text-center text-5xl font-black text-white">

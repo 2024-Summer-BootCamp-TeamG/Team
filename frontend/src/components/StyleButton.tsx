@@ -23,7 +23,7 @@ function StyleButton({
 
   return (
     <div
-      className={`relative z-10 flex justify-center self-center rounded-[60px] border-2 border-white bg-gradient-to-b from-white/20 to-slate-400/10 shadow backdrop-blur-xl sm:mt-0 ${className} ${isSelected ? 'bg-white text-black' : ''}`}
+      className={`relative z-10 flex justify-center self-center rounded-[60px] border-white bg-gradient-to-b from-white/20 to-slate-400/10 shadow backdrop-blur-xl sm:mt-0 ${className} ${isSelected ? 'bg-white text-black' : ''}`}
     >
       <button
         type="button"
