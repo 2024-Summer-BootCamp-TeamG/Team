@@ -18,7 +18,7 @@ import sys
 pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
@@ -32,11 +32,6 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 DEBUG = True ##배포할땐 False로
 
 # settings.py
-
-
-# RabbitMQ 브로커 URL 설정
-CELERY_BROKER_URL = 'amqp://taeho4523:K-71505863@rabbitmq:5672/'
-CELERY_RESULT_BACKEND = 'rpc://'
 
 # 타임존 설정
 CELERY_TIMEZONE = 'UTC'
@@ -107,7 +102,6 @@ CORS_ALLOW_HEADERS = [
     'dnt',
     'origin',
     'user-agent',
-    'x-csrftoken',
     'x-requested-with',
 ]
 
@@ -158,7 +152,7 @@ AUTHENTICATION_BACKENDS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ],
     # 'DEFAULT_PERMISSION_CLASSES': [
     #     'rest_framework.permissions.IsAuthenticated', 모든페이지에 권한이있어야만 가능하게 설정해뒀음 ;
