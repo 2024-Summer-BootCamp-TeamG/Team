@@ -1,32 +1,28 @@
 import React, { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
 import Background from '../components/Background.tsx';
 import NavBar from '../components/NavBar.tsx';
+import Poster from '../assets/Poster.png';
+import Taehologo from '../assets/TaehoLogo.png';
+import TaehoPoster from '../assets/legoposter.png';
+import { useRecoilValue } from 'recoil';
+import {
+  generatedLogoState,
+  generatedPosterState,
+  generatedMusicState,
+} from '../recoil/GeneratedAtom.ts';
 
 function LogoMusicPage() {
+  const generatedLogo = useRecoilValue(generatedLogoState);
+  const generatedPoster = useRecoilValue(generatedPosterState);
+  const generatedMusic = useRecoilValue(generatedPosterState);
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isFrontImage, setIsFrontImage] = useState(true);
-  const [logoUrl, setLogoUrl] = useState(null);
-  const [posterUrl, setPosterUrl] = useState(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const fetchPromotionData = async () => {
-    try {
-      const response = await axios.get('http://localhost:8000/promotions/$id', {
-        withCredentials: true, // 쿠키를 요청에 포함시킵니다.
-      });
-      setLogoUrl(response.data.logo_url);
-      setPosterUrl(response.data.poster_url);
-    } catch (error) {
-      console.error('Failed to fetch promotion data:', error);
-    }
-  };
-
   useEffect(() => {
-    fetchPromotionData();
-
     const audio = audioRef.current;
 
     const setAudioData = () => {
@@ -51,7 +47,6 @@ function LogoMusicPage() {
     audio?.addEventListener('ended', () =>
       setCurrentTime(audio?.duration || 0),
     );
-
     return () => {
       audio?.removeEventListener('loadeddata', setAudioData);
       audio?.removeEventListener('timeupdate', setAudioTime);
@@ -73,7 +68,7 @@ function LogoMusicPage() {
     }
   };
 
-  const formatTime = (time: any) => {
+  const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
@@ -103,20 +98,20 @@ function LogoMusicPage() {
                     className={`transform-style-preserve-3d relative h-full w-full transition-transform duration-700 ${isFrontImage ? 'rotate-y-0' : 'rotate-y-180'}`}
                   >
                     <img
-                      src={logoUrl}
-                      alt="Logo"
+                      src={generatedLogo}
+                      alt="Generated Logo"
                       className={`backface-hidden absolute inset-0 h-full w-full object-cover ${isFrontImage ? 'opacity-100' : 'opacity-0'}`}
                     />
                     <img
-                      src={posterUrl}
-                      alt="Poster"
+                      src={generatedPoster}
+                      alt="Generated Poster"
                       className={`backface-hidden absolute inset-0 h-full w-full object-cover ${isFrontImage ? 'opacity-0' : 'rotate-y-180 opacity-100'}`}
                     />
                   </div>
                 </div>
               </div>
               <div className="mb-10 flex w-full flex-col items-center justify-end">
-                <audio ref={audioRef} src="/lego.mp3"></audio>{' '}
+                <audio ref={audioRef} src={generatedMusic}></audio>
                 {/* 오디오 파일 경로 변경 */}
                 <div className="flex w-[55rem] items-center justify-between text-white">
                   <span>{formatTime(currentTime)}</span>
@@ -146,9 +141,11 @@ function LogoMusicPage() {
                   min="0"
                   max={duration}
                   value={currentTime}
-                  onChange={(e) =>
-                    (audioRef.current.currentTime = e.target.value)
-                  }
+                  onChange={(e) => {
+                    if (audioRef.current) {
+                      audioRef.current.currentTime = Number(e.target.value);
+                    }
+                  }}
                   className="mt-2 w-[55rem]"
                 />
               </div>

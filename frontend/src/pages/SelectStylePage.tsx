@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import StyleButton from '../components/StyleButton';
@@ -8,6 +8,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ChooseColorState } from '../recoil/ChooseColorAtom';
 import { SelectStyleState } from '../recoil/SelectStyleAtom';
 import { businessInputState } from '../recoil/BusinessInputAtom';
+import {
+  generatedLogoState,
+  generatedPosterState,
+  generatedMusicState,
+} from '../recoil/GeneratedAtom';
 import { textInputState } from '../recoil/TextInputAtom';
 import axios from 'axios';
 
@@ -16,11 +21,15 @@ function SelectStylePage() {
   const [color, setColor] = useRecoilState(ChooseColorState);
   const [logoText, setLogoText] = useRecoilState(businessInputState);
   const [posterText, setPosterText] = useRecoilState(textInputState);
+  const setGeneratedLogo = useSetRecoilState(generatedLogoState);
+  const setGeneratedPoster = useSetRecoilState(generatedPosterState);
+  const setGeneratedMusic = useSetRecoilState(generatedMusicState);
+
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
 
   // 특정 버튼의 선택 상태 토글 함수
-  const toggleButton = (buttonText) => {
+  const toggleButton = (buttonText: any) => {
     setSelectedButton((prevSelected) => {
       const newSelected = prevSelected === buttonText ? '' : buttonText;
       console.log('Button selected:', newSelected);
@@ -57,10 +66,30 @@ function SelectStylePage() {
         },
       );
 
+      const musicResponse = await axios.post(
+        'http://localhost:8000/prompts/generate_music/',
+        {
+          style: selectedButton,
+          color: color,
+          logo_text: logoText,
+        },
+        {
+          withCredentials: true,
+        },
+      );
       console.log('Logo API Response:', logoResponse.data);
       console.log('Poster API Response:', posterResponse.data);
+      console.log('Poster API Response:', musicResponse.data);
 
-      if (logoResponse.status === 201 && posterResponse.status === 201) {
+      if (
+        logoResponse.status === 201 &&
+        posterResponse.status === 201 &&
+        musicResponse.status === 201
+      ) {
+        setGeneratedLogo(logoResponse.data.logo_url);
+        setGeneratedPoster(posterResponse.data.poster_url);
+        setGeneratedMusic(musicResponse.data.logo_url);
+
         alert('로고와 포스터가 성공적으로 생성되었습니다.');
         navigate('/logomusic');
       } else {

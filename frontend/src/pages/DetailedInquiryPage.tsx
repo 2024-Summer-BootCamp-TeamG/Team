@@ -2,6 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import Background from '../components/Background';
 import Album from '../assets/Album.png';
 import '../pages/Index/style.css';
+import CloseIcon from '../assets/CloseIcon.svg';
+
+interface PromotionData {
+  poster_url: string;
+  audio_url: string;
+  logo_url: string;
+}
 
 function DetailedInquiryPage() {
   const [showDetail, setShowDetail] = useState(false);
@@ -11,49 +18,36 @@ function DetailedInquiryPage() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const audioRef = useRef(null);
+  const [selectedItem, setSelectedItem] = useState<number | null>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    async function fetchData() {
-      let endpoint = '';
-      switch (selectedItem) {
-        case 1:
-          endpoint = 'http://localhost:8000/promotions/1';
-          break;
-        case 2:
-          endpoint = 'http://localhost:8000/promotions/2';
-          break;
-        case 3:
-          endpoint = 'http://localhost:8000/promotions/3';
-          break;
-        case 4:
-          endpoint = 'http://localhost:8000/promotions/4';
-          break;
-        case 5:
-          endpoint = 'http://localhost:8000/promotions/5';
-          break;
-        default:
-          return;
-      }
+    const fetchData = async () => {
+      if (selectedItem === null) return;
 
-      const response = await fetch(endpoint, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
+      const endpoint = `http://localhost:8000/promotions/${selectedItem}`;
 
-      if (response.ok) {
-        const data = await response.json();
-        setPosterUrl(data.poster_url);
-        setAudioUrl(data.audio_url);
-        setLogoUrl(data.logo_url);
-      } else {
-        console.error('Failed to fetch data:', response.status);
+      try {
+        const response = await fetch(endpoint, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+
+        if (response.ok) {
+          const data: PromotionData = await response.json();
+          setPosterUrl(data.poster_url);
+          setAudioUrl(data.audio_url);
+          setLogoUrl(data.logo_url);
+        } else {
+          console.error('Failed to fetch data:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
-    }
+    };
 
     if (showDetail) {
       fetchData();
@@ -89,17 +83,29 @@ function DetailedInquiryPage() {
     }
 
     if (!showDetail) {
-      const galleryContainer = document.querySelector('.gallery-container');
-      const galleryControlsContainer =
-        document.querySelector('.gallery-controls');
+      const galleryContainer = document.querySelector(
+        '.gallery-container',
+      ) as HTMLElement;
+      const galleryControlsContainer = document.querySelector(
+        '.gallery-controls',
+      ) as HTMLElement;
       const galleryControls = ['이전', '다음'];
       const galleryItems = document.querySelectorAll('.gallery-item');
 
       class Carousel {
-        constructor(container, items, controls) {
+        carouselContainer: HTMLElement;
+        carouselControls: string[];
+        carouselArray: HTMLElement[];
+        currentItem: number;
+
+        constructor(
+          container: HTMLElement,
+          items: NodeListOf<Element>,
+          controls: string[],
+        ) {
           this.carouselContainer = container;
           this.carouselControls = controls;
-          this.carouselArray = [...items];
+          this.carouselArray = Array.from(items) as HTMLElement[];
           this.currentItem = 0;
         }
 
@@ -116,7 +122,7 @@ function DetailedInquiryPage() {
           });
         }
 
-        setCurrentState(direction) {
+        setCurrentState(direction: HTMLElement) {
           if (direction.className.includes('gallery-controls-previous')) {
             this.currentItem =
               (this.currentItem - 1 + this.carouselArray.length) %
@@ -131,14 +137,18 @@ function DetailedInquiryPage() {
         setControls() {
           this.carouselControls.forEach((control) => {
             const button = document.createElement('button');
-            button.className = `gallery-controls-${control === '이전' ? 'previous' : 'next'}`;
+            button.className = `gallery-controls-${
+              control === '이전' ? 'previous' : 'next'
+            }`;
             button.innerText = control;
             galleryControlsContainer.appendChild(button);
           });
         }
 
         useControls() {
-          const triggers = [...galleryControlsContainer.children];
+          const triggers = Array.from(
+            galleryControlsContainer.children,
+          ) as HTMLElement[];
           triggers.forEach((control) => {
             control.addEventListener('click', (e) => {
               e.preventDefault();
@@ -190,7 +200,7 @@ function DetailedInquiryPage() {
     }
   };
 
-  const formatTime = (time) => {
+  const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
@@ -210,7 +220,11 @@ function DetailedInquiryPage() {
               }}
               onClick={() => setShowDetail(false)}
             >
-              X
+              <img
+                src={CloseIcon}
+                style={{ width: '2rem', height: '2rem' }}
+                alt="닫기"
+              />
             </button>
             {selectedItem === 1 && (
               <div className="font-['Cafe24 Danjunghae'] absolute left-[25rem] top-[4rem] h-[3.5rem] w-[20rem] text-[2rem] font-normal leading-[4rem] text-[#eec1fd]">

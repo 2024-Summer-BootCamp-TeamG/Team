@@ -2,8 +2,9 @@ import React, { FormEvent, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
+import MoveButton from '../components/MoveButton';
 import { businessInputState } from '../recoil/BusinessInputAtom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function BusinessInputPage() {
   const [businessInput, setBusinessInput] = useRecoilState(businessInputState);
@@ -20,6 +21,7 @@ function BusinessInputPage() {
     // 여기에 다음 버튼을 클릭했을 때 실행할 코드를 추가하세요.
     // 예를 들어, 다음 페이지로 이동하거나, 서버에 데이터를 전송하는 등의 작업을 수행할 수 있습니다.
 
+    setIsButtonClicked(true);
   };
 
   return (
