@@ -12,4 +12,4 @@ jobs:
     - name: Build Docker image
       run: docker build -t my-django-app ./backend
     - name: Check Django project
-      run: docker run my-django-app python manage.py check 이대로 삽입하면 돼?
+      run: docker run my-django-app python manage.py check
