@@ -110,7 +110,7 @@ function SelectStylePage() {
         }
       }, 50);
     }
-  }, [isLoading]);
+  }, [isLoading]); //
 
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
