@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Background from '../components/Background';
 import Album from '../assets/Album.png';
+import Album1 from '../assets/Album1.png';
+import Album2 from '../assets/Album2.png';
+import Album4 from '../assets/Album4.png';
+import Album5 from '../assets/Album5.png';
+
 import '../pages/Index/style.css';
 
 function DetailedInquiryPage() {
@@ -12,6 +17,7 @@ function DetailedInquiryPage() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [isFrontImage, setIsFrontImage] = useState(true); // 이미지 전환 상태 추가
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -19,19 +25,19 @@ function DetailedInquiryPage() {
       let endpoint = '';
       switch (selectedItem) {
         case 1:
-          endpoint = 'http://localhost:8000/promotions/1';
+          endpoint = 'http://localhost:8000/promotions/32';
           break;
         case 2:
-          endpoint = 'http://localhost:8000/promotions/2';
+          endpoint = 'http://localhost:8000/promotions/33';
           break;
         case 3:
-          endpoint = 'http://localhost:8000/promotions/3';
+          endpoint = 'http://localhost:8000/promotions/38';
           break;
         case 4:
-          endpoint = 'http://localhost:8000/promotions/4';
+          endpoint = 'http://localhost:8000/promotions/38';
           break;
         case 5:
-          endpoint = 'http://localhost:8000/promotions/5';
+          endpoint = 'http://localhost:8000/promotions/39';
           break;
         default:
           return;
@@ -195,7 +201,9 @@ function DetailedInquiryPage() {
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
-
+  const toggleImage = () => {
+    setIsFrontImage(!isFrontImage);
+  };
   return (
     <>
       <Background>
@@ -237,16 +245,25 @@ function DetailedInquiryPage() {
                 내용 5
               </div>
             )}
-
-            <img
-              className="relative left-[11.5rem] h-[20rem] w-[20rem] rounded-[3.5rem]"
-              src={posterUrl}
-            />
-            <img
-              className="absolute left-[11.5rem] top-[10.5rem] h-[20rem] w-[20rem] rounded-[3.5rem]"
-              src={logoUrl}
-              alt="Logo"
-            />
+            <div
+              className="perspective-1000 relative h-80 w-80 cursor-pointer"
+              onClick={toggleImage}
+            >
+              <div
+                className={`transform-style-preserve-3d relative h-full w-full transition-transform duration-700 ${isFrontImage ? 'rotate-y-0' : 'rotate-y-180'}`}
+              >
+                <img
+                  src={logoUrl}
+                  alt="Logo"
+                  className={`backface-hidden absolute inset-0 h-full w-full object-cover ${isFrontImage ? 'opacity-100' : 'opacity-0'}`}
+                />
+                <img
+                  src={posterUrl}
+                  alt="Poster"
+                  className={`backface-hidden absolute inset-0 h-full w-full object-cover ${isFrontImage ? 'opacity-0' : 'rotate-y-180 opacity-100'}`}
+                />
+              </div>
+            </div>
             <audio ref={audioRef} src={audioUrl} className="mt-4">
               Your browser does not support the audio element.
             </audio>
@@ -285,7 +302,7 @@ function DetailedInquiryPage() {
             <div className="gallery-container">
               <img
                 className="gallery-item gallery-item-1"
-                src={Album}
+                src={Album1}
                 alt="gallery image"
                 data-index="1"
                 onClick={() => {
@@ -295,7 +312,7 @@ function DetailedInquiryPage() {
               />
               <img
                 className="gallery-item gallery-item-2"
-                src={Album}
+                src={Album2}
                 alt="gallery image"
                 data-index="2"
                 onClick={() => {
@@ -315,7 +332,7 @@ function DetailedInquiryPage() {
               />
               <img
                 className="gallery-item gallery-item-4"
-                src={Album}
+                src={Album4}
                 alt="gallery image"
                 data-index="4"
                 onClick={() => {
@@ -325,7 +342,7 @@ function DetailedInquiryPage() {
               />
               <img
                 className="gallery-item gallery-item-5"
-                src={Album}
+                src={Album5}
                 alt="gallery image"
                 data-index="5"
                 onClick={() => {
