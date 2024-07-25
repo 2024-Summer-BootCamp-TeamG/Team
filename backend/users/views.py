@@ -17,9 +17,7 @@ class UserManageView(APIView):
     # 회원가입인 POST형 메소드에 대해서는 인증 절차 적용 안함
 
 
-    def get(self, request):
-        # 회원가입 페이지를 보여주거나 사용자 정보를 반환하는 로직
-        return Response({"message": "Signup page"}, status=status.HTTP_200_OK)
+
 
 
     @swagger_auto_schema(
@@ -50,6 +48,7 @@ class UserManageView(APIView):
 
 
 # 로그인 뷰
+# 로그인 뷰
 class LoginAPIView(APIView):
     @swagger_auto_schema(
         operation_description="로그인 API",
@@ -60,7 +59,19 @@ class LoginAPIView(APIView):
                 'password': openapi.Schema(type=openapi.TYPE_STRING, description='User password'),
             }
         ),
-        responses={200: '로그인 성공', 401: '인증 실패'}
+        responses={
+            200: openapi.Response(
+                description="로그인 성공",
+                examples={
+                    "application/json": {
+                        "message": "로그인 성공!",
+                        "sessionid": "session_id_example",
+                        "user_id": 1
+                    }
+                }
+            ),
+            401: '인증 실패'
+        }
     )
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')
@@ -71,12 +82,13 @@ class LoginAPIView(APIView):
             sessionid = request.session.session_key
 
             return Response({
-                'message': '로그인 성공!', 'sessionid': sessionid
+                'message': '로그인 성공!',
+                'sessionid': sessionid,
+                'user_id': user.id  # 사용자 ID를 응답에 포함
             }, status=status.HTTP_200_OK)
         return Response({
             'message': '로그인 실패. 이메일 또는 비밀번호를 확인해주세요.'
         }, status=status.HTTP_401_UNAUTHORIZED)
-
 
 # 로그아웃 뷰
 @method_decorator(csrf_exempt, name='dispatch')  # swagger 테스트를 위한 일시적으로 csrf 보호 비활성화

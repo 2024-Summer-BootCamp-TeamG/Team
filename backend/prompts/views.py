@@ -27,6 +27,10 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import BasicAuthentication
+from django.http import JsonResponse
+from celery.result import AsyncResult
+from .tasks import analyze_image_task
+
 
 
 # Load environment variables
@@ -49,7 +53,7 @@ class AuthenticatedAPIView(APIView):
 
 from .tasks import analyze_image_task, suno_clip_task
 
-class AnalyzeAndSunoView(AuthenticatedAPIView):
+class StartAnalysisAndClipView(AuthenticatedAPIView):
     parser_classes = (MultiPartParser, FormParser)
 
     @swagger_auto_schema(
@@ -85,11 +89,65 @@ class AnalyzeAndSunoView(AuthenticatedAPIView):
 
         image_data = image_file.read()
 
+        user_id = request.user.id
+        logger.info(f"Starting task for user_id: {user_id}")
+
         # Celery 비동기 작업 시작
-        analyze_image_task.delay(base64.b64encode(image_data).decode('utf-8'), request.user.id)
+        task = analyze_image_task.delay(base64.b64encode(image_data).decode('utf-8'), user_id)
 
-        return Response({'message': 'Tasks started'}, status=status.HTTP_200_OK)
+        return Response({"task_id": task.id}, status=202)
 
+
+class GetTaskStatusView(APIView):
+
+    @swagger_auto_schema(
+        operation_description="비동기 작업의 상태를 조회합니다",
+        manual_parameters=[
+            openapi.Parameter(
+                name="task_id",
+                in_=openapi.IN_PATH,
+                type=openapi.TYPE_STRING,
+                required=True,
+                description="비동기 작업 ID"
+            ),
+        ],
+        responses={
+            200: openapi.Response('성공적인 응답', schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'task_id': openapi.Schema(type=openapi.TYPE_STRING, description='작업 ID'),
+                    'task_status': openapi.Schema(type=openapi.TYPE_STRING, description='작업 상태'),
+                    'analysis_result': openapi.Schema(type=openapi.TYPE_STRING, description='분석 결과'),
+                    'clip_url': openapi.Schema(type=openapi.TYPE_STRING, description='클립 URL'),
+                }
+            )),
+            400: '잘못된 요청',
+        }
+    )
+    def get(self, request, task_id):
+        if not task_id:
+            return Response({'error': 'Task ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        task_result = AsyncResult(task_id)
+        media_id = task_result.result
+
+        if media_id:
+            media = Media.objects.get(id=media_id)
+            result = {
+                "task_id": task_id,
+                "task_status": task_result.status,
+                "analysis_result": media.text_result,
+                "clip_url": media.music_url,
+            }
+        else:
+            result = {
+                "task_id": task_id,
+                "task_status": task_result.status,
+                "analysis_result": None,
+                "clip_url": None,
+            }
+
+        return Response(result, status=200)
 class AnalyzeImageView(AuthenticatedAPIView):
     parser_classes = (MultiPartParser, FormParser)
 
