@@ -5,6 +5,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /code
 COPY requirements.txt /code/
 RUN pip3 install -r requirements.txt
+RUN pip3 install gunicorn
 COPY . /code/
 
 # Django 환경 설정
