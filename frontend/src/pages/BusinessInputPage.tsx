@@ -54,7 +54,7 @@ function BusinessInputPage() {
                   color: 'white',
                 }}
                 className="h-[206px] w-[1098px] resize-none overflow-auto rounded-[2.5rem] bg-transparent placeholder-white"
-                placeholder="ex) 태호 주식회사"
+                placeholder="ex) Taeho Inc."
                 value={businessInput}
                 onChange={(event) => setBusinessInput(event.target.value)}
               />

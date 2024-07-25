@@ -3,6 +3,8 @@ import Background from '../components/Background2.tsx';
 import NavBar from '../components/NavBar.tsx';
 import TestMusic from '../../public/test.mp3';
 import Album from '../assets/album2.png';
+import testLogo from '../assets/testLogo.jpeg';
+import testPoster from '../assets/testPoster.jpeg';
 
 import { useRecoilValue } from 'recoil';
 import {
@@ -107,6 +109,20 @@ function LogoMusicPage() {
                     }`}
                   >
                     <img
+                      src={testLogo}
+                      alt="Generated Logo"
+                      className={`backface-hidden absolute inset-0 h-full w-full object-cover ${
+                        isFrontImage ? 'opacity-100' : 'opacity-0'
+                      }`}
+                    />
+                    <img
+                      src={testPoster}
+                      alt="Generated Poster"
+                      className={`backface-hidden absolute inset-0 h-full w-full object-cover ${
+                        isFrontImage ? 'opacity-0' : 'rotate-y-180 opacity-100'
+                      }`}
+                    />
+                    {/* <img
                       src={generatedLogo}
                       alt="Generated Logo"
                       className={`backface-hidden absolute inset-0 h-full w-full object-cover ${
@@ -119,7 +135,7 @@ function LogoMusicPage() {
                       className={`backface-hidden absolute inset-0 h-full w-full object-cover ${
                         isFrontImage ? 'opacity-0' : 'rotate-y-180 opacity-100'
                       }`}
-                    />
+                    /> */}
                   </div>
                 </div>
               </div>

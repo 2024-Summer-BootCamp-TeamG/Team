@@ -8,10 +8,10 @@ import React, {
 import axios from 'axios'; // axiosInstance를 import
 import { useNavigate } from 'react-router-dom';
 import './style.scss';
-import UploadIcon from '../assets/UploadIcon.svg';
+import UploadIcon from '../assets/picUpload2.png';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-import CloseIcon from '../assets/CloseIcon.svg';
+import CloseIcon from '../assets/closeBtn.png';
 
 interface IFileTypes {
   id: number;
@@ -164,7 +164,7 @@ const PictureUploadPage = () => {
         <NavBar />
         <div className="relative flex w-full items-center justify-around">
           <div className="relative mb-12 mr-16 flex flex-col items-center justify-center">
-            <div className="DragDrop mb-12 flex h-[37.5rem] w-[37.5rem] items-center justify-center rounded-full border-4 border-dashed border-black bg-white opacity-80 shadow backdrop-blur-sm">
+            <div className="DragDrop 0 mb-12 mt-20 flex h-[22.5rem] w-[22.5rem] items-center justify-center rounded-full border-4 border-dashed border-white bg-transparent p-6 backdrop-blur-2xl">
               <input
                 type="file"
                 id="fileUpload"
@@ -181,8 +181,10 @@ const PictureUploadPage = () => {
                   ref={dragRef}
                 >
                   <img src={UploadIcon} alt="upload" />
-                  <p className="text-[2rem]">사진 업로드하기</p>
-                  <p className="text-[2rem]">이미지를 드래그해주세요</p>
+                  <p className="text-[1.5rem] text-white">사진 업로드하기</p>
+                  <p className="text-[1rem] text-white">
+                    이미지를 드래그해주세요
+                  </p>
                 </label>
               )}
 
@@ -197,7 +199,15 @@ const PictureUploadPage = () => {
                     return (
                       <div key={id}>
                         <div onClick={() => handleFilterFile(id)}>
-                          <img src={CloseIcon} alt="닫기" />{' '}
+                          <img
+                            style={{
+                              marginLeft: '250px',
+                              position: 'absolute',
+                              zIndex: 1,
+                            }}
+                            src={CloseIcon}
+                            alt="닫기"
+                          />{' '}
                           <img src={preview} alt={name} />
                         </div>
                       </div>
@@ -209,13 +219,13 @@ const PictureUploadPage = () => {
               className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white"
               onClick={uploadImages}
             >
-              브랜딩 start
+              브랜딩 start!
             </button>
           </div>
 
           <div className="mb-[8rem] flex flex-col items-center">
-            <div className="flex h-[20rem] w-[50rem] items-center justify-center rounded-[2.5rem] border-4 border-white text-center font-['Inter'] text-4xl font-black tracking-wide text-cyan-50">
-              <div>
+            <div className="border-mint flex h-[15rem] w-[40rem] items-center justify-center rounded-[2.5rem] border-4 border-mint-gradient-end text-center font-['Inter'] text-4xl font-black tracking-wide text-cyan-50">
+              <div className="text-xl">
                 지금부터 나만의 브랜딩 작업 시작합니다!
                 <br />
                 로고와 포스터에 반영할 사진을 드래그 해주세요

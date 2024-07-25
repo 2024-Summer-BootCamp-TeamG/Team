@@ -41,23 +41,23 @@ function NavBar() {
         <Link to="/main">
           <button type="button" className="flex flex-row items-center">
             <img
-              className="h-[2.5rem] w-[2.5rem]"
+              className="h-[2.2rem] w-[2.2rem]"
               src={HomeIcon}
               alt="홈 아이콘"
             />
             <p className="ml-[5px] rounded text-[1.2rem] text-white">홈</p>
           </button>
         </Link>
-        {/* <Link to="/list"> */}
-        <button type="button" className="flex flex-row items-center">
-          <img
-            className="h-[2.5rem] w-[2.5rem]"
-            src={MenuIcon}
-            alt="메뉴 아이콘"
-          />
-          <p className="ml-[5px] rounded text-[1.2rem] text-white">목록</p>
-        </button>
-        {/* </Link> */}
+        <Link to="/albumlist">
+          <button type="button" className="flex flex-row items-center">
+            <img
+              className="h-[2.2rem] w-[2.2rem]"
+              src={MenuIcon}
+              alt="메뉴 아이콘"
+            />
+            <p className="ml-[5px] rounded text-[1.2rem] text-white">목록</p>
+          </button>
+        </Link>
       </div>
       <div className="absolute left-1/2 top-0 -translate-x-1/2 transform p-4 text-[1.2rem]">
         <p className="text-[2rem] text-white">Brandify</p>
@@ -65,7 +65,7 @@ function NavBar() {
       <div className="absolute right-0 top-0 flex items-center p-4">
         <button type="button" className="flex flex-row" onClick={logout}>
           <img
-            className="h-[2rem] w-[2rem]"
+            className="h-[1.5rem] w-[1.5rem]"
             src={SignoutIcon}
             alt="메뉴 아이콘"
           />{' '}

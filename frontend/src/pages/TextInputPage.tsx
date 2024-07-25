@@ -30,7 +30,7 @@ function TextInputPage() {
 
         <div className="flex h-full w-full flex-col items-center justify-center p-4">
           <div className="font-['Cafe24 Danjunghae'] font-white mb-8 flex items-center justify-center text-center text-3xl text-white">
-            포스터에 포함하고 싶은 텍스트를 입력해주세요!
+            포스터에 포함하고 싶은 텍스트를 입력해주세요
           </div>
 
           {/* 폼 제출 시 handleSubmit 함수가 호출됩니다. */}
@@ -52,7 +52,7 @@ function TextInputPage() {
                   color: 'white',
                 }}
                 className="h-[206px] w-[1098px] resize-none overflow-auto rounded-[2.5rem] bg-transparent placeholder-white"
-                placeholder="ex) 태호 주식회사"
+                placeholder="ex) Hi This is Taeho Inc. Please visit our website!"
                 value={textInput}
                 onChange={(event) => setTextInput(event.target.value)}
               />

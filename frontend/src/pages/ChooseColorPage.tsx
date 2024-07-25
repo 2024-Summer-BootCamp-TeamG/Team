@@ -101,7 +101,7 @@ function ChooseColorPage() {
     {
       name: 'RANDOM',
       color:
-        'bg-gradient-to-tl from-fuchsia-500/80 via-teal-400/80 to-yellow-300/80',
+        ' linear-gradient(100deg, #F00 7.13%, #FFE500 21.06%, #0F6 43.01%, #0FF 59.9%, #0038FF 74.68%, #FA00FF 91.57%)',
       // hoverColor: '#ffb366',
 
       hoverClass: 'raise',
@@ -132,6 +132,7 @@ function ChooseColorPage() {
               const buttonStyle: React.CSSProperties = {
                 '--c': color,
                 backgroundColor: color,
+
                 ...(activeColor === name && {
                   backgroundColor: 'white',
                   color: 'black',
@@ -141,7 +142,7 @@ function ChooseColorPage() {
               return (
                 <button
                   key={name}
-                  className={`relative flex h-[6rem] w-[12rem] items-center justify-center rounded-xl text-[1rem] text-white transition-colors duration-300 ${hoverClass}`}
+                  className={`relative flex h-[7rem] w-[14rem] items-center justify-center rounded-xl text-[1rem] text-white transition-colors duration-300 ${hoverClass}`}
                   style={buttonStyle}
                   onClick={() => handleButtonClick(name)}
                 >
