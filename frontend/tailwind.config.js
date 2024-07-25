@@ -33,6 +33,7 @@ export default {
       colors: {
         'purple-gradient-start': '#DC92FF',
         'mint-gradient-end': '#75FFEE',
+        bermuda: '#78dcca',
       },
     },
   },

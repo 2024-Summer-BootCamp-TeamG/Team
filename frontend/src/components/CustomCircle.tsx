@@ -16,8 +16,9 @@ const CustomCircle: React.FC<CircleProps> = ({
   backgroundColor,
 }) => {
   return (
+    // animate-morphDramatic
     <div
-      className="animate-morphDramatic absolute"
+      className="absolute"
       style={{
         backgroundColor,
         width: size,

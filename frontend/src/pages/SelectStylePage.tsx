@@ -15,6 +15,8 @@ import {
 } from '../recoil/GeneratedAtom';
 import { textInputState } from '../recoil/TextInputAtom';
 import axios from 'axios';
+import leftArrow from '../assets/leftArrow.svg';
+import rightArrow from '../assets/rightArrow.svg';
 
 function SelectStylePage() {
   const [selectedButton, setSelectedButton] = useRecoilState(SelectStyleState);
@@ -121,6 +123,9 @@ function SelectStylePage() {
       <div className="relative h-full w-full">
         <Background>
           <NavBar />
+          <div className="mb-12 mt-32 flex items-center justify-center text-center text-3xl text-white">
+            원하는 색상을 선택해주세요!
+          </div>
           <div className="flex items-center justify-center">
             <div className="w-auto flex-col items-center justify-center space-y-8">
               <div className="mx-auto flex w-3/4 flex-row justify-between space-x-12">
@@ -189,13 +194,42 @@ function SelectStylePage() {
                   onToggle={() => toggleButton('귀여운')}
                 />
               </div>
-              <div className="mt-56 flex w-full flex-row justify-between px-4">
+              {/* <div className="mt-56 flex w-full flex-row justify-between px-4">
                 <Link to="/choosecolor">
                   <MoveButton buttonText="이전" />
                 </Link>
                 <button onClick={handleGenerateClick}>
                   <MoveButton buttonText="생성" />
                 </button>
+              </div> */}
+              <div className="mt-2 mt-8 flex w-full justify-between px-4">
+                <Link to="/busin">
+                  <button
+                    type="button"
+                    className="font-['Cafe24 Danjunghae'] hover:text-bermuda flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white"
+                  >
+                    <img
+                      className="h-[2.5rem] w-[2.5rem]"
+                      src={leftArrow}
+                      alt="홈 아이콘"
+                    />
+                    <p>이전</p>
+                  </button>
+                </Link>
+
+                <Link to="/selectstyle">
+                  <button
+                    onClick={handleGenerateClick}
+                    className="hover:text-bermuda font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white"
+                  >
+                    다음
+                    <img
+                      className="h-[2.5rem] w-[2.5rem]"
+                      src={rightArrow}
+                      alt="홈 아이콘"
+                    />
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

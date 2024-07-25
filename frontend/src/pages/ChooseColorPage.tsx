@@ -3,6 +3,8 @@ import NavBar from '../components/NavBar';
 import MoveButton from '../components/MoveButton';
 import '../pages/mouse/style.css';
 import { Link, useNavigate } from 'react-router-dom';
+import leftArrow from '../assets/leftArrow.svg';
+import rightArrow from '../assets/rightArrow.svg';
 
 import { useRecoilState } from 'recoil';
 import { ChooseColorState } from '../recoil/ChooseColorAtom';
@@ -120,7 +122,7 @@ function ChooseColorPage() {
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-black bg-cover">
       <div className="relative h-full w-full">
         <NavBar />
-        <div className="mb-12 mt-32 flex items-center justify-center text-center text-xl text-white">
+        <div className="mb-12 mt-32 flex items-center justify-center text-center text-3xl text-white">
           원하는 색상을 선택해주세요!
         </div>
 
@@ -148,24 +150,32 @@ function ChooseColorPage() {
               );
             })}
           </div>
-          <form className="mt-20 flex w-full justify-around">
-            <Link to="/textinput">
-              <div className="ml-[5rem]">
-                <MoveButton className="ml-[5rem]" buttonText="이전" />
-              </div>
+          <div className="mt-2 mt-8 flex w-full justify-between px-4">
+            <Link to="/texi">
+              <button
+                type="button"
+                className="font-['Cafe24 Danjunghae'] hover:text-bermuda flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white"
+              >
+                <img
+                  className="h-[2.5rem] w-[2.5rem]"
+                  src={leftArrow}
+                  alt="이전"
+                />
+                <p>이전</p>
+              </button>
             </Link>
 
             <Link to="/selectstyle">
-              <div className="mr-[5rem]">
-                <MoveButton
-                  className="ml-[5rem]"
-                  buttonText="다음"
-                  onClick={handleSubmit}
+              <button className="hover:text-bermuda font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white">
+                다음
+                <img
+                  className="h-[2.5rem] w-[2.5rem]"
+                  src={rightArrow}
+                  alt="다음"
                 />
-              </div>
+              </button>
             </Link>
-
-          </form>
+          </div>
         </div>
       </div>
     </div>

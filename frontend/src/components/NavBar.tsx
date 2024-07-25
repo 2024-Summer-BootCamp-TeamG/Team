@@ -7,30 +7,6 @@ import MenuIcon from '../assets/MenuIcon.svg';
 import SignoutIcon from '../assets/SignoutIcon.svg';
 import { Link } from 'react-router-dom';
 
-// CSRF 토큰을 가져오는 함수
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      if (cookie.substring(0, name.length + 1) === name + '=') {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-}
-
-// CSRF 토큰 가져오기
-const csrftoken = getCookie('csrftoken');
-
-// axios 기본 설정
-axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-axios.defaults.headers.common['X-CSRFToken'] = csrftoken;
-
 function NavBar() {
   const navigate = useNavigate();
 
@@ -88,7 +64,6 @@ function NavBar() {
       </div>
       <div className="absolute right-0 top-0 flex items-center p-4">
         <button type="button" className="flex flex-row" onClick={logout}>
-
           <img
             className="h-[2rem] w-[2rem]"
             src={SignoutIcon}

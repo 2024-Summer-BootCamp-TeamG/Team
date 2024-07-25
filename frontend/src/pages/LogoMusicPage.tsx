@@ -1,20 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Background from '../components/Background.tsx';
+import Background from '../components/Background2.tsx';
 import NavBar from '../components/NavBar.tsx';
-import Poster from '../assets/Poster.png';
-import Taehologo from '../assets/TaehoLogo.png';
-import TaehoPoster from '../assets/legoposter.png';
+import TestMusic from '../../public/test.mp3';
+import Album from '../assets/album2.png';
+
 import { useRecoilValue } from 'recoil';
 import {
   generatedLogoState,
   generatedPosterState,
-  generatedMusicState,
 } from '../recoil/GeneratedAtom.ts';
 
 function LogoMusicPage() {
   const generatedLogo = useRecoilValue(generatedLogoState);
   const generatedPoster = useRecoilValue(generatedPosterState);
-  const generatedMusic = useRecoilValue(generatedPosterState);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -84,34 +82,49 @@ function LogoMusicPage() {
         <Background>
           <NavBar />
           <div className="flex h-full flex-col items-center justify-center">
-            <div className="relative top-32 flex h-[46rem] w-[80rem] flex-col items-center justify-center rounded-[2.5rem] border border-white bg-gradient-to-b from-white/20 to-slate-400/10 p-6 backdrop-blur-xl">
-              <div className="ml-3 mt-3 text-7xl text-white">Complete!</div>
-              <div className="ml-3 mt-2 text-4xl text-white">
+            <div className="relative top-20 flex h-[35rem] w-[60rem] flex-col items-center justify-center rounded-[2.5rem] border border-white bg-gradient-to-b from-white/20 to-slate-400/10 p-6 backdrop-blur-xl">
+              <div className="ml-3 mt-3 text-4xl text-white">Complete!</div>
+              <div className="ml-3 mt-2 text-2xl text-white">
                 로고와 CM송이 완성되었어요!
               </div>
               <div className="flex flex-grow items-center justify-center">
+                <div className="flex items-center justify-center">
+                  <img
+                    src={Album}
+                    alt="Album"
+                    className={`absolute h-60 w-60 object-cover ${
+                      isPlaying ? 'slow-spin' : ''
+                    }`}
+                  />
+                </div>
                 <div
-                  className="perspective-1000 relative h-80 w-80 cursor-pointer"
+                  className="perspective-1000 relative h-60 w-60 cursor-pointer"
                   onClick={toggleImage}
                 >
                   <div
-                    className={`transform-style-preserve-3d relative h-full w-full transition-transform duration-700 ${isFrontImage ? 'rotate-y-0' : 'rotate-y-180'}`}
+                    className={`transform-style-preserve-3d relative h-full w-full transition-transform duration-700 ${
+                      isFrontImage ? 'rotate-y-0' : 'rotate-y-180'
+                    }`}
                   >
                     <img
                       src={generatedLogo}
                       alt="Generated Logo"
-                      className={`backface-hidden absolute inset-0 h-full w-full object-cover ${isFrontImage ? 'opacity-100' : 'opacity-0'}`}
+                      className={`backface-hidden absolute inset-0 h-full w-full object-cover ${
+                        isFrontImage ? 'opacity-100' : 'opacity-0'
+                      }`}
                     />
                     <img
                       src={generatedPoster}
                       alt="Generated Poster"
-                      className={`backface-hidden absolute inset-0 h-full w-full object-cover ${isFrontImage ? 'opacity-0' : 'rotate-y-180 opacity-100'}`}
+                      className={`backface-hidden absolute inset-0 h-full w-full object-cover ${
+                        isFrontImage ? 'opacity-0' : 'rotate-y-180 opacity-100'
+                      }`}
                     />
                   </div>
                 </div>
               </div>
               <div className="mb-10 flex w-full flex-col items-center justify-end">
-                <audio ref={audioRef} src={generatedMusic}></audio>
+                <audio ref={audioRef} src={TestMusic}></audio>
                 {/* 오디오 파일 경로 변경 */}
                 <div className="flex w-[55rem] items-center justify-between text-white">
                   <span>{formatTime(currentTime)}</span>
