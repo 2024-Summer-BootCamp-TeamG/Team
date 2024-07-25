@@ -1,0 +1,15 @@
+name: backend-CI
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build Docker image
+      run: docker build -t my-django-app ./backend
+    - name: Check Django project
+      run: docker run my-django-app python manage.py check 이대로 삽입하면 돼?
