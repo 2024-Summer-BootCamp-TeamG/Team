@@ -14,7 +14,7 @@ function LogoMusicPage() {
 
   const fetchPromotionData = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/promotions/$id', {
+      const response = await axios.get('http://localhost:8000/promotions/', {
         withCredentials: true, // 쿠키를 요청에 포함시킵니다.
       });
       setLogoUrl(response.data.logo_url);

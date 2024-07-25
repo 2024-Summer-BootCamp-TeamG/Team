@@ -5,29 +5,31 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import axios from 'axios'; // axiosInstance를 import
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './style.scss';
 import UploadIcon from '../assets/UploadIcon.svg';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import CloseIcon from '../assets/CloseIcon.svg';
-import MoveButton from '../components/MoveButton.tsx';
-
 
 interface IFileTypes {
   id: number;
   object: File;
-  preview: string; // 이미지 미리보기를 위한 URL
+  preview: string;
 }
 
 const PictureUploadPage = () => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [files, setFiles] = useState<IFileTypes[]>([]);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const dragRef = useRef<HTMLLabelElement | null>(null);
   const fileId = useRef<number>(0);
+  const progressRef = useRef<HTMLDivElement | null>(null);
+  const percentRef = useRef<HTMLSpanElement | null>(null);
 
   const onChangeFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | DragEvent): void => {
@@ -50,13 +52,13 @@ const PictureUploadPage = () => {
             {
               id: fileId.current++,
               object: file,
-              preview: reader.result as string, // 이미지 미리보기 URL 설정
+              preview: reader.result as string,
             },
           ];
           setFiles(tempFiles);
           console.log('File added:', file);
         };
-        reader.readAsDataURL(file); // 파일을 데이터 URL로 읽기
+        reader.readAsDataURL(file);
       }
     },
     [files],
@@ -117,6 +119,9 @@ const PictureUploadPage = () => {
   }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
 
   const uploadImages = async () => {
+    setIsUploading(true);
+    setIsLoading(true);
+
     const formData = new FormData();
     files.forEach((file) => {
       formData.append('image', file.object);
@@ -127,13 +132,13 @@ const PictureUploadPage = () => {
         'http://localhost:8000/prompts/analysis_text/',
         formData,
         {
-          withCredentials: true, // 쿠키를 요청에 포함시키도록 설정
+          withCredentials: true,
         },
       );
 
       if (response.status === 200) {
         alert('이미지 업로드가 성공적으로 완료되었습니다.');
-        navigate('/busin'); // 이미지 업로드 성공 후 리다이렉션
+        navigate('/busin');
       } else {
         alert('이미지 업로드에 실패했습니다.');
       }
@@ -143,15 +148,18 @@ const PictureUploadPage = () => {
           const errorMessage =
             error.response.data.detail || JSON.stringify(error.response.data);
           console.log(JSON.stringify(error.response.data));
-          alert(`로고 생성 도중 오류가 발생했습니다1: ${errorMessage}`);
+          alert(`로고 생성 도중 오류가 발생했습니다: ${errorMessage}`);
         } else {
-          alert('로고 생성 도중 오류가 발생했습니다2.');
+          alert('로고 생성 도중 오류가 발생했습니다.');
         }
         console.error('There was an error!', error);
       } else {
-        alert('로고 생성 도중 예기치 않은 오류가 발생했습니다3.');
+        alert('로고 생성 도중 예기치 않은 오류가 발생했습니다.');
         console.error('There was an unexpected error!', error);
       }
+    } finally {
+      setIsUploading(false);
+      setIsLoading(false);
     }
   };
 
@@ -159,6 +167,28 @@ const PictureUploadPage = () => {
     initDragEvents();
     return () => resetDragEvents();
   }, [initDragEvents, resetDragEvents]);
+
+  useEffect(() => {
+    if (isLoading) {
+      let counter = 0;
+      let progress = 0;
+      const intervalId = setInterval(() => {
+        if (progress >= 500 && counter >= 100) {
+          clearInterval(intervalId);
+          setIsLoading(false);
+        } else {
+          progress += 5;
+          counter += 1;
+          if (progressRef.current) {
+            progressRef.current.style.width = progress + 'px';
+          }
+          if (percentRef.current) {
+            percentRef.current.textContent = counter + '%';
+          }
+        }
+      }, 50);
+    }
+  }, [isLoading]);
 
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
@@ -211,13 +241,26 @@ const PictureUploadPage = () => {
                   })}
               </div>
             </div>
-            <button
-              className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white"
-              onClick={uploadImages}
-            >
-
-              브랜딩 start
-            </button>
+            {!isUploading ? (
+              <button
+                className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white"
+                onClick={uploadImages}
+              >
+                브랜딩 start
+              </button>
+            ) : (
+              <div className="flex w-[550px] flex-col items-center justify-center">
+                <div className="py-8 text-[2.5rem] font-semibold text-[#8AAAFF]">
+                  <span ref={percentRef}>0%</span>
+                </div>
+                <div className="relative mx-auto h-[10px] w-[500px] overflow-hidden rounded-full bg-blue-200">
+                  <div
+                    ref={progressRef}
+                    className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-[#8AAAFF] to-[#FA8CFF]"
+                  ></div>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="left-[68.75rem] top-[31.5rem] flex h-[10rem] w-[44rem] items-center justify-center rounded-[2.5rem] border-4 border-white text-center font-['Inter'] text-3xl font-black tracking-wide text-cyan-50">

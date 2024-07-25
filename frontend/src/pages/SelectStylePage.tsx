@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useRecoilState } from 'recoil';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
@@ -18,6 +18,9 @@ function SelectStylePage() {
   const [posterText, setPosterText] = useRecoilState(textInputState);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
+
+  const progressRef = useRef(null);
+  const percentRef = useRef(null);
 
   // 특정 버튼의 선택 상태 토글 함수
   const toggleButton = (buttonText) => {
@@ -86,6 +89,28 @@ function SelectStylePage() {
       setIsLoading(false); // 요청 완료
     }
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      let counter = 0;
+      let progress = 0;
+      const intervalId = setInterval(() => {
+        if (progress >= 500 && counter >= 100) {
+          clearInterval(intervalId);
+          setIsLoading(false);
+        } else {
+          progress += 5;
+          counter += 1;
+          if (progressRef.current) {
+            progressRef.current.style.width = progress + 'px';
+          }
+          if (percentRef.current) {
+            percentRef.current.textContent = counter + '%';
+          }
+        }
+      }, 50);
+    }
+  }, [isLoading]);
 
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
@@ -164,9 +189,23 @@ function SelectStylePage() {
                 <Link to="/choosecolor">
                   <MoveButton buttonText="이전" />
                 </Link>
-                <button onClick={handleGenerateClick}>
-                  <MoveButton buttonText="생성" />
-                </button>
+                {!isLoading ? (
+                  <button onClick={handleGenerateClick}>
+                    <MoveButton buttonText="생성" />
+                  </button>
+                ) : (
+                  <div className="flex w-[550px] flex-col items-center justify-center">
+                    <div className="py-8 text-[2.5rem] font-semibold text-[#8AAAFF]">
+                      <span ref={percentRef}>0%</span>
+                    </div>
+                    <div className="relative mx-auto h-[10px] w-[500px] overflow-hidden rounded-full bg-blue-200">
+                      <div
+                        ref={progressRef}
+                        className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-[#8AAAFF] to-[#FA8CFF]"
+                      ></div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
