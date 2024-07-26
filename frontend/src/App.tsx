@@ -46,7 +46,7 @@ function App() {
         <Route path="/busin" element={<BusinessInputPage />} />
         <Route path="/texi" element={<TextInputPage />} />
         <Route path="/carousel" element={<CarouselPage />} />
-        <Route path="/detain" element={<DetailedInquiryPage />} />
+        <Route path="/detail" element={<DetailedInquiryPage />} />
         <Route path="/main" element={<MainPage children={undefined} />} />
         <Route path="/logomusic" element={<LogoMusicPage />} />
         <Route path="/choosecolor" element={<ChooseColorPage />} />

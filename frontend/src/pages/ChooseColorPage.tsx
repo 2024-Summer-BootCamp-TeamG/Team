@@ -1,258 +1,181 @@
-import React from 'react';
-import Background from '../components/Background';
-import { useRecoilState } from 'recoil';
-import { useNavigate } from 'react-router-dom';
-import MoveButton from '../components/MoveButton';
-import { SelectStyleState } from '../recoil/SelectStyleAtom';
+import React, { useState } from 'react';
 import NavBar from '../components/NavBar';
-import { ChooseStyleState } from '../recoil/ChooseStyleAtom';
-import Vector from '../components/Vector.png';
-import axios from 'axios';
-
-function ChooseStyle() {
-  const [selectedStyle, setSelectedStyle] = useRecoilState(SelectStyleState);
+import MoveButton from '../components/MoveButton';
+import '../pages/mouse/style.css';
+import { Link, useNavigate } from 'react-router-dom';
+import leftArrow from '../assets/leftArrow.svg';
+import rightArrow from '../assets/rightArrow.svg';
+import { useRecoilState } from 'recoil';
+import { ChooseColorState } from '../recoil/ChooseColorAtom';
+interface Color {
+  name: string;
+  color: string;
+  hoverClass: string;
+  nextColor: string;
+}
+function ChooseColorPage() {
+  const [activeColor, setActiveColor] = useState<string | null>(null);
+  const [selectedButton, setSelectedButton] = useRecoilState(ChooseColorState);
+  // const [isButtonClicked, setIsButtonClicked] = useState(false);
   const navigate = useNavigate();
-
-  const handleStyleClick = (style) => {
-    setSelectedStyle(style);
-    console.log('Button selected:', style);
+  const colors: Color[] = [
+    {
+      name: 'RED',
+      color: '#FF0000',
+      // hoverColor: '#FF0000',
+      nextColor: '#B45F5F',
+      hoverClass: 'raise',
+    },
+    {
+      name: 'ORANGE',
+      color: '#FF7F00',
+      // hoverColor: '#FF7F00',
+      nextColor: '#CDA277',
+      hoverClass: 'raise',
+    },
+    {
+      name: 'YELLOW',
+      color: '#FFFF00',
+      // hoverColor: '#FFFF00',
+      nextColor: '#D8D8AB',
+      hoverClass: 'raise',
+    },
+    {
+      name: 'GRAY',
+      color: '#808080',
+      // hoverColor: '#808080',
+      nextColor: '#D8D2D2',
+      hoverClass: 'raise',
+    },
+    {
+      name: 'GREEN',
+      color: '#00FF00',
+      nextColor: '#B7D6B1',
+      // hoverColor: '#FFB366',
+      hoverClass: 'raise',
+    },
+    {
+      name: 'BLUE',
+      color: '#0000FF',
+      nextColor: '#8383D7',
+      // hoverColor: '#0000FF',
+      hoverClass: 'raise',
+    },
+    {
+      name: 'PINK',
+      color: '#FF1493',
+      nextColor: '#E58CDA',
+      // hoverColor: '#FFB366',
+      hoverClass: 'raise',
+    },
+    {
+      name: 'AQUA',
+      color: '#00FFFF',
+      nextColor: '#C7E4E4',
+      // hoverColor: '#FFB366',
+      hoverClass: 'raise',
+    },
+    {
+      name: 'PURPLE',
+      color: '#800080',
+      nextColor: '#D2C0D2',
+      // hoverColor: '#FFB366',
+      hoverClass: 'raise',
+    },
+    {
+      name: 'WHITE',
+      color: '#FFFFFF',
+      nextColor: '#DFDBDB',
+      hoverClass: 'raise',
+    },
+    {
+      name: 'BLACK',
+      color: '#000000',
+      nextColor: '#888181',
+      // hoverColor: '#FFB366',
+      hoverClass: 'raise',
+    },
+    {
+      name: 'RANDOM',
+      nextColor:
+        'linear-gradient(100deg, #B20000 7.13%, #CCB300 21.06%, #0B6 43.01%, #0CCC 59.9%, #0033B2 74.68%, #B200B2 91.57%)',
+      color:
+        ' linear-gradient(100deg, #F00 7.13%, #FFE500 21.06%, #0F6 43.01%, #0FF 59.9%, #0038FF 74.68%, #FA00FF 91.57%)',
+      // hoverColor: '#FFB366',
+      hoverClass: 'raise',
+    },
+  ];
+  const handleButtonClick = (color: string, nextColor: string) => {
+    setActiveColor(color);
+    setSelectedButton(nextColor);
   };
-
-  const handleGenerateClick = async () => {
-    if (isLoading) return; // 이미 요청 중이면 무시
-
-    setIsLoading(true); // 요청 시작
-    try {
-      const response = await axios.post(
-        'http://localhost:8000/prompts/generate_logo/',
-        {
-          style: selectedButton,
-          color: color,
-          logo_text: logoText,
-        },
-        {
-          withCredentials: true,
-        },
-      );
-
-      console.log('API Response:', response.data);
-      if (response.status === 201) {
-        alert('로고가 성공적으로 생성되었습니다.');
-        navigate('/logomusic');
-      } else {
-        alert('로고 생성에 실패했습니다.');
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          const errorMessage =
-            error.response.data.detail || JSON.stringify(error.response.data);
-          alert(`로고 생성 도중 오류가 발생했습니다2: ${errorMessage}`);
-        } else {
-          alert('로고 생성 도중 오류가 발생했습니다.');
-        }
-        console.error('There was an error!', error);
-      } else {
-        alert('로고 생성 도중 예기치 않은 오류가 발생했습니다.');
-        console.error('There was an unexpected error!', error);
-      }
-    } finally {
-      setIsLoading(false); // 요청 완료
-    }
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    console.log('Selected color:', selectedButton);
+    navigate('/selectstyle'); // 폼 제출 후 다음 페이지로 이동
   };
-
   return (
-    <Background>
-      <NavBar />
-      <div className="relative flex h-[40rem] w-[90rem] flex-col items-center rounded-[40px] border-2 border-white shadow">
-        <div className="mt-8 text-3xl text-white">
-          글꼴과 아이콘의 스타일을 선택해주세요!
+    <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-black bg-cover">
+      <div className="relative h-full w-full">
+        <NavBar />
+        <div className="mb-12 mt-32 flex items-center justify-center text-center text-3xl text-white">
+          원하는 색상을 선택해주세요!
         </div>
-        <div className="mt-28 flex flex-col items-center justify-center gap-16">
-          <div className="relative h-[0rem] w-[70rem] border-2 border-white">
-            <div className="absolute left-1/2 top-6 flex -translate-x-1/2 transform flex-col items-center">
-              <button
-                style={{
-                  height: '8rem',
-                  width: '4rem',
-                  border: 'none',
-                  background: 'transparent',
-                }}
-                onClick={() => handleStyleClick('모던한')}
-              >
-                <img
-                  src={Vector}
-                  alt="Vector Icon"
-                  style={{ height: '100%', width: '100%' }}
-                />
-              </button>
-              <div className="mt-2 text-center text-white">모던한</div>
-            </div>
-            <div className="absolute -top-10 left-96 flex -translate-x-1/2 transform flex-col items-center">
-              <button
-                style={{
-                  height: '8rem',
-                  width: '4rem',
-                  border: 'none',
-                  background: 'transparent',
-                }}
-                onClick={() => handleStyleClick('공식적인')}
-              >
-                <img
-                  src={Vector}
-                  alt="Vector Icon"
-                  style={{ height: '100%', width: '100%' }}
-                />
-              </button>
-              <div className="mt-2 text-center text-white">공식적인</div>
-            </div>
+        <div className="relative flex flex-col items-center justify-center text-center">
+          <div className="grid grid-cols-4 gap-3">
+            {colors.map(({ name, color, hoverClass, nextColor }) => {
+              const isWhite = name === 'WHITE' || name === 'YELLOW';
+              const isRandom = name === 'RANDOM';
+              const buttonStyle: React.CSSProperties = {
+                '--c': color,
+                background: isRandom ? color : color, // RANDOM 색상은 background로 설정
+                backgroundColor: color,
+                color: isWhite ? 'black' : 'white',
+                ...(activeColor === name && {
+                  background: nextColor,
+                  color: 'black',
+                }),
+              } as React.CSSProperties;
+              return (
+                <button
+                  key={name}
+                  className={`relative flex h-[7rem] w-[14rem] items-center justify-center rounded-xl text-[1rem] text-white transition-colors duration-300 ${hoverClass}`}
+                  style={buttonStyle}
+                  onClick={() => handleButtonClick(name, nextColor)}
+                >
+                  {name}
+                </button>
+              );
+            })}
           </div>
-          <div className="relative h-[0rem] w-[70rem] border-2 border-white">
-            <div className="absolute right-80 top-5 flex -translate-x-1/2 transform flex-col items-center">
+          <div className="mt-2 mt-8 flex w-full justify-between px-4">
+            <Link to="/texi">
               <button
-                style={{
-                  height: '8rem',
-                  width: '4rem',
-                  border: 'none',
-                  background: 'transparent',
-                }}
-                onClick={() => handleStyleClick('귀여운')}
+                type="button"
+                className="font-['Cafe24 Danjunghae'] hover:text-bermuda flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white"
               >
                 <img
-                  src={Vector}
-                  alt="Vector Icon"
-                  style={{ height: '100%', width: '100%' }}
+                  className="h-[2.5rem] w-[2.5rem]"
+                  src={leftArrow}
+                  alt="이전"
                 />
+                <p>이전</p>
               </button>
-              <div className="mt-2 text-center text-white">귀여운</div>
-            </div>
-            <div className="absolute -top-12 left-64 flex -translate-x-1/2 transform flex-col items-center">
-              <button
-                style={{
-                  height: '8rem',
-                  width: '4rem',
-                  border: 'none',
-                  background: 'transparent',
-                }}
-                onClick={() => handleStyleClick('고급진')}
-              >
+            </Link>
+            <Link to="/selectstyle">
+              <button className="hover:text-bermuda font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white">
+                다음
                 <img
-                  src={Vector}
-                  alt="Vector Icon"
-                  style={{ height: '100%', width: '100%' }}
+                  className="h-[2.5rem] w-[2.5rem]"
+                  src={rightArrow}
+                  alt="다음"
                 />
               </button>
-              <div className="mt-2 text-center text-white">고급진</div>
-            </div>
-          </div>
-          <div className="relative h-[0rem] w-[70rem] border-2 border-white">
-            <div className="absolute -top-28 right-48 flex -translate-x-1/2 transform flex-col items-center">
-              <button
-                style={{
-                  height: '8rem',
-                  width: '4rem',
-                  border: 'none',
-                  background: 'transparent',
-                }}
-                onClick={() => handleStyleClick('창의적인')}
-              >
-                <img
-                  src={Vector}
-                  alt="Vector Icon"
-                  style={{ height: '100%', width: '100%' }}
-                />
-              </button>
-              <div className="mt-2 text-center text-white">창의적인</div>
-            </div>
-            <div className="absolute -top-12 left-36 flex -translate-x-1/2 transform flex-col items-center">
-              <button
-                style={{
-                  height: '8rem',
-                  width: '4rem',
-                  border: 'none',
-                  background: 'transparent',
-                }}
-                onClick={() => handleStyleClick('재미난')}
-              >
-                <img
-                  src={Vector}
-                  alt="Vector Icon"
-                  style={{ height: '100%', width: '100%' }}
-                />
-              </button>
-              <div className="mt-2 text-center text-white">재미난</div>
-            </div>
-          </div>
-          <div className="relative h-[0rem] w-[70rem] border-2 border-white">
-            <div className="absolute -top-64 right-20 flex -translate-x-1/2 transform flex-col items-center">
-              <button
-                style={{
-                  height: '8rem',
-                  width: '4rem',
-                  border: 'none',
-                  background: 'transparent',
-                }}
-                onClick={() => handleStyleClick('간단한')}
-              >
-                <img
-                  src={Vector}
-                  alt="Vector Icon"
-                  style={{ height: '100%', width: '100%' }}
-                />
-              </button>
-              <div className="mt-2 text-center text-white">간단한</div>
-            </div>
-            <div className="absolute -top-12 left-3 flex -translate-x-1/2 transform flex-col items-center">
-              <button
-                style={{
-                  height: '8rem',
-                  width: '4rem',
-                  border: 'none',
-                  background: 'transparent',
-                }}
-                onClick={() => handleStyleClick('장난스러운')}
-              >
-                <img
-                  src={Vector}
-                  alt="Vector Icon"
-                  style={{ height: '100%', width: '100%' }}
-                />
-              </button>
-              <div className="mt-2 text-center text-white">장난스러운</div>
-            </div>
-          </div>
-          <div className="relative h-[0rem] w-[70rem] border-2 border-white">
-            <div className="absolute -right-10 -top-64 flex -translate-x-1/2 transform flex-col items-center">
-              <button
-                style={{
-                  height: '8rem',
-                  width: '4rem',
-                  border: 'none',
-                  background: 'transparent',
-                }}
-                onClick={() => handleStyleClick('다이나믹한')}
-              >
-                <img
-                  src={Vector}
-                  alt="Vector Icon"
-                  style={{ height: '100%', width: '100%' }}
-                />
-              </button>
-              <div className="mt-2 text-center text-white">다이나믹한</div>
-            </div>
-          </div>
-          <div className="mt-56 flex w-full flex-row justify-between px-4">
-            <button onClick={() => navigate('/choosecolor')}>
-              <div className="text-white">이전</div>
-            </button>
-            <button onClick={() => navigate(handleGenerateClick)}>
-              <MoveButton buttonText="생성" />
-            </button>
+            </Link>
           </div>
         </div>
       </div>
-    </Background>
+    </div>
   );
 }
-
-export default ChooseStyle;
+export default ChooseColorPage;
