@@ -21,7 +21,7 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 @shared_task
 def analyze_image_task(base64_image, user_id):
     try:
-        logger.info("Starting image analysis task")
+        logger.info(f"Starting image analysis task for user_id: {user_id}")
 
         headers = {
             "Content-Type": "application/json",
@@ -48,8 +48,12 @@ def analyze_image_task(base64_image, user_id):
 
         # 사용자 객체 가져오기
         User = get_user_model()
-        user = User.objects.get(id=user_id)
-        logger.info(f"User found: {user.username}")
+        try:
+            user = User.objects.get(id=user_id)
+            logger.info(f"User found: {user.username}")
+        except User.DoesNotExist:
+            logger.error(f"User with ID {user_id} not found")
+            return None
 
         # 결과를 데이터베이스에 저장
         media = Media.objects.create(user=user, text_result=analysis_result)
@@ -57,13 +61,18 @@ def analyze_image_task(base64_image, user_id):
 
         # Suno 클립 작업 호출
         suno_clip_task.delay(media.id)
+
+        return media.id  # Media 객체 ID 반환
     except Exception as e:
         logger.error(f"Error in analyze_image_task: {e}")
+        return str(e)  # 오류 메시지 반환
 
 @shared_task
 def suno_clip_task(media_id):
     try:
         logger.info("Starting suno clip task")
+
+        media = Media.objects.get(id=media_id)
 
         create_url = "https://api.sunoapi.com/api/v1/suno/create"
         create_payload = {
@@ -93,7 +102,7 @@ def suno_clip_task(media_id):
 
             clip_data = clip_response.json()
             clip_status = clip_data['data']['status']
-            if (clip_status == 'completed'):
+            if clip_status == 'completed':
                 logger.info("Suno Clip completed!")
                 clips = clip_data['data']['clips']
                 audio_url = next((clip_info['audio_url'] for clip_id, clip_info in clips.items()), None)
@@ -103,7 +112,7 @@ def suno_clip_task(media_id):
                 time.sleep(10)
             else:
                 logger.error(f"Unexpected Suno API status: {clip_status}")
-                return
+                return "Unexpected Suno API status"
 
         response = requests.get(audio_url)
         response.raise_for_status()
@@ -113,14 +122,16 @@ def suno_clip_task(media_id):
         s3_url = upload_to_s3(audio_content, f"music/{media_id}.mp3")
 
         if s3_url:
-            media = Media.objects.get(id=media_id)
             media.music_url = s3_url
             media.save()
             logger.info("Suno clip task completed successfully")
+            return s3_url  # 생성된 클립의 S3 URL 반환
         else:
             logger.error("Failed to upload to S3")
+            return "Failed to upload to S3"
     except Exception as e:
         logger.error(f"Error in suno_clip_task: {e}")
+        return str(e)  # 오류 메시지 반환
 
 def upload_to_s3(file_content, object_name):
     try:
