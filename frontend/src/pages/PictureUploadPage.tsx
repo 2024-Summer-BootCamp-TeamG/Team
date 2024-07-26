@@ -8,10 +8,10 @@ import React, {
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './style.scss';
-import UploadIcon from '../assets/UploadIcon.svg';
+import UploadIcon from '../assets/picUpload2.png';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-import CloseIcon from '../assets/CloseIcon.svg';
+import CloseIcon from '../assets/closeBtn.png';
 
 interface IFileTypes {
   id: number;
@@ -24,6 +24,7 @@ const PictureUploadPage = () => {
   const [files, setFiles] = useState<IFileTypes[]>([]);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [logoUploaded, setLogoUploaded] = useState<boolean>(false); // 로고 업로드 상태 추가
   const navigate = useNavigate();
 
   const dragRef = useRef<HTMLLabelElement | null>(null);
@@ -137,6 +138,7 @@ const PictureUploadPage = () => {
       );
 
       if (response.status === 200) {
+        setLogoUploaded(true); // 로고 업로드 성공 시 상태 변경
         alert('이미지 업로드가 성공적으로 완료되었습니다.');
         navigate('/busin');
       } else {
@@ -186,89 +188,130 @@ const PictureUploadPage = () => {
             percentRef.current.textContent = counter + '%';
           }
         }
-      }, 50);
+      }, 170);
     }
   }, [isLoading]);
 
+  // useEffect(() => {
+  //   if (logoUploaded && !isLoading) {
+  //     navigate('/busin');
+  //   }
+  // }, [logoUploaded, isLoading, navigate]);
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
       <Background>
         <NavBar />
-        <div className="relative flex w-full items-center justify-around">
-          <div className="relative mb-12 mr-16 flex flex-col items-center justify-center">
-            <div className="DragDrop mb-12 flex h-[37.5rem] w-[37.5rem] items-center justify-center rounded-full border-4 border-dashed border-black bg-white opacity-80 shadow backdrop-blur-sm">
-              <input
-                type="file"
-                id="fileUpload"
-                style={{ display: 'none' }}
-                multiple={true}
-                onChange={onChangeFiles}
-              />
-              {files.length === 0 && (
-                <label
-                  className={
-                    isDragging ? 'DragDrop-File-Dragging' : 'DragDrop-File'
-                  }
-                  htmlFor="fileUpload"
-                  ref={dragRef}
-                >
-                  <img src={UploadIcon} alt="upload" />
-                  <p className="text-[2rem]">사진 업로드하기</p>
-                  <p className="text-[2rem]">이미지를 드래그해주세요</p>
-                </label>
-              )}
+        {/* 로딩 중이 아닌 상태 */}
+        {!isLoading && !logoUploaded && (
+          <div className="flex w-full justify-around">
+            <div className="relative mb-12 mr-16 flex flex-col items-center justify-center">
+              <div className="DragDrop 0 mb-12 mt-20 flex h-[22.5rem] w-[22.5rem] items-center justify-center rounded-full border-4 border-dashed border-white bg-transparent p-6 backdrop-blur-2xl">
+                <input
+                  type="file"
+                  id="fileUpload"
+                  style={{ display: 'none' }}
+                  multiple={true}
+                  onChange={onChangeFiles}
+                />
 
-              <div className="DragDrop-Files">
-                {files.length > 0 &&
-                  files.map((file: IFileTypes) => {
-                    const {
-                      id,
-                      object: { name },
-                      preview,
-                    } = file;
-                    return (
-                      <div key={id}>
-                        <div onClick={() => handleFilterFile(id)}>
-                          <img src={CloseIcon} alt="닫기" />{' '}
-                          <img src={preview} alt={name} />
+                {files.length === 0 && (
+                  <label
+                    className={
+                      isDragging ? 'DragDrop-File-Dragging' : 'DragDrop-File'
+                    }
+                    htmlFor="fileUpload"
+                    ref={dragRef}
+                  >
+                    <img src={UploadIcon} alt="upload" />
+                    <p className="text-[1.5rem] text-white">사진 업로드하기</p>
+                    <p className="text-[1rem] text-white">
+                      이미지를 드래그해주세요
+                    </p>
+                  </label>
+                )}
+
+                <div className="DragDrop-Files">
+                  {files.length > 0 &&
+                    files.map((file: IFileTypes) => {
+                      const {
+                        id,
+                        object: { name },
+                        preview,
+                      } = file;
+                      return (
+                        <div key={id}>
+                          <div onClick={() => handleFilterFile(id)}>
+                            <img
+                              style={{
+                                marginLeft: '250px',
+                                position: 'absolute',
+                                zIndex: 1,
+                              }}
+                              src={CloseIcon}
+                              alt="닫기"
+                            />{' '}
+                            <img src={preview} alt={name} />
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                </div>
+              </div>
+              {!isUploading ? (
+                <button
+                  className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white"
+                  onClick={uploadImages}
+                >
+                  브랜딩 start
+                </button>
+              ) : (
+                <div className="flex w-[550px] flex-col items-center justify-center">
+                  <div className="py-8 text-[2.5rem] font-semibold text-[#8AAAFF]">
+                    <span ref={percentRef}>0%</span>
+                  </div>
+                  <div className="relative mx-auto h-[10px] w-[500px] overflow-hidden rounded-full bg-blue-200">
+                    <div
+                      ref={progressRef}
+                      className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-[#8AAAFF] to-[#FA8CFF]"
+                    ></div>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="mb-[8rem] flex flex-col items-center justify-center">
+              <div className="border-mint flex h-[15rem] w-[40rem] items-center justify-center rounded-[2.5rem] border-4 border-mint-gradient-end text-center font-['Inter'] text-4xl font-black tracking-wide text-cyan-50">
+                <div className="text-xl">
+                  지금부터 나만의 브랜딩 작업 시작합니다!
+                  <br />
+                  로고와 포스터에 반영할 사진을 드래그 해주세요
+                </div>
               </div>
             </div>
-            {!isUploading ? (
-              <button
-                className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white"
-                onClick={uploadImages}
-              >
-                브랜딩 start
-              </button>
-            ) : (
-              <div className="flex w-[550px] flex-col items-center justify-center">
-                <div className="py-8 text-[2.5rem] font-semibold text-[#8AAAFF]">
-                  <span ref={percentRef}>0%</span>
-                </div>
-                <div className="relative mx-auto h-[10px] w-[500px] overflow-hidden rounded-full bg-blue-200">
-                  <div
-                    ref={progressRef}
-                    className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-[#8AAAFF] to-[#FA8CFF]"
-                  ></div>
-                </div>
-              </div>
-            )}
           </div>
+        )}
+        {/* 로딩 중인 상태 */}
+        {(isLoading || isUploading) && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="flex flex-col items-center">
+              <div className="py-8 text-[2.5rem] font-semibold text-[#8AAAFF]">
+                <span ref={percentRef}>0%</span>
+              </div>
+              <div className="relative mx-auto h-[10px] w-[500px] overflow-hidden rounded-full bg-blue-200">
+                <div
+                  ref={progressRef}
+                  className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-[#8AAAFF] to-[#FA8CFF]"
+                ></div>
+              </div>
+            </div>
+          </div>
+        )}
 
-          <div className="mb-[8rem] flex flex-col items-center">
-            <div className="flex h-[20rem] w-[50rem] items-center justify-center rounded-[2.5rem] border-4 border-white text-center font-['Inter'] text-4xl font-black tracking-wide text-cyan-50">
-              <div>
-                지금부터 나만의 브랜딩 작업 시작합니다!
-                <br />
-                로고와 포스터에 반영할 사진을 드래그 해주세요
-              </div>
-            </div>
+        {/* 로고 업로드 후 화면 */}
+        {logoUploaded && !isLoading && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <img src={UploadIcon} alt="Logo" className="h-[200px] w-[200px]" />
           </div>
-        </div>
+        )}
       </Background>
     </div>
   );

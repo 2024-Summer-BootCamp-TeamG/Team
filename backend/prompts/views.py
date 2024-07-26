@@ -47,7 +47,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class AuthenticatedAPIView(APIView):
-    authentication_classes = [BasicAuthentication]
+    authentication_classes = [ BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
 
