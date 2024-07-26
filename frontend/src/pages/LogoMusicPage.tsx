@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Background from '../components/Background2.tsx';
 import NavBar from '../components/NavBar.tsx';
-import Album from '../assets/album2.png';
+import Album from '../assets/AlbumCD.png';
 import Default from '../assets/Album.png';
 import { useRecoilValue } from 'recoil';
 import {

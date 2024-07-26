@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Background from '../components/Background';
 
-import Logo from '../assets/8Logo.png';
-import Poster from '../assets/8Poster.png';
+// import Logo from '../assets/8Logo.png';
+// import Poster from '../assets/8Poster.png';
 import Music from '../../public/10.mp3';
-import Album from '../assets/album2.png';
+import Album from '../assets/AlbumCD.png';
 import NavBar from '../components/NavBar';
 import '../pages/Index/style.css';
 import CloseIcon from '../assets/CloseIcon.svg';
@@ -14,7 +14,6 @@ import testLogo3 from '../assets/testLogo/testLogo3.jpeg';
 import testLogo4 from '../assets/testLogo/testLogo4.jpeg';
 import testLogo5 from '../assets/testLogo/testLogo5.png';
 import { useRecoilValue } from 'recoil';
-
 import {
   generatedLogoState,
   generatedPosterState,
