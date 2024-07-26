@@ -11,6 +11,19 @@ body {
   font-weight: 200;
   font-style: normal;
 }
+/* globals.css */
+@keyframes slow-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.slow-spin {
+  animation: slow-spin 8s linear infinite;
+}
 
 html,
 body,
