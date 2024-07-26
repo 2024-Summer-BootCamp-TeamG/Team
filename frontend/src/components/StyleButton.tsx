@@ -23,11 +23,11 @@ function StyleButton({
 
   return (
     <div
-      className={`relative z-10 flex justify-center self-center rounded-[60px] border-white bg-gradient-to-b from-white/20 to-slate-400/10 shadow backdrop-blur-xl sm:mt-0 ${className} ${isSelected ? 'bg-white text-black' : ''}`}
+      className={`relative z-10 flex justify-center self-center rounded-[60px] bg-gradient-to-b from-white/20 to-slate-400/10 shadow backdrop-blur-xl sm:mt-0 ${className} ${isSelected ? 'bg-white text-black' : ''}`}
     >
       <button
         type="button"
-        className={`button-custom-stroke w-full rounded-[60px] border py-2 text-center text-[1.5rem] ${isSelected ? 'text-black' : 'text-white'} hover:bg-white hover:text-black`}
+        className={`w-full rounded-[60px] border py-2 text-center text-[1.2rem] ${isSelected ? 'text-black' : 'text-white'} hover:bg-white hover:text-black`}
         onClick={handleClick}
       >
         {buttonText}

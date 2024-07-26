@@ -32,7 +32,7 @@ function BusinessInputPage() {
 
         <div className="flex h-full w-full flex-col items-center justify-center p-4">
           <div className="font-['Cafe24 Danjunghae'] font-white mb-8 flex items-center justify-center text-center text-3xl text-white">
-            로고에 들어갈 기업명을 알려주세요!
+            로고에 들어갈 기업명과 상품명을 알려주세요!
           </div>
 
           {/* 폼 제출 시 handleSubmit 함수가 호출됩니다. */}
