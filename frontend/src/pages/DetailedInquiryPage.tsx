@@ -8,11 +8,11 @@ import Album from '../assets/album2.png';
 import NavBar from '../components/NavBar';
 import '../pages/Index/style.css';
 import CloseIcon from '../assets/CloseIcon.svg';
-import testLogo1 from '../assets/testLogo1.jpeg';
-import testLogo2 from '../assets/testLogo2.jpeg';
-import testLogo3 from '../assets/testLogo3.jpeg';
-import testLogo4 from '../assets/testLogo4.jpeg';
-import testLogo5 from '../assets/testLogo5.jpeg';
+import testLogo1 from '../assets/testLogo/8Logo.png';
+import testLogo2 from '../assets/testLogo/testLogo2.png';
+import testLogo3 from '../assets/testLogo/testLogo3.jpeg';
+import testLogo4 from '../assets/testLogo/testLogo4.jpeg';
+import testLogo5 from '../assets/testLogo/testLogo5.png';
 import { useRecoilValue } from 'recoil';
 
 import {

@@ -188,7 +188,7 @@ const PictureUploadPage = () => {
             percentRef.current.textContent = counter + '%';
           }
         }
-      }, 90);
+      }, 170);
     }
   }, [isLoading]);
 
@@ -289,9 +289,8 @@ const PictureUploadPage = () => {
             </div>
           </div>
         )}
-
         {/* 로딩 중인 상태 */}
-        {isLoading && (
+        {(isLoading || isUploading) && (
           <div className="absolute inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div className="flex flex-col items-center">
               <div className="py-8 text-[2.5rem] font-semibold text-[#8AAAFF]">

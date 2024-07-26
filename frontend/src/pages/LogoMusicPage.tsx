@@ -1,22 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Background from '../components/Background2.tsx';
 import NavBar from '../components/NavBar.tsx';
-import TestMusic from '../../public/test.mp3';
 import Album from '../assets/album2.png';
-import testLogo from '../assets/testLogo.jpeg';
-import testPoster from '../assets/testPoster.jpeg';
-import Logo from '../assets/8Logo.png';
-import Poster from '../assets/8Poster.png';
-import Music from '../../public/10.mp3';
+import Default from '../assets/Album.png';
 import { useRecoilValue } from 'recoil';
 import {
   generatedLogoState,
   generatedPosterState,
+  generatedMusicState,
 } from '../recoil/GeneratedAtom.ts';
 
 function LogoMusicPage() {
   const generatedLogo = useRecoilValue(generatedLogoState);
   const generatedPoster = useRecoilValue(generatedPosterState);
+  const generatedMusic = useRecoilValue(generatedMusicState);
+  console.log('Generated Music URL:', generatedMusic);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -34,7 +32,6 @@ function LogoMusicPage() {
 
     const setAudioTime = () => {
       setCurrentTime(audio?.currentTime || 0);
-      // 음악이 끝날 때 재생 바가 끝까지 가도록 보정
       if (
         audio?.currentTime !== undefined &&
         audio?.currentTime >= (audio?.duration || 0) - 0.1
@@ -46,27 +43,38 @@ function LogoMusicPage() {
 
     audio?.addEventListener('loadeddata', setAudioData);
     audio?.addEventListener('timeupdate', setAudioTime);
-    audio?.addEventListener('ended', () =>
-      setCurrentTime(audio?.duration || 0),
-    );
+    audio?.addEventListener('ended', () => {
+      setCurrentTime(audio?.duration || 0);
+      setIsPlaying(false);
+    });
+
+    if (audio && generatedMusic) {
+      audio.src = generatedMusic;
+      audio.load(); // 오디오 파일을 로드
+    }
+
     return () => {
       audio?.removeEventListener('loadeddata', setAudioData);
       audio?.removeEventListener('timeupdate', setAudioTime);
-      audio?.removeEventListener('ended', () =>
-        setCurrentTime(audio?.duration || 0),
-      );
+      audio?.removeEventListener('ended', () => {
+        setCurrentTime(audio?.duration || 0);
+        setIsPlaying(false);
+      });
     };
-  }, []);
+  }, [generatedMusic]);
 
   const togglePlayPause = () => {
     const audio = audioRef.current;
     if (audio) {
       if (isPlaying) {
         audio.pause();
+        setIsPlaying(false);
       } else {
-        audio.play();
+        audio.play().catch((error) => {
+          console.error('Failed to play the audio', error);
+        });
+        setIsPlaying(true);
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
@@ -111,14 +119,14 @@ function LogoMusicPage() {
                     }`}
                   >
                     <img
-                      src={Logo}
+                      src={Default}
                       alt="Generated Logo"
                       className={`backface-hidden absolute inset-0 h-full w-full object-cover ${
                         isFrontImage ? 'opacity-100' : 'opacity-0'
                       }`}
                     />
                     <img
-                      src={Poster}
+                      src={Default}
                       alt="Generated Poster"
                       className={`backface-hidden absolute inset-0 h-full w-full object-cover ${
                         isFrontImage ? 'opacity-0' : 'rotate-y-180 opacity-100'
@@ -142,8 +150,7 @@ function LogoMusicPage() {
                 </div>
               </div>
               <div className="mb-10 flex w-full flex-col items-center justify-end">
-                <audio ref={audioRef} src={Music}></audio>
-                {/* 오디오 파일 경로 변경 */}
+                <audio ref={audioRef}></audio>
                 <div className="flex w-[55rem] items-center justify-between text-white">
                   <span>{formatTime(currentTime)}</span>
                   <button onClick={togglePlayPause} className="mx-4">
