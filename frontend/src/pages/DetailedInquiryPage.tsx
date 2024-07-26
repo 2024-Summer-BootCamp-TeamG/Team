@@ -25,7 +25,7 @@ function DetailedInquiryPage() {
       let endpoint = '';
       switch (selectedItem) {
         case 1:
-          endpoint = 'http://localhost:8000/promotions/32';
+          endpoint = 'http://localhost:8000/promotions/21';
           break;
         case 2:
           endpoint = 'http://localhost:8000/promotions/33';
