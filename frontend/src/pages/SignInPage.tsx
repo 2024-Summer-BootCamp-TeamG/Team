@@ -3,6 +3,8 @@ import axios from 'axios'; // 커스텀 axios 인스턴스를 불러옴
 import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
+import { useRecoilState } from 'recoil';
+import { SignInState } from '../recoil/SignInAtom';
 
 const Input: React.FC<{
   type: string;
@@ -39,6 +41,7 @@ function SignInPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [SignIn, setSignIn] = useRecoilState(SignInState); // Recoil 상태 사용
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -63,9 +66,18 @@ function SignInPage() {
       );
 
       if (response.status === 200) {
-        console.log('Session ID:', response.data.sessionid); // 서버에서 받은 세션 ID를 콘솔에 출력
+        console.log('user_id:', response.data.user_id);
+        console.log('sessionid:', response.data.sessionid);
+        localStorage.setItem('user_id', response.data.user_id);
+        localStorage.setItem('sessionid', response.data.sessionid);
 
-        alert('로그인이 성공적으로 완료되었습니다.');
+        const userId = localStorage.getItem('user_id');
+        if (userId) {
+          alert('로그인이 성공적으로 완료되었습니다.');
+          setSignIn(true); // 로그인 성공 시 Recoil 상태 업데이트
+        } else {
+          alert('로그인 상태가 아닙니다.');
+        }
 
         setUsername('');
         setPassword('');

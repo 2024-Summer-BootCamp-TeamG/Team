@@ -13,17 +13,16 @@ import axios from 'axios';
 
 function SelectStylePage() {
   const [selectedButton, setSelectedButton] = useRecoilState(SelectStyleState);
-  const [color, setColor] = useRecoilState(ChooseColorState);
-  const [logoText, setLogoText] = useRecoilState(businessInputState);
-  const [posterText, setPosterText] = useRecoilState(textInputState);
+  const [color] = useRecoilState(ChooseColorState);
+  const [logoText] = useRecoilState(businessInputState);
+  const [posterText] = useRecoilState(textInputState);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const progressRef = useRef(null);
-  const percentRef = useRef(null);
+  const progressRef = useRef<HTMLDivElement | null>(null);
+  const percentRef = useRef<HTMLSpanElement | null>(null);
 
-  // 특정 버튼의 선택 상태 토글 함수
-  const toggleButton = (buttonText) => {
+  const toggleButton = (buttonText: string) => {
     setSelectedButton((prevSelected) => {
       const newSelected = prevSelected === buttonText ? '' : buttonText;
       console.log('Button selected:', newSelected);
@@ -32,33 +31,34 @@ function SelectStylePage() {
   };
 
   const handleGenerateClick = async () => {
-    if (isLoading) return; // 이미 요청 중이면 무시
+    if (isLoading) return;
 
-    setIsLoading(true); // 요청 시작
+    setIsLoading(true);
     try {
-      const logoResponse = await axios.post(
-        'http://localhost:8000/prompts/generate_logo/',
-        {
-          style: selectedButton,
-          color: color,
-          logo_text: logoText,
-        },
-        {
-          withCredentials: true,
-        },
-      );
-
-      const posterResponse = await axios.post(
-        'http://localhost:8000/prompts/generate_poster/',
-        {
-          style: selectedButton,
-          color: color,
-          poster_user_text: posterText,
-        },
-        {
-          withCredentials: true,
-        },
-      );
+      const [logoResponse, posterResponse] = await Promise.all([
+        axios.post(
+          'http://localhost:8000/prompts/generate_logo/',
+          {
+            style: selectedButton,
+            color: color,
+            logo_text: logoText,
+          },
+          {
+            withCredentials: true,
+          },
+        ),
+        axios.post(
+          'http://localhost:8000/prompts/generate_poster/',
+          {
+            style: selectedButton,
+            color: color,
+            poster_user_text: posterText,
+          },
+          {
+            withCredentials: true,
+          },
+        ),
+      ]);
 
       console.log('Logo API Response:', logoResponse.data);
       console.log('Poster API Response:', posterResponse.data);
@@ -86,7 +86,7 @@ function SelectStylePage() {
         console.error('There was an unexpected error!', error);
       }
     } finally {
-      setIsLoading(false); // 요청 완료
+      setIsLoading(false);
     }
   };
 
@@ -95,9 +95,8 @@ function SelectStylePage() {
       let counter = 0;
       let progress = 0;
       const intervalId = setInterval(() => {
-        if (progress >= 500 && counter >= 100) {
+        if (counter >= 100) {
           clearInterval(intervalId);
-          setIsLoading(false);
         } else {
           progress += 5;
           counter += 1;
@@ -108,10 +107,30 @@ function SelectStylePage() {
             percentRef.current.textContent = counter + '%';
           }
         }
-      }, 50);
+      }, 500); // Adjusted interval speed to 400ms for a smoother progress bar
     }
-  }, [isLoading]); //
+  }, [isLoading]);
 
+  // If loading, display the loading screen
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="flex w-[550px] flex-col items-center justify-center rounded-lg bg-black p-8">
+          <div className="py-8 text-[2.5rem] font-semibold text-[#8AAAFF]">
+            <span ref={percentRef}>0%</span>
+          </div>
+          <div className="relative mx-auto h-[10px] w-[500px] overflow-hidden rounded-full bg-blue-200">
+            <div
+              ref={progressRef}
+              className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-[#8AAAFF] to-[#FA8CFF]"
+            ></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // If not loading, display the main content
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
       <div className="relative h-full w-full">
@@ -189,23 +208,9 @@ function SelectStylePage() {
                 <Link to="/choosecolor">
                   <MoveButton buttonText="이전" />
                 </Link>
-                {!isLoading ? (
-                  <button onClick={handleGenerateClick}>
-                    <MoveButton buttonText="생성" />
-                  </button>
-                ) : (
-                  <div className="flex w-[550px] flex-col items-center justify-center">
-                    <div className="py-8 text-[2.5rem] font-semibold text-[#8AAAFF]">
-                      <span ref={percentRef}>0%</span>
-                    </div>
-                    <div className="relative mx-auto h-[10px] w-[500px] overflow-hidden rounded-full bg-blue-200">
-                      <div
-                        ref={progressRef}
-                        className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-[#8AAAFF] to-[#FA8CFF]"
-                      ></div>
-                    </div>
-                  </div>
-                )}
+                <button onClick={handleGenerateClick}>
+                  <MoveButton buttonText="생성" />
+                </button>
               </div>
             </div>
           </div>
