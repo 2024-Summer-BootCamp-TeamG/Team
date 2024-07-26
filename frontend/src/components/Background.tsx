@@ -7,7 +7,7 @@ import FullNote4 from '../assets/MusicNote/FullNote4.svg';
 import FullNote5 from '../assets/MusicNote/FullNote5.svg';
 import FullNote6 from '../assets/MusicNote/FullNote6.svg';
 import FullNote7 from '../assets/MusicNote/FullNote7.svg';
-
+import smallNote from '../assets/smallNote.png';
 interface BackgroundProps {
   children: ReactNode;
 }
@@ -46,9 +46,22 @@ export default function Background({ children }: BackgroundProps) {
     { src: FullNote7, left: '2%', top: '40%' },
   ];
 
+  const smallnote: CoordinateNote[] = [
+    { src: smallNote, right: '90%', top: '70%' },
+    { src: smallNote, left: '50%', top: '80%' },
+    { src: smallNote, left: '90%', top: '45%' },
+    { src: smallNote, left: '25%', top: '90%' },
+    { src: smallNote, left: '70%', top: '15%' },
+    { src: smallNote, left: '10%', top: '70%' },
+    { src: smallNote, left: '2%', top: '60%' },
+    { src: smallNote, left: '25%', top: '90%' },
+    { src: smallNote, left: '60%', top: '65%' },
+    { src: smallNote, left: '50%', top: '30%' },
+    { src: smallNote, left: '2%', top: '40%' },
+  ];
   return (
     <div className="relative h-full w-full">
-      {coordinates.map((circle, index) => (
+      {/* {coordinates.map((circle, index) => (
         <Circle
           key={index}
           size={circle.size}
@@ -56,6 +69,18 @@ export default function Background({ children }: BackgroundProps) {
           top={circle.top}
           right={circle.right}
           backgroundColor={circle.backgroundColor}
+        />
+      ))} */}
+      {smallnote.map((note, index) => (
+        <img
+          key={index}
+          src={note.src}
+          alt="음표"
+          style={{
+            position: 'absolute',
+            left: note.left,
+            top: note.top,
+          }}
         />
       ))}
       {notes.map((note, index) => (
