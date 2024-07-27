@@ -7,6 +7,7 @@ import TextGenerationPage from './pages/TextGenerationPage';
 import MusicCoverGenerationPage from './pages/MusicCoverGenerationPage';
 import BusinessInputPage from './pages/BusinessInputPage';
 import TextInputPage from './pages/TextInputPage';
+import ChooseStylePage from './pages/ChooseStylePage';
 import DetailedInquiryPage from './pages/DetailedInquiryPage';
 
 import DragDrop from './pages/DragDrop';
@@ -49,6 +50,7 @@ function App() {
         <Route path="/main" element={<MainPage children={undefined} />} />
         <Route path="/logomusic" element={<LogoMusicPage />} />
         <Route path="/choosecolor" element={<ChooseColorPage />} />
+        <Route path="/choosestyle" element={<ChooseStylePage />} />
         <Route path="/albumlist" element={<AlbumListPage />} />
         <Route path="/raise" element={<Raise />} />
       </Routes>

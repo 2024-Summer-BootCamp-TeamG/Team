@@ -1,0 +1,28 @@
+/* ChooseStyle.css */
+.style-button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.style-button .style-icon {
+  width: 4rem; /* 크기 조정 */
+  height: 8rem; /* 크기 조정 */
+  transition: all 0.3s ease;
+}
+
+.style-button:hover .style-icon,
+.style-button.selected .style-icon {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%)
+    hue-rotate(327deg) brightness(107%) contrast(101%);
+}
+
+.style-text {
+  transition: color 0.3s ease;
+}
+
+.style-button:hover .style-text,
+.style-button.selected .style-text {
+  color: aqua; /* 마우스를 올리거나 클릭했을 때 텍스트 색상 변경 */
+}
