@@ -55,7 +55,7 @@ def analyze_image_task(base64_image, user_id):
             logger.info(f"User found: {user.username}")
         except User.DoesNotExist:
             logger.error(f"User with ID {user_id} not found")
-            return None
+            return {"error": "User not found"}
 
         # 결과를 데이터베이스에 저장
         media = Media.objects.create(user=user, text_result=analysis_result)
@@ -67,13 +67,12 @@ def analyze_image_task(base64_image, user_id):
             "messages": [
                 {
                     "role": "user",
-                    "content": f"다음 이미지 분석 결과를 바탕으로 CM송(commercial song) 가사를 1절만 생성해 주세요:\n{analysis_result}"
+                    "content": f"다음 이미지 분석 결과를 바탕으로 CM송(commercial song) 가사를 1절만 생성해 주세요 제발 가사만 주세요 가사 제외한 내용 싹 다 뺴주세요:\n{analysis_result}"
                 }
             ],
             "max_tokens": 500
         }
-        lyrics_response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers,
-                                        json=lyrics_payload)
+        lyrics_response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=lyrics_payload)
         lyrics_response.raise_for_status()
         lyrics_response_json = lyrics_response.json()
 
@@ -83,9 +82,12 @@ def analyze_image_task(base64_image, user_id):
         suno_clip_task.delay(media.id, generated_lyrics)
 
         return media.id  # Media 객체 ID 반환
-    except Exception as e:
+    except requests.exceptions.RequestException as e:
         logger.error(f"Error in analyze_image_task: {e}")
-        return str(e)  # 오류 메시지 반환
+        return {"error": str(e)}
+    except Exception as e:
+        logger.error(f"Unexpected error in analyze_image_task: {e}")
+        return {"error": "Unexpected error"}
 
 
 @shared_task
@@ -98,7 +100,7 @@ def suno_clip_task(media_id, generated_lyrics):
         create_url = "https://api.sunoapi.com/api/v1/suno/create"
         create_payload = {
             "prompt": generated_lyrics,
-            "tags": "logo song",
+            "tags": "logo song, joyful, excited, upbeat",
             "custom_mode": True,
             "title": ""
         }
@@ -127,13 +129,16 @@ def suno_clip_task(media_id, generated_lyrics):
                 logger.info("Suno Clip completed!")
                 clips = clip_data['data']['clips']
                 audio_url = next((clip_info['audio_url'] for clip_id, clip_info in clips.items()), None)
+                if audio_url is None:
+                    logger.error("Audio URL not found in Suno clip response")
+                    return {"error": "Audio URL not found"}
                 break
             elif clip_status == 'processing':
                 logger.info("Suno Clip is still processing. Checking again in 10 seconds...")
                 time.sleep(10)
             else:
                 logger.error(f"Unexpected Suno API status: {clip_status}")
-                return "Unexpected Suno API status"
+                return {"error": "Unexpected Suno API status"}
 
         response = requests.get(audio_url)
         response.raise_for_status()
@@ -147,13 +152,13 @@ def suno_clip_task(media_id, generated_lyrics):
             media.save()
             # S3 URL을 로그에 기록하거나 사용자에게 알림
             logger.info("Suno clip task completed successfully")
-            return s3_url  # 생성된 클립의 S3 URL 반환
+            return {"s3_url": s3_url}  # 생성된 클립의 S3 URL 반환
         else:
             logger.error("Failed to upload to S3")
-            return "Failed to upload to S3"
+            return {"error": "Failed to upload to S3"}
     except Exception as e:
         logger.error(f"Error in suno_clip_task: {e}")
-        return str(e)  # 오류 메시지 반환
+        return {"error": str(e)}  # 오류 메시지 반환
 
 
 def upload_to_s3(file_content, object_name):
