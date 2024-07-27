@@ -16,10 +16,6 @@ class UserManageView(APIView):
     permission_classes = [AllowAny]  # 기본 권한 설정
     # 회원가입인 POST형 메소드에 대해서는 인증 절차 적용 안함
 
-
-
-
-
     @swagger_auto_schema(
         request_body=UserRegistrationSerializer,
         responses={201: '회원가입 완료', 400: '잘못된 요청'}

@@ -29,7 +29,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = False ##배포할땐 False로
+
+DEBUG = True ##배포할땐 False로
 
 # settings.py
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
@@ -79,6 +80,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://43.200.193.60:8000",
     "http://43.200.193.60:8080",# EC2 IP 추가
     "http://localhost:5173",
+    "http://brandifyy.site",
+    "http://brandifyy.site:80",
+    "https://brandifyy.site:443"
 
 ]
 # settings.py
@@ -106,7 +110,8 @@ CORS_ALLOW_HEADERS = [
     'origin',
     'user-agent',
     'x-requested-with',
-    'x-session-id', 
+    'x-session-id',
+    'user_id',
 ]
 
 INSTALLED_APPS = [
