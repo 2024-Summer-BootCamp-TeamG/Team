@@ -48,7 +48,7 @@ function NavBar() {
             <p className="ml-[5px] rounded text-[1.2rem] text-white">홈</p>
           </button>
         </Link>
-        <Link to="/albumlist">
+        <Link to="/detail">
           <button type="button" className="flex flex-row items-center">
             <img
               className="h-[2.2rem] w-[2.2rem]"
