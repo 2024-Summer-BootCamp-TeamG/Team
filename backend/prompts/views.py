@@ -125,7 +125,10 @@ class GetTaskStatusView(APIView):
         }
     )
     def get(self, request, task_id):
+        logger.info(f"Received status request for task: {task_id}")
+
         if not task_id:
+            logger.warning("No task ID provided")
             return Response({'error': 'Task ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
         task_result = AsyncResult(task_id)
@@ -139,6 +142,7 @@ class GetTaskStatusView(APIView):
                 "analysis_result": media.text_result,
                 "clip_url": media.music_url,
             }
+            logger.info(f"Task {task_id} completed. Status: {task_result.status}")
         else:
             result = {
                 "task_id": task_id,
@@ -146,7 +150,7 @@ class GetTaskStatusView(APIView):
                 "analysis_result": None,
                 "clip_url": None,
             }
-
+            logger.info(f"Task {task_id} in progress. Status: {task_result.status}")
         return Response(result, status=200)
 class AnalyzeImageView(AuthenticatedAPIView):
     parser_classes = (MultiPartParser, FormParser)
@@ -393,7 +397,21 @@ class LogoImageView(APIView):
 
             translated_logo_text = translate_to_english(logo_text)
 
-            prompt = f"Create a logo that accurately depicts: {translated_logo_text}. The overall mood should be: {style} and primary color is {color}."
+            prompt = (
+                f"Create a single, professional logo for: {translated_logo_text}.\n\n"
+                f"Logo specifications:\n"
+                f"1. Style: {style} - Apply this style to the overall design.\n"
+                f"2. Primary color: {color} - Use this as the main color.\n"
+                f"3. Simplicity: Design a clean, uncluttered logo that's instantly recognizable.\n"
+                f"4. Concept: Visually represent the core idea or value of '{translated_logo_text}' in an abstract or literal way.\n"
+                f"6. Typography: If including text, choose a font that reflects the brand's personality.\n"
+                f"8. Uniqueness: Create a logo that stands out and is not generic.\n"
+                f"9. Relevance: The logo should clearly relate to the brand's industry or purpose.\n\n"
+                f"Additional instructions:\n"
+                f"- Focus on creating only ONE logo design, not multiple variations.\n"
+                f"- Avoid using generic or cliché symbols unless they are highly relevant to the brand.\n"
+                f"Generate a single, impactful logo that effectively represents the brand and its values."
+            )
             prompt = truncate_text(prompt, 1000)
 
             logger.info(f"Generated prompt for logo: {prompt}")
@@ -456,7 +474,7 @@ class SunoClipView(APIView):
     def post(self, request):
         create_url = "https://api.sunoapi.com/api/v1/suno/create"
         create_payload = {
-            "prompt": "",
+            "prompt": f"",
             "tags": "CM song",
             "custom_mode": True,
             "title": ""
