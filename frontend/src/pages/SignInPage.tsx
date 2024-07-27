@@ -52,7 +52,7 @@ function SignInPage() {
     event.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:8000/users/signin',
+        'http://brandifyy.site/api/users/signin',
         {
           email: username,
           password,
@@ -63,7 +63,10 @@ function SignInPage() {
       );
 
       if (response.status === 200) {
+        console.log('User ID:', response.data.user_id); // 서버에서 받은 user_id를 콘솔에 출력
+
         console.log('Session ID:', response.data.sessionid); // 서버에서 받은 세션 ID를 콘솔에 출력
+        localStorage.setItem('user_id', response.data.user_id);
 
         alert('로그인이 성공적으로 완료되었습니다.');
 

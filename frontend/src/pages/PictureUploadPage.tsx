@@ -25,12 +25,25 @@ const PictureUploadPage = () => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [logoUploaded, setLogoUploaded] = useState<boolean>(false); // 로고 업로드 상태 추가
+  const [userId, setUserId] = useState<string | null>(null); // user_id 상태 추가
+
   const navigate = useNavigate();
 
   const dragRef = useRef<HTMLLabelElement | null>(null);
   const fileId = useRef<number>(0);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const percentRef = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('user_id');
+    console.log(storedUserId);
+    if (storedUserId) {
+      setUserId(storedUserId);
+    } else {
+      alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.');
+      navigate('/signin'); // 로그인 정보가 없으면 로그인 페이지로 이동
+    }
+  }, [navigate]);
 
   const onChangeFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | DragEvent): void => {
@@ -120,6 +133,12 @@ const PictureUploadPage = () => {
   }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
 
   const uploadImages = async () => {
+    if (!userId) {
+      alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.');
+      navigate('/signin');
+      return;
+    }
+
     setIsUploading(true);
     setIsLoading(true);
 
@@ -130,9 +149,12 @@ const PictureUploadPage = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:8000/prompts/analysis_text/',
+        'http://brandifyy.site/api/prompts/analysis_text',
         formData,
         {
+          headers: {
+            user_id: userId,
+          },
           withCredentials: true,
         },
       );

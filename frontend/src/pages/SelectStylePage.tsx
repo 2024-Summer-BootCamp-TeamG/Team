@@ -48,7 +48,7 @@ function SelectStylePage() {
     try {
       const [logoResponse, posterResponse, musicResponse] = await Promise.all([
         axios.post(
-          'http://localhost:8000/prompts/generate_logo/',
+          'http://brandifyy.site/api/prompts/generate_logo',
           {
             style: selectedButton,
             color: color,
@@ -60,7 +60,7 @@ function SelectStylePage() {
         ),
 
         axios.post(
-          'http://localhost:8000/prompts/generate_poster/',
+          'http://brandifyy.site/api/prompts/generate_poster',
           {
             style: selectedButton,
             color: color,
@@ -72,7 +72,7 @@ function SelectStylePage() {
         ),
 
         axios.post(
-          'http://localhost:8000/prompts/generate_music/',
+          'http://brandifyy.site/api/prompts/generate_music',
           {},
           {
             withCredentials: true,

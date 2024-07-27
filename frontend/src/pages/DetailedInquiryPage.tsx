@@ -42,13 +42,17 @@ function DetailedInquiryPage() {
     const fetchData = async () => {
       if (selectedItem === null) return;
 
-      const endpoint = `http://localhost:8000/promotions/${selectedItem}`;
+      const user_id = localStorage.getItem('user_id') || undefined; // null일 경우 undefined로 변환
+      console.log(user_id);
+
+      const endpoint = 'http://brandifyy.site/api/prompts/analysis_text';
 
       try {
         const response = await fetch(endpoint, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            user_id: user_id as string, // user_id를 헤더에 포함
           },
           credentials: 'include',
         });
