@@ -4,50 +4,29 @@ import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import { textInputState } from '../recoil/TextInputAtom';
 import { businessInputState } from '../recoil/BusinessInputAtom';
-<<<<<<< HEAD
-import { Link } from 'react-router-dom';
-import MoveButton from '../components/MoveButton';
-=======
 import { Link, useNavigate } from 'react-router-dom';
 import Input from '../assets/Input.png';
 import leftArrow from '../assets/leftArrow.svg';
 import rightArrow from '../assets/rightArrow.svg';
->>>>>>> dev
 
 function TextInputPage() {
   const [textInput, setTextInput] = useRecoilState(textInputState);
   const [businessInput, setBusinessInput] = useRecoilState(businessInputState);
-<<<<<<< HEAD
-  const [isButtonClicked, setIsButtonClicked] = useState(false);
-=======
   const [isButtonClicked, setIsButtonClicked] = useState(false); // 버튼 클릭 상태를 관리하는 상태를 추가합니다.
   const navigate = useNavigate();
->>>>>>> dev
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('입력된 텍스트:', textInput);
     console.log('입력된 텍스트:', businessInput);
-<<<<<<< HEAD
-    setIsButtonClicked(true);
-=======
 
     setIsButtonClicked(true); // 버튼이 클릭되었음을 표시합니다.
     navigate('/choosecolor'); // 다음 페이지로 이동
->>>>>>> dev
   };
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center bg-cover">
       <Background>
         <NavBar />
-<<<<<<< HEAD
-        <div className="absolute h-[44rem] w-[120rem]">
-          <div className="flex h-full w-full items-start justify-center p-4">
-            <form onSubmit={handleSubmit}>
-              <textarea
-                className="absolute left-[27rem] top-[22rem] h-[12.88rem] w-[68.63rem] resize-none overflow-auto rounded-[2.5rem] border-2 bg-gradient-to-b from-white/20 to-slate-400/10 p-2 text-3xl placeholder-violet-600 opacity-50 shadow outline-none backdrop-blur-xl"
-                placeholder="ex) STARBUCKS, 네네치킨 (선택)"
-=======
 
         <div className="flex h-full w-full flex-col items-center justify-center p-4">
           <div className="font-['Cafe24 Danjunghae'] font-white mb-8 flex items-center justify-center text-center text-3xl text-white">
@@ -74,29 +53,9 @@ function TextInputPage() {
                 }}
                 className="h-[206px] w-[1098px] resize-none overflow-auto rounded-[2.5rem] bg-transparent placeholder-white"
                 placeholder="ex) Hi This is Taeho Inc. Please visit our website!"
->>>>>>> dev
                 value={textInput}
                 onChange={(event) => setTextInput(event.target.value)}
               />
-<<<<<<< HEAD
-              <Link to="/choosecolor">
-                <MoveButton
-                  buttonText="다음"
-                  className={`font-['Cafe24 Danjunghae'] h-[5rem] w-[12.5rem] rounded-[2.5rem] bg-white/50 text-center text-3xl font-normal focus:outline-none ${isButtonClicked ? 'text-blue-800' : 'text-white'}`}
-                />
-              </Link>
-            </form>
-          </div>
-          <div className="font-['Playfair Display'] absolute left-[33rem] top-[15rem] text-center text-5xl font-black text-white">
-            포스터에 포함하고 싶은 텍스트를 입력해주세요!
-          </div>
-          <Link to="/busin">
-            <MoveButton
-              buttonText="이전"
-              className="font-['Cafe24 Danjunghae'] absolute left-[27rem] top-[40rem] h-[5rem] w-[12.5rem] rounded-[2.5rem] bg-white/50 text-center text-3xl font-normal text-white"
-            />
-          </Link>
-=======
             </div>
             {/* <button type="button" className="flex flex-row items-center">
               <img
@@ -133,7 +92,6 @@ function TextInputPage() {
               </Link>
             </div>
           </div>
->>>>>>> dev
         </div>
       </Background>
     </div>

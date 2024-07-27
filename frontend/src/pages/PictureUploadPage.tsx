@@ -275,15 +275,7 @@ const PictureUploadPage = () => {
                 </button>
               ) : (
                 <div className="flex w-[550px] flex-col items-center justify-center">
-                  <div className="py-8 text-[2.5rem] font-semibold text-[#8AAAFF]">
-                    <span ref={percentRef}>0%</span>
-                  </div>
-                  <div className="relative mx-auto h-[10px] w-[500px] overflow-hidden rounded-full bg-blue-200">
-                    <div
-                      ref={progressRef}
-                      className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-[#8AAAFF] to-[#FA8CFF]"
-                    ></div>
-                  </div>
+                  <div className="py-8 text-[2.5rem] font-semibold text-[#8AAAFF]"></div>
                 </div>
               )}
             </div>

@@ -245,7 +245,7 @@ function SelectStylePage() {
                 <Link to="/busin">
                   <button
                     type="button"
-                    className="font-['Cafe24 Danjunghae'] hover:text-bermuda flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white"
+                    className="font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white hover:text-bermuda"
                   >
                     <img
                       className="h-[2.5rem] w-[2.5rem]"
@@ -259,7 +259,7 @@ function SelectStylePage() {
                 <Link to="/selectstyle">
                   <button
                     onClick={handleGenerateClick}
-                    className="font-['Cafe24 Danjunghae'] hover:text-bermuda flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white"
+                    className="font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white hover:text-bermuda"
                   >
                     생성
                     <img
