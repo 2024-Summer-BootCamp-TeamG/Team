@@ -4,7 +4,7 @@ const getSessionId = () => {
   console.log('Cookies:', decodedCookie); // 쿠키를 로그로 출력
   const cookies = decodedCookie.split(';');
   for (let i = 0; i < cookies.length; i++) {
-    let cookie = cookies[i].trim();
+    const cookie = cookies[i].trim();
     if (cookie.startsWith(name)) {
       const sessionId = cookie.substring(name.length);
       console.log('Found session ID:', sessionId); // 찾은 세션 ID 로그 출력

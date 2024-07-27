@@ -76,8 +76,21 @@ def suno_clip_task(media_id):
 
         create_url = "https://api.sunoapi.com/api/v1/suno/create"
         create_payload = {
-            "prompt": "",
-            "tags": "CM song",
+            "prompt": """
+            (Verse 1)
+아침 햇살 가득한 식탁에"
+부드러운 식빵 한 조각,
+신선한 계란과 함께해
+완벽한 하루 시작해요
+
+(Chorus)
+윤기 나는 갈색 식빵,
+폭신한 그 맛 느껴봐요
+자연의 신선함을 담아,
+건강한 행복을 전해요
+
+(음악 페이드 아웃)""",
+            "tags": "logo song",
             "custom_mode": True,
             "title": ""
         }

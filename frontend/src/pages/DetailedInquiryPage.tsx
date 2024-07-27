@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Background from '../components/Background';
 
 // import Logo from '../assets/8Logo.png';
@@ -17,7 +17,7 @@ import { useRecoilValue } from 'recoil';
 import {
   generatedLogoState,
   generatedPosterState,
-  generatedMusicState,
+  // generatedMusicState,
 } from '../recoil/GeneratedAtom';
 interface PromotionData {
   poster_url: string;

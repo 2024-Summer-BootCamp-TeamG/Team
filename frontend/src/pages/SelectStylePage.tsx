@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
@@ -19,9 +19,9 @@ import rightArrow from '../assets/rightArrow.svg';
 
 function SelectStylePage() {
   const [selectedButton, setSelectedButton] = useRecoilState(SelectStyleState);
-  const [color, setColor] = useRecoilState(ChooseColorState);
-  const [logoText, setLogoText] = useRecoilState(businessInputState);
-  const [posterText, setPosterText] = useRecoilState(textInputState);
+  const [color] = useRecoilState(ChooseColorState);
+  const [logoText] = useRecoilState(businessInputState);
+  const [posterText] = useRecoilState(textInputState);
   const setGeneratedLogo = useSetRecoilState(generatedLogoState);
   const setGeneratedPoster = useSetRecoilState(generatedPosterState);
   // const setGeneratedMusic = useSetRecoilState(generatedMusicState);

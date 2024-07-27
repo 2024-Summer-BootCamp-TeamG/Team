@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
@@ -71,7 +71,7 @@ function BusinessInputPage() {
               <Link to="/pictureupload">
                 <button
                   type="button"
-                  className="font-['Cafe24 Danjunghae'] hover:text-bermuda flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white"
+                  className="font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white hover:text-bermuda"
                 >
                   <img
                     className="h-[2.5rem] w-[2.5rem]"
@@ -83,7 +83,7 @@ function BusinessInputPage() {
               </Link>
 
               <Link to="/texi">
-                <button className="hover:text-bermuda font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white">
+                <button className="font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white hover:text-bermuda">
                   다음
                   <img
                     className="h-[2.5rem] w-[2.5rem]"

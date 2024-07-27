@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axiosInstance from '../api/axios'; // axios.ts에서 import
 import axios from 'axios';
 
 import { useNavigate } from 'react-router-dom';

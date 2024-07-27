@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import NavBar from '../components/NavBar';
-import MoveButton from '../components/MoveButton';
 import '../pages/mouse/style.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import leftArrow from '../assets/leftArrow.svg';
 import rightArrow from '../assets/rightArrow.svg';
 import { useRecoilState } from 'recoil';
@@ -17,7 +16,7 @@ function ChooseColorPage() {
   const [activeColor, setActiveColor] = useState<string | null>(null);
   const [selectedButton, setSelectedButton] = useRecoilState(ChooseColorState);
   // const [isButtonClicked, setIsButtonClicked] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const colors: Color[] = [
     {
       name: 'RED',
@@ -109,11 +108,11 @@ function ChooseColorPage() {
     setActiveColor(color);
     setSelectedButton(nextColor);
   };
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    console.log('Selected color:', selectedButton);
-    navigate('/selectstyle'); // 폼 제출 후 다음 페이지로 이동
-  };
+  // const handleSubmit = (event: any) => {
+  //   event.preventDefault();
+  //   console.log('Selected color:', selectedButton);
+  //   navigate('/selectstyle'); // 폼 제출 후 다음 페이지로 이동
+  // };
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-black bg-cover">
       <div className="relative h-full w-full">
@@ -152,7 +151,7 @@ function ChooseColorPage() {
             <Link to="/texi">
               <button
                 type="button"
-                className="font-['Cafe24 Danjunghae'] hover:text-bermuda flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white"
+                className="font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white hover:text-bermuda"
               >
                 <img
                   className="h-[2.5rem] w-[2.5rem]"
@@ -163,7 +162,7 @@ function ChooseColorPage() {
               </button>
             </Link>
             <Link to="/selectstyle">
-              <button className="hover:text-bermuda font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white">
+              <button className="font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white hover:text-bermuda">
                 다음
                 <img
                   className="h-[2.5rem] w-[2.5rem]"

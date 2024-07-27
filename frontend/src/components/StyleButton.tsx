@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface StyleButtonProps {
   buttonText?: string;
   className?: string;
@@ -11,7 +9,6 @@ interface StyleButtonProps {
 function StyleButton({
   buttonText = 'example',
   className = '',
-  onClick,
   isSelected = false,
   onToggle,
 }: StyleButtonProps) {

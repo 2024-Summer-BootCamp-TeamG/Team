@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../assets/SIMPLAYLogo.svg';
 import HomeIcon from '../assets/HomeIcon.svg';
 import MenuIcon from '../assets/MenuIcon.svg';
 import SignoutIcon from '../assets/SignoutIcon.svg';

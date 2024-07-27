@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Background from '../components/Background2.tsx';
 import NavBar from '../components/NavBar.tsx';
 import Album from '../assets/AlbumCD.png';

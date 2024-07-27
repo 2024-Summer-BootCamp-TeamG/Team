@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  useCallback,
-  useRef,
-  useState,
-  useEffect,
-} from 'react';
+import { ChangeEvent, useCallback, useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './style.scss';
