@@ -110,7 +110,8 @@ CORS_ALLOW_HEADERS = [
     'origin',
     'user-agent',
     'x-requested-with',
-    'x-session-id', 
+    'x-session-id',
+    'user_id',
 ]
 
 INSTALLED_APPS = [
