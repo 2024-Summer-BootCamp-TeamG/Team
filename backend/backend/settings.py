@@ -81,6 +81,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://43.200.193.60:8080",# EC2 IP 추가
     "http://localhost:5173",
     "http://brandifyy.site",
+    "http://brandifyy.site:80",
+    "https://brandifyy.site:443"
 
 ]
 # settings.py
