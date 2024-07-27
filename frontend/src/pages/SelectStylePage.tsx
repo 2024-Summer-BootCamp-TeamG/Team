@@ -42,9 +42,9 @@ function SelectStylePage() {
   };
 
   const handleGenerateClick = async () => {
-    if (isLoading) return; // 이미 요청 중이면 무시
+    if (isLoading) return;
 
-    setIsLoading(true); // 요청 시작
+    setIsLoading(true);
     try {
       const [logoResponse, posterResponse, musicResponse] = await Promise.all([
         axios.post(
@@ -58,7 +58,6 @@ function SelectStylePage() {
             withCredentials: true,
           },
         ),
-
         axios.post(
           'http://localhost:8000/prompts/generate_poster/',
           {
@@ -117,7 +116,7 @@ function SelectStylePage() {
         console.error('There was an unexpected error!', error);
       }
     } finally {
-      setIsLoading(false); // 요청 완료
+      setIsLoading(false);
     }
   };
 

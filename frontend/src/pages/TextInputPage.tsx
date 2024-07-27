@@ -16,7 +16,7 @@ function TextInputPage() {
   const navigate = useNavigate();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // 폼 제출의 기본 동작을 막습니다.
+    event.preventDefault();
     console.log('입력된 텍스트:', textInput);
     console.log('입력된 텍스트:', businessInput);
 

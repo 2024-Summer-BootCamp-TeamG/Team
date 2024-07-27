@@ -11,7 +11,9 @@ import './style.scss';
 import UploadIcon from '../assets/picUpload2.png';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-import CloseIcon from '../assets/closeBtn.png';
+import CloseIcon from '../assets/CloseIcon.svg';
+import { useRecoilValue } from 'recoil'; // Recoil 훅 추가
+import { SignInState } from '../recoil/SignInAtom'; // 로그인 상태 전역 상태 추가
 
 interface IFileTypes {
   id: number;
@@ -20,6 +22,7 @@ interface IFileTypes {
 }
 
 const PictureUploadPage = () => {
+  const SignIn = useRecoilValue(SignInState); // 로그인 상태 가져오기
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [files, setFiles] = useState<IFileTypes[]>([]);
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -132,11 +135,9 @@ const PictureUploadPage = () => {
       const response = await axios.post(
         'http://localhost:8000/prompts/analysis_text/',
         formData,
-        {
-          withCredentials: true,
-        },
+        { withCredentials: true },
       );
-
+      console.log('Response:', response);
       if (response.status === 200) {
         setLogoUploaded(true); // 로고 업로드 성공 시 상태 변경
         alert('이미지 업로드가 성공적으로 완료되었습니다.');
@@ -145,6 +146,8 @@ const PictureUploadPage = () => {
         alert('이미지 업로드에 실패했습니다.');
       }
     } catch (error) {
+      console.error('Error during upload:', error);
+
       if (axios.isAxiosError(error)) {
         if (error.response) {
           const errorMessage =
@@ -164,6 +167,12 @@ const PictureUploadPage = () => {
       setIsLoading(false);
     }
   };
+  useEffect(() => {
+    if (!SignIn) {
+      alert('로그인 상태가 아닙니다.');
+      navigate('/signin'); // 로그인 상태가 아니면 로그인 페이지로 이동
+    }
+  }, [SignIn, navigate]);
 
   useEffect(() => {
     initDragEvents();
@@ -266,15 +275,7 @@ const PictureUploadPage = () => {
                 </button>
               ) : (
                 <div className="flex w-[550px] flex-col items-center justify-center">
-                  <div className="py-8 text-[2.5rem] font-semibold text-[#8AAAFF]">
-                    <span ref={percentRef}>0%</span>
-                  </div>
-                  <div className="relative mx-auto h-[10px] w-[500px] overflow-hidden rounded-full bg-blue-200">
-                    <div
-                      ref={progressRef}
-                      className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-[#8AAAFF] to-[#FA8CFF]"
-                    ></div>
-                  </div>
+                  <div className="py-8 text-[2.5rem] font-semibold text-[#8AAAFF]"></div>
                 </div>
               )}
             </div>

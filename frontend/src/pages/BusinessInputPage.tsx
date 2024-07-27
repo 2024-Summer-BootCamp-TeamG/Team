@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Background from '../components/Background';
-import NavBar from '../components/NavBar';
+import NavBar from '../components/NavBar'; // NavBar 컴포넌트를 임포트합니다.
 import { businessInputState } from '../recoil/BusinessInputAtom';
 import { Link, useNavigate } from 'react-router-dom';
 import Input from '../assets/Input.png';
@@ -14,7 +14,7 @@ function BusinessInputPage() {
   const navigate = useNavigate();
 
   const handleSubmit = (event: FormEvent) => {
-    event.preventDefault(); // 폼 제출의 기본 동작을 막습니다.
+    event.preventDefault();
     console.log('입력된 텍스트:', businessInput);
 
     setIsButtonClicked(true); // 버튼이 클릭되었음을 표시합니다.
@@ -67,7 +67,7 @@ function BusinessInputPage() {
               />
               <p className="ml-[5px] rounded text-[1.2rem] text-white">홈</p>
             </button> */}
-            <div className="mt-2 mt-8 flex w-full justify-between px-4">
+            <div className="mt-8 flex w-full justify-between px-4">
               <Link to="/pictureupload">
                 <button
                   type="button"
