@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
@@ -19,9 +19,9 @@ import rightArrow from '../assets/rightArrow.svg';
 
 function SelectStylePage() {
   const [selectedButton, setSelectedButton] = useRecoilState(SelectStyleState);
-  const [color, setColor] = useRecoilState(ChooseColorState);
-  const [logoText, setLogoText] = useRecoilState(businessInputState);
-  const [posterText, setPosterText] = useRecoilState(textInputState);
+  const [color] = useRecoilState(ChooseColorState);
+  const [logoText] = useRecoilState(businessInputState);
+  const [posterText] = useRecoilState(textInputState);
   const setGeneratedLogo = useSetRecoilState(generatedLogoState);
   const setGeneratedPoster = useSetRecoilState(generatedPosterState);
   // const setGeneratedMusic = useSetRecoilState(generatedMusicState);
@@ -29,8 +29,7 @@ function SelectStylePage() {
   const percentRef = useRef<HTMLSpanElement>(null);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [generatedMusic, setGeneratedMusic] =
-    useRecoilState(generatedMusicState);
+  const [, setGeneratedMusic] = useRecoilState(generatedMusicState);
 
   // 특정 버튼의 선택 상태 토글 함수
   const toggleButton = (buttonText: string) => {
@@ -48,7 +47,7 @@ function SelectStylePage() {
     try {
       const [logoResponse, posterResponse, musicResponse] = await Promise.all([
         axios.post(
-          'http://localhost:8000/prompts/generate_logo/',
+          'http://brandifyy.site/api/prompts/generate_logo',
           {
             style: selectedButton,
             color: color,
@@ -60,7 +59,7 @@ function SelectStylePage() {
         ),
 
         axios.post(
-          'http://localhost:8000/prompts/generate_poster/',
+          'http://brandifyy.site/api/prompts/generate_poster',
           {
             style: selectedButton,
             color: color,
@@ -72,7 +71,7 @@ function SelectStylePage() {
         ),
 
         axios.post(
-          'http://localhost:8000/prompts/generate_music/',
+          'http://brandifyy.site/api/prompts/generate_music',
           {},
           {
             withCredentials: true,

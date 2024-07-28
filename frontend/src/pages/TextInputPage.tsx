@@ -1,28 +1,28 @@
-import React, { useState, FormEvent } from 'react';
+// import { useState, FormEvent } from 'react';
 import { useRecoilState } from 'recoil';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import { textInputState } from '../recoil/TextInputAtom';
-import { businessInputState } from '../recoil/BusinessInputAtom';
-import { Link, useNavigate } from 'react-router-dom';
+// import { businessInputState } from '../recoil/BusinessInputAtom';
+import { Link } from 'react-router-dom';
 import Input from '../assets/Input.png';
 import leftArrow from '../assets/leftArrow.svg';
 import rightArrow from '../assets/rightArrow.svg';
 
 function TextInputPage() {
   const [textInput, setTextInput] = useRecoilState(textInputState);
-  const [businessInput, setBusinessInput] = useRecoilState(businessInputState);
-  const [isButtonClicked, setIsButtonClicked] = useState(false); // 버튼 클릭 상태를 관리하는 상태를 추가합니다.
-  const navigate = useNavigate();
+  // const [businessInput] = useRecoilState(businessInputState);
+  // const [, setIsButtonClicked] = useState(false); // 버튼 클릭 상태를 관리하는 상태를 추가합니다.
+  // const navigate = useNavigate();
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // 폼 제출의 기본 동작을 막습니다.
-    console.log('입력된 텍스트:', textInput);
-    console.log('입력된 텍스트:', businessInput);
+  // const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault(); // 폼 제출의 기본 동작을 막습니다.
+  //   console.log('입력된 텍스트:', textInput);
+  //   console.log('입력된 텍스트:', businessInput);
 
-    setIsButtonClicked(true); // 버튼이 클릭되었음을 표시합니다.
-    navigate('/choosecolor'); // 다음 페이지로 이동
-  };
+  //   setIsButtonClicked(true); // 버튼이 클릭되었음을 표시합니다.
+  //   navigate('/choosecolor'); // 다음 페이지로 이동
+  // };
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center bg-cover">
       <Background>
@@ -69,7 +69,7 @@ function TextInputPage() {
               <Link to="/busin">
                 <button
                   type="button"
-                  className="font-['Cafe24 Danjunghae'] hover:text-bermuda flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white"
+                  className="font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white hover:text-bermuda"
                 >
                   <img
                     className="h-[2.5rem] w-[2.5rem]"
@@ -81,7 +81,7 @@ function TextInputPage() {
               </Link>
 
               <Link to="/choosecolor">
-                <button className="hover:text-bermuda font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white">
+                <button className="font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white hover:text-bermuda">
                   다음
                   <img
                     className="h-[2.5rem] w-[2.5rem]"

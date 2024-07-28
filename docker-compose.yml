@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   db:
@@ -40,21 +40,21 @@ services:
 
   celery:
     build:
-      context: ./backend  # Dockerfile이 있는 디렉토리를 지정
+      context: ./backend # Dockerfile이 있는 디렉토리를 지정
     command: celery -A backend worker -l info
     volumes:
       - ./backend:/app
     env_file:
-      - .env  # 환경 변수 파일 추가
+      - .env # 환경 변수 파일 추가
     depends_on:
       - rabbitmq
-      - db  # 데이터베이스에 접근할 수 있도록 설정
+      - db # 데이터베이스에 접근할 수 있도록 설정
     networks:
       - teamg
 
   web:
     build:
-      context: ./backend  # Dockerfile이 있는 디렉토리를 지정
+      context: ./backend # Dockerfile이 있는 디렉토리를 지정
     command: >
       sh -c "python manage.py makemigrations &&
              python manage.py migrate &&

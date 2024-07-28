@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Background from '../components/Background';
 
 // import Logo from '../assets/8Logo.png';
@@ -17,7 +17,7 @@ import { useRecoilValue } from 'recoil';
 import {
   generatedLogoState,
   generatedPosterState,
-  generatedMusicState,
+  // generatedMusicState,
 } from '../recoil/GeneratedAtom';
 interface PromotionData {
   poster_url: string;
@@ -27,7 +27,7 @@ interface PromotionData {
 
 function DetailedInquiryPage() {
   const [showDetail, setShowDetail] = useState<boolean>(false);
-  const [audioUrl, setAudioUrl] = useState<string>('');
+  const [, setAudioUrl] = useState<string>('');
   const [posterUrl, setPosterUrl] = useState<string>('');
   const [logoUrl, setLogoUrl] = useState<string>('');
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -42,13 +42,17 @@ function DetailedInquiryPage() {
     const fetchData = async () => {
       if (selectedItem === null) return;
 
-      const endpoint = `http://localhost:8000/promotions/${selectedItem}`;
+      const user_id = localStorage.getItem('user_id') || undefined; // null일 경우 undefined로 변환
+      console.log(user_id);
+
+      const endpoint = 'http://brandifyy.site/api/prompts/analysis_text';
 
       try {
         const response = await fetch(endpoint, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            user_id: user_id as string, // user_id를 헤더에 포함
           },
           credentials: 'include',
         });

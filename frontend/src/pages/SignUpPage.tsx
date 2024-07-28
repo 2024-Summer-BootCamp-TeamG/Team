@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import axiosInstance from '../api/axios'; // axios.ts에서 import
 import axios from 'axios';
 
 import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
+import '../index.css';
 
 // Input 컴포넌트 정의
 const Input: React.FC<{
@@ -61,10 +61,13 @@ const SignUpPage: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/users/signup', {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        'http://brandifyy.site/api/users/signup',
+        {
+          email,
+          password,
+        },
+      );
 
       if (response.status === 201) {
         alert('회원가입이 성공적으로 완료되었습니다.');

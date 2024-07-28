@@ -7,7 +7,7 @@ body {
 }
 @font-face {
   font-family: 'Danjunghae';
-  src: url('../src/fonts/Danjunghae.otf') format('opentype');
+  src: url('../src/fonts/Danjunghae.ttf') format('opentype');
   font-weight: 200;
   font-style: normal;
 }
