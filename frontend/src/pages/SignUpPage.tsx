@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import axiosInstance from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
@@ -61,13 +61,10 @@ const SignUpPage: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        'http://brandifyy.site/api/users/signup',
-        {
-          email,
-          password,
-        },
-      );
+      const response = await axiosInstance.post('/users/signup', {
+        email,
+        password,
+      });
 
       if (response.status === 201) {
         alert('회원가입이 성공적으로 완료되었습니다.');

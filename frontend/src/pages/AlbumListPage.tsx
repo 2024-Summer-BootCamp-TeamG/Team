@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-import axios from 'axios';
+import axiosInstance from '../api/axios';
 // API 응답 형식을 정의합니다.
 interface ImageData {
   id: number;
@@ -15,8 +15,8 @@ function AlbumListPage() {
   useEffect(() => {
     console.log('useEffect triggered'); // useEffect가 호출되는지 확인
 
-    axios
-      .get('http://localhost:8000/promotions/', {
+    axiosInstance
+      .get('/promotions/', {
         withCredentials: true,
       })
       .then((response) => {
