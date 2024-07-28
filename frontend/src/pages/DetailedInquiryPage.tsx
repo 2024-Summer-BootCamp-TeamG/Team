@@ -27,7 +27,7 @@ interface PromotionData {
 
 function DetailedInquiryPage() {
   const [showDetail, setShowDetail] = useState<boolean>(false);
-  const [audioUrl, setAudioUrl] = useState<string>('');
+  const [, setAudioUrl] = useState<string>('');
   const [posterUrl, setPosterUrl] = useState<string>('');
   const [logoUrl, setLogoUrl] = useState<string>('');
   const [isPlaying, setIsPlaying] = useState<boolean>(false);

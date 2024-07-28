@@ -14,7 +14,7 @@ interface Color {
 }
 function ChooseColorPage() {
   const [activeColor, setActiveColor] = useState<string | null>(null);
-  const [selectedButton, setSelectedButton] = useRecoilState(ChooseColorState);
+  const [, setSelectedButton] = useRecoilState(ChooseColorState);
   // const [isButtonClicked, setIsButtonClicked] = useState(false);
   // const navigate = useNavigate();
   const colors: Color[] = [

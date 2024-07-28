@@ -29,8 +29,7 @@ function SelectStylePage() {
   const percentRef = useRef<HTMLSpanElement>(null);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [generatedMusic, setGeneratedMusic] =
-    useRecoilState(generatedMusicState);
+  const [, setGeneratedMusic] = useRecoilState(generatedMusicState);
 
   // 특정 버튼의 선택 상태 토글 함수
   const toggleButton = (buttonText: string) => {
