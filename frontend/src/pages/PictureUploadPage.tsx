@@ -6,6 +6,7 @@ import UploadIcon from '../assets/picUpload2.png';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import CloseIcon from '../assets/closeBtn.png';
+import axiosInstance from '../api/axios';
 
 interface IFileTypes {
   id: number;
@@ -142,7 +143,7 @@ const PictureUploadPage = () => {
     });
 
     try {
-      const response = await axios.post('/prompts/analysis_text', formData, {
+      const response = await axiosInstance.post('/prompts/analysis_text', formData, {
         headers: {
           user_id: userId,
         },
