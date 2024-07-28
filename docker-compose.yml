@@ -17,9 +17,9 @@ services:
 
   frontend:
     build:
-      context: ./frontend  # 프론트엔드 Dockerfile이 있는 디렉토리
+      context: ./frontend # 프론트엔드 Dockerfile이 있는 디렉토리
     ports:
-      - "5173:5173"
+      - "5173"
     depends_on:
       - web
     networks:
