@@ -16,6 +16,7 @@ import { textInputState } from '../recoil/TextInputAtom';
 import axios from 'axios';
 import leftArrow from '../assets/leftArrow.svg';
 import rightArrow from '../assets/rightArrow.svg';
+import axiosInstance from '../api/axios';
 
 function SelectStylePage() {
   const [selectedButton, setSelectedButton] = useRecoilState(SelectStyleState);
@@ -46,8 +47,8 @@ function SelectStylePage() {
     setIsLoading(true); // 요청 시작
     try {
       const [logoResponse, posterResponse, musicResponse] = await Promise.all([
-        axios.post(
-          'https://brandifyy.site/api/prompts/generate_logo',
+        axiosInstance.post(
+          '/prompts/generate_logo',
           {
             style: selectedButton,
             color: color,
@@ -59,7 +60,7 @@ function SelectStylePage() {
         ),
 
         axios.post(
-          'https://brandifyy.site/api/prompts/generate_poster',
+          '/prompts/generate_poster',
           {
             style: selectedButton,
             color: color,
@@ -71,7 +72,7 @@ function SelectStylePage() {
         ),
 
         axios.post(
-          'https://brandifyy.site/api/prompts/generate_music',
+          '/prompts/generate_music',
           {},
           {
             withCredentials: true,

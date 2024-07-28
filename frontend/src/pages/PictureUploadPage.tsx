@@ -142,16 +142,12 @@ const PictureUploadPage = () => {
     });
 
     try {
-      const response = await axios.post(
-        'https://brandifyy.site/api/prompts/analysis_text',
-        formData,
-        {
-          headers: {
-            user_id: userId,
-          },
-          withCredentials: true,
+      const response = await axios.post('/prompts/analysis_text', formData, {
+        headers: {
+          user_id: userId,
         },
-      );
+        withCredentials: true,
+      });
 
       if (response.status === 200) {
         setLogoUploaded(true); // 로고 업로드 성공 시 상태 변경

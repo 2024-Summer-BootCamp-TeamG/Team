@@ -3,6 +3,7 @@ import axios from 'axios'; // 커스텀 axios 인스턴스를 불러옴
 import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
+import axiosInstance from '../api/axios';
 
 const Input: React.FC<{
   type: string;
@@ -51,8 +52,8 @@ function SignInPage() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        'https://brandifyy.site/api/users/signin',
+      const response = await axiosInstance.post(
+        '/users/signin',
         {
           email: username,
           password,

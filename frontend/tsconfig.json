@@ -9,6 +9,7 @@
     }
   ],
   "compilerOptions": {
-    "strict": false
+    "strict": false,
+    "types": ["node"] // Add this line
   }
 }
