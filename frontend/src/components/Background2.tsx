@@ -7,7 +7,6 @@ import FullNote4 from '../assets/MusicNote/FullNote4.svg';
 import FullNote5 from '../assets/MusicNote/FullNote5.svg';
 import FullNote6 from '../assets/MusicNote/FullNote6.svg';
 import FullNote7 from '../assets/MusicNote/FullNote7.svg';
-import smallNote from '../assets/smallNote.png';
 interface BackgroundProps {
   children: ReactNode;
 }

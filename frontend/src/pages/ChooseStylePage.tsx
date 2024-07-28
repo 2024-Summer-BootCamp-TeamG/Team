@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Background from '../components/Background';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
@@ -12,12 +12,12 @@ import './ChooseStyle.css'; // CSS 파일 임포트
 
 function ChooseStyle() {
   const [selectedStyle, setSelectedStyle] = useRecoilState(SelectStyleState);
-  const [color, setColor] = useRecoilState(ChooseColorState);
-  const [logoText, setLogoText] = useRecoilState(businessInputState);
+  const [color] = useRecoilState(ChooseColorState);
+  const [logoText] = useRecoilState(businessInputState);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleStyleClick = (style) => {
+  const handleStyleClick = (style: any) => {
     setSelectedStyle(style);
     console.log('버튼 선택됨:', style);
   };

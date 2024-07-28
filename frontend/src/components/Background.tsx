@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import Circle from '../components/CustomCircle';
 import FullNote1 from '../assets/MusicNote/FullNote1.svg';
 import FullNote2 from '../assets/MusicNote/FullNote2.svg';
 import FullNote3 from '../assets/MusicNote/FullNote3.svg';
@@ -12,13 +11,13 @@ interface BackgroundProps {
   children: ReactNode;
 }
 
-interface CoordinateCircle {
-  size: string;
-  left?: string;
-  right?: string;
-  top: string;
-  backgroundColor: string;
-}
+// interface CoordinateCircle {
+//   size: string;
+//   left?: string;
+//   right?: string;
+//   top: string;
+//   backgroundColor: string;
+// }
 
 interface CoordinateNote {
   src: string;
@@ -28,14 +27,14 @@ interface CoordinateNote {
 }
 
 export default function Background({ children }: BackgroundProps) {
-  const coordinates: CoordinateCircle[] = [
-    { size: '100px', left: '50%', top: '70%', backgroundColor: '#7fc8d6' },
-    { size: '150px', left: '40%', top: '50%', backgroundColor: '#5d3fd3' },
-    { size: '50px', left: '60%', top: '20%', backgroundColor: '#7fc8d6' },
-    { size: '200px', left: '70%', top: '50%', backgroundColor: '#9370db' },
-    { size: '75px', left: '40%', top: '15%', backgroundColor: '#9370db' },
-    { size: '125px', left: '50%', top: '30%', backgroundColor: '#9370db' },
-  ];
+  // const coordinates: CoordinateCircle[] = [
+  //   { size: '100px', left: '50%', top: '70%', backgroundColor: '#7fc8d6' },
+  //   { size: '150px', left: '40%', top: '50%', backgroundColor: '#5d3fd3' },
+  //   { size: '50px', left: '60%', top: '20%', backgroundColor: '#7fc8d6' },
+  //   { size: '200px', left: '70%', top: '50%', backgroundColor: '#9370db' },
+  //   { size: '75px', left: '40%', top: '15%', backgroundColor: '#9370db' },
+  //   { size: '125px', left: '50%', top: '30%', backgroundColor: '#9370db' },
+  // ];
   const notes: CoordinateNote[] = [
     { src: FullNote1, right: '90%', top: '70%' },
     { src: FullNote2, left: '10%', top: '80%' },
