@@ -55,7 +55,7 @@ function SignInPage() {
     event.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:8000/users/signin',
+        'http://localhost:8000/api/users/signin',
         {
           email: username,
           password,

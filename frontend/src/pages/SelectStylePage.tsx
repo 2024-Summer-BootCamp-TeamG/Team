@@ -48,7 +48,7 @@ function SelectStylePage() {
     try {
       const [logoResponse, posterResponse, musicResponse] = await Promise.all([
         axios.post(
-          'http://localhost:8000/prompts/generate_logo/',
+          'http://localhost:8000/api/prompts/generate_logo/',
           {
             style: selectedButton,
             color: color,
@@ -59,7 +59,7 @@ function SelectStylePage() {
           },
         ),
         axios.post(
-          'http://localhost:8000/prompts/generate_poster/',
+          'http://localhost:8000/api/prompts/generate_poster/',
           {
             style: selectedButton,
             color: color,
@@ -71,7 +71,7 @@ function SelectStylePage() {
         ),
 
         axios.post(
-          'http://localhost:8000/prompts/generate_music/',
+          'http://localhost:8000/api/prompts/generate_music/',
           {},
           {
             withCredentials: true,
@@ -241,7 +241,7 @@ function SelectStylePage() {
                   onToggle={() => toggleButton('귀여운')}
                 />
               </div>
-              <div className="mt-2 mt-8 flex w-full justify-between px-4">
+              <div className="mt-8 flex w-full justify-between px-4">
                 <Link to="/busin">
                   <button
                     type="button"

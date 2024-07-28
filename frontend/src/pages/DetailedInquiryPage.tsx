@@ -37,7 +37,7 @@ function DetailedInquiryPage() {
 
   useEffect(() => {
     const fetchList = async () => {
-      const endpoint = `http://localhost:8000/promotions/`;
+      const endpoint = `http://localhost:8000/api/promotions/`;
 
       try {
         const response = await fetch(endpoint, {
@@ -65,7 +65,7 @@ function DetailedInquiryPage() {
     const fetchDetail = async () => {
       if (selectedItem === null) return;
 
-      const endpoint = `http://localhost:8000/promotions/${selectedItem}`;
+      const endpoint = `http://localhost:8000/api/promotions/${selectedItem}`;
 
       try {
         const response = await fetch(endpoint, {

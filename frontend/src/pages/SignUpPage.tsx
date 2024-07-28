@@ -61,10 +61,13 @@ const SignUpPage: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/users/signup', {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        'http://localhost:8000/api/users/signup',
+        {
+          email,
+          password,
+        },
+      );
 
       if (response.status === 201) {
         alert('회원가입이 성공적으로 완료되었습니다.');
