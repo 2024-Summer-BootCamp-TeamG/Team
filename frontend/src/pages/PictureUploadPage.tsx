@@ -143,7 +143,7 @@ const PictureUploadPage = () => {
 
     try {
       const response = await axios.post(
-        'http://brandifyy.site/api/prompts/analysis_text',
+        'https://brandifyy.site/api/prompts/analysis_text',
         formData,
         {
           headers: {

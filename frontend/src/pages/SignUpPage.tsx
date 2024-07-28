@@ -62,7 +62,7 @@ const SignUpPage: React.FC = () => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        'http://brandifyy.site/api/users/signup',
+        'https://brandifyy.site/api/users/signup',
         {
           email,
           password,
