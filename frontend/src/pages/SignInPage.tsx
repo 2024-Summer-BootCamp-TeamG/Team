@@ -52,7 +52,7 @@ function SignInPage() {
     event.preventDefault();
     try {
       const response = await axios.post(
-        'http://brandifyy.site/api/users/signin',
+        'https://brandifyy.site/api/users/signin',
         {
           email: username,
           password,

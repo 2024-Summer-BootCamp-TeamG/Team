@@ -45,7 +45,7 @@ function DetailedInquiryPage() {
       const user_id = localStorage.getItem('user_id') || undefined; // null일 경우 undefined로 변환
       console.log(user_id);
 
-      const endpoint = 'http://brandifyy.site/api/prompts/analysis_text';
+      const endpoint = 'https://brandifyy.site/api/prompts/analysis_text';
 
       try {
         const response = await fetch(endpoint, {
