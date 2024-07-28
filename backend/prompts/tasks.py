@@ -93,7 +93,7 @@ def analyze_image_task(base64_image, user_id):
 @shared_task
 def suno_clip_task(media_id, generated_lyrics):
     try:
-        logger.info("Starting suno clip task")
+        logger.info("Suno 클립 작업 시작")
 
         media = Media.objects.get(id=media_id)
 
@@ -115,7 +115,7 @@ def suno_clip_task(media_id, generated_lyrics):
 
         task_data = create_response.json()
         task_id = task_data['data']['task_id']
-        logger.info(f"Suno API Task ID: {task_id}")
+        logger.info(f"Suno API 작업 ID: {task_id}")
 
         clip_url = f"https://api.sunoapi.com/api/v1/suno/clip/{task_id}"
 
@@ -125,20 +125,22 @@ def suno_clip_task(media_id, generated_lyrics):
 
             clip_data = clip_response.json()
             clip_status = clip_data['data']['status']
+            logger.info(f"Suno API 상태: {clip_status}")
+
             if clip_status == 'completed':
-                logger.info("Suno Clip completed!")
+                logger.info("Suno 클립 완료!")
                 clips = clip_data['data']['clips']
                 audio_url = next((clip_info['audio_url'] for clip_id, clip_info in clips.items()), None)
                 if audio_url is None:
-                    logger.error("Audio URL not found in Suno clip response")
+                    logger.error("Suno 클립 응답에서 오디오 URL을 찾을 수 없습니다")
                     return {"error": "Audio URL not found"}
                 break
-            elif clip_status == 'processing':
-                logger.info("Suno Clip is still processing. Checking again in 10 seconds...")
+            elif clip_status in ['processing', 'pending']:
+                logger.info(f"Suno 클립이 {clip_status} 상태입니다. 10초 후 다시 확인합니다...")
                 time.sleep(10)
             else:
-                logger.error(f"Unexpected Suno API status: {clip_status}")
-                return {"error": "Unexpected Suno API status"}
+                logger.error(f"예상치 못한 Suno API 상태: {clip_status}")
+                return {"error": f"Unexpected Suno API status: {clip_status}"}
 
         response = requests.get(audio_url)
         response.raise_for_status()
@@ -150,15 +152,21 @@ def suno_clip_task(media_id, generated_lyrics):
         if s3_url:
             media.music_url = s3_url
             media.save()
-            # S3 URL을 로그에 기록하거나 사용자에게 알림
-            logger.info("Suno clip task completed successfully")
-            return {"s3_url": s3_url}  # 생성된 클립의 S3 URL 반환
+            logger.info("Suno 클립 작업이 성공적으로 완료되었습니다")
+            return {"s3_url": s3_url}
         else:
-            logger.error("Failed to upload to S3")
+            logger.error("S3 업로드 실패")
             return {"error": "Failed to upload to S3"}
+    except requests.exceptions.RequestException as e:
+        logger.error(f"요청 오류 발생: {e}")
+        return {"error": str(e)}
+    except Media.DoesNotExist:
+        logger.error(f"Media 객체를 찾을 수 없습니다: {media_id}")
+        return {"error": "Media not found"}
     except Exception as e:
-        logger.error(f"Error in suno_clip_task: {e}")
-        return {"error": str(e)}  # 오류 메시지 반환
+        logger.error(f"알 수 없는 오류 발생: {e}")
+        return {"error": str(e)}
+
 
 
 def upload_to_s3(file_content, object_name):
