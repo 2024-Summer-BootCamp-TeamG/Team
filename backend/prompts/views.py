@@ -135,14 +135,31 @@ class GetTaskStatusView(APIView):
         media_id = task_result.result
 
         if media_id:
-            media = Media.objects.get(id=media_id)
-            result = {
-                "task_id": task_id,
-                "task_status": task_result.status,
-                "analysis_result": media.text_result,
-                "clip_url": media.music_url,
-            }
-            logger.info(f"Task {task_id} completed. Status: {task_result.status}")
+            try:
+                media = Media.objects.get(id=media_id)
+                analysis_result = media.text_result
+                clip_url = media.music_url
+                task_status = task_result.status
+
+                # clip_url이 없으면 아직 작업이 완료되지 않은 것으로 간주
+                if not clip_url:
+                    task_status = 'PENDING'
+
+                result = {
+                    "task_id": task_id,
+                    "task_status": task_status,
+                    "analysis_result": analysis_result,
+                    "clip_url": clip_url,
+                }
+                logger.info(f"Task {task_id} completed. Status: {task_status}")
+            except Media.DoesNotExist:
+                result = {
+                    "task_id": task_id,
+                    "task_status": task_result.status,
+                    "analysis_result": None,
+                    "clip_url": None,
+                }
+                logger.info(f"Media object for task {task_id} not found.")
         else:
             result = {
                 "task_id": task_id,
@@ -151,6 +168,7 @@ class GetTaskStatusView(APIView):
                 "clip_url": None,
             }
             logger.info(f"Task {task_id} in progress. Status: {task_result.status}")
+
         return Response(result, status=200)
 class AnalyzeImageView(AuthenticatedAPIView):
     parser_classes = (MultiPartParser, FormParser)
