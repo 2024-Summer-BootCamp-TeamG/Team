@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import axiosInstance from '../api/axios';
+import { userState } from '../recoil/UserAtom';
+import { useSetRecoilState } from 'recoil';
 
 const Input: React.FC<{
   type: string;
@@ -40,6 +42,7 @@ function SignInPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const setUser = useSetRecoilState(userState);
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -67,6 +70,10 @@ function SignInPage() {
         console.log('User ID:', response.data.user_id); // 서버에서 받은 user_id를 콘솔에 출력
 
         console.log('Session ID:', response.data.sessionid); // 서버에서 받은 세션 ID를 콘솔에 출력
+        setUser({
+          userId: response.data.user_id,
+          isLoggedIn: true,
+        });
         localStorage.setItem('user_id', response.data.user_id);
 
         alert('로그인이 성공적으로 완료되었습니다.');

@@ -7,6 +7,8 @@ import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import CloseIcon from '../assets/closeBtn.png';
 import axiosInstance from '../api/axios';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../recoil/UserAtom';
 
 interface IFileTypes {
   id: number;
@@ -20,21 +22,28 @@ const PictureUploadPage = () => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [logoUploaded, setLogoUploaded] = useState<boolean>(false); // 로고 업로드 상태 추가
-  const [userId, setUserId] = useState<string | null>(null); // user_id 상태 추가
+  const [userId] = useState<string | null>(null); // user_id 상태 추가
 
   const navigate = useNavigate();
+  const user = useRecoilValue(userState);
 
   const dragRef = useRef<HTMLLabelElement | null>(null);
   const fileId = useRef<number>(0);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const percentRef = useRef<HTMLSpanElement | null>(null);
 
+  // useEffect(() => {
+  //   const storedUserId = localStorage.getItem('user_id');
+  //   console.log(storedUserId);
+  //   if (storedUserId) {
+  //     setUserId(storedUserId);
+  //   } else {
+  //     alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.');
+  //     navigate('/signin'); // 로그인 정보가 없으면 로그인 페이지로 이동
+  //   }
+  // }, [navigate]);
   useEffect(() => {
-    const storedUserId = localStorage.getItem('user_id');
-    console.log(storedUserId);
-    if (storedUserId) {
-      setUserId(storedUserId);
-    } else {
+    if (!userId) {
       alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.');
       navigate('/signin'); // 로그인 정보가 없으면 로그인 페이지로 이동
     }
@@ -128,7 +137,7 @@ const PictureUploadPage = () => {
   }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
 
   const uploadImages = async () => {
-    if (!userId) {
+    if (!user.userId) {
       alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.');
       navigate('/signin');
       return;
@@ -143,12 +152,16 @@ const PictureUploadPage = () => {
     });
 
     try {
-      const response = await axiosInstance.post('/prompts/analysis_text', formData, {
-        headers: {
-          user_id: userId,
+      const response = await axiosInstance.post(
+        '/prompts/analysis_text',
+        formData,
+        {
+          headers: {
+            user_id: userId,
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      });
+      );
 
       if (response.status === 200) {
         setLogoUploaded(true); // 로고 업로드 성공 시 상태 변경
