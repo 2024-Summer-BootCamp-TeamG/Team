@@ -1,7 +1,7 @@
 // axios.ts 파일
 
 import axios from 'axios';
-// const apiUrl = process.env.REACT_APP_API_URL || 'https://brandifyy.site/api';
+// const apiUrl = process.env.REACT_APP_API_URL || 'http://brandifyy.site/api';
 
 const axiosInstance = axios.create({
   baseURL: 'https://brandifyy.site/api', // 서버의 baseURL에 맞게 설정

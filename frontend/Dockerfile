@@ -1,5 +1,5 @@
 # Step 1: Build the React app
-FROM node:16-alpine
+FROM node:20-alpine
 WORKDIR /frontend
 
 COPY package.json ./
