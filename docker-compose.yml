@@ -18,8 +18,8 @@ services:
   frontend:
     build:
       context: ./frontend # 프론트엔드 Dockerfile이 있는 디렉토리
-    # environment:
-    #   - REACT_APP_API_URL=https://brandifyy.site/api
+    environment:
+      - REACT_APP_API_URL=http://brandifyy.site/api
     ports:
       - "5173:5173"
     networks:
@@ -81,11 +81,11 @@ services:
       context: ./nginx
     ports:
       - "80:80"
-      # - "443:443"
+      - "443:443"
     volumes:
       - ./static:/static
       - ./html:/usr/share/nginx/html:ro
-      #      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
       - build_folder:/var/www/frontend
     depends_on:
       - web
