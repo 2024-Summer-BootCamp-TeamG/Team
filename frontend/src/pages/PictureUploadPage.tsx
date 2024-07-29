@@ -22,7 +22,7 @@ const PictureUploadPage = () => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [logoUploaded, setLogoUploaded] = useState<boolean>(false); // 로고 업로드 상태 추가
-  const [userId] = useState<string | null>(null); // user_id 상태 추가
+  // const [userId] = useState<string | null>(null); // user_id 상태 추가
 
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
@@ -43,11 +43,11 @@ const PictureUploadPage = () => {
   //   }
   // }, [navigate]);
   useEffect(() => {
-    if (!userId) {
-      alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.');
-      navigate('/signin'); // 로그인 정보가 없으면 로그인 페이지로 이동
+    if (!user.isLoggedIn) {
+      alert('로그인 정보가 없습니다useEffect. 로그인 페이지로 이동합니다.');
+      navigate('/signin');
     }
-  }, [navigate]);
+  }, [user, navigate]);
 
   const onChangeFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | DragEvent): void => {
@@ -156,9 +156,9 @@ const PictureUploadPage = () => {
         '/prompts/analysis_text',
         formData,
         {
-          headers: {
-            user_id: userId,
-          },
+          // headers: {
+          //   user_id: userId,
+          // },
           withCredentials: true,
         },
       );

@@ -31,6 +31,18 @@ function SelectStylePage() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [, setGeneratedMusic] = useRecoilState(generatedMusicState);
+  const [userId, setUserId] = useState<string | null>(null); // user_id 상태 추가
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('user_id');
+    console.log(storedUserId);
+    if (storedUserId) {
+      setUserId(storedUserId);
+    } else {
+      alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.');
+      navigate('/signin'); // 로그인 정보가 없으면 로그인 페이지로 이동
+    }
+  }, [navigate]);
 
   // 특정 버튼의 선택 상태 토글 함수
   const toggleButton = (buttonText: string) => {
@@ -46,51 +58,49 @@ function SelectStylePage() {
 
     setIsLoading(true); // 요청 시작
     try {
-      const [logoResponse, posterResponse, musicResponse] = await Promise.all([
+      const [logoResponse, posterResponse] = await Promise.all([
         axiosInstance.post(
-          '/prompts/generate_logo',
+          'prompts/generate_logo',
           {
             style: selectedButton,
             color: color,
             logo_text: logoText,
+            user_id: userId, // user_id 추가
           },
           {
             withCredentials: true,
           },
         ),
 
-        axios.post(
-          '/prompts/generate_poster',
+        axiosInstance.post(
+          'prompts/generate_poster',
           {
             style: selectedButton,
             color: color,
             poster_user_text: posterText,
+            user_id: userId, // user_id 추가
           },
           {
             withCredentials: true,
           },
         ),
 
-        axios.post(
-          '/prompts/generate_music',
-          {},
-          {
-            withCredentials: true,
-          },
-        ),
+        // axios.post(
+        //   '/prompts/generate_music',
+        //   {},
+        //   {
+        //     withCredentials: true,
+        //   },
+        // ),
       ]);
       console.log('Logo API Response:', logoResponse.data);
       console.log('Poster API Response:', posterResponse.data);
-      console.log('Music API Response:', musicResponse.data);
+      // console.log('Music API Response:', musicResponse.data);
 
-      if (
-        logoResponse.status === 201 &&
-        posterResponse.status === 201 &&
-        musicResponse.status === 201
-      ) {
+      if (logoResponse.status === 201 && posterResponse.status === 201) {
         setGeneratedLogo(logoResponse.data.logo_url);
         setGeneratedPoster(posterResponse.data.poster_url);
-        setGeneratedMusic(musicResponse.data.music_url); // 변경된 부분
+        // setGeneratedMusic(musicResponse.data.music_url); // 변경된 부분
         // setMusicUrl(musicResponse.data.music_url); // 음악 URL 설정
 
         alert('로고, 포스터, 음악이 성공적으로 생성되었습니다.');

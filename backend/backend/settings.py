@@ -82,7 +82,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://brandifyy.site",
     "http://brandifyy.site:80",
-    "https://brandifyy.site:443"
+    "https://brandifyy.site:443",
+    "http://www.brandifyy.site",
+    "http://localhost"
 
 ]
 # settings.py

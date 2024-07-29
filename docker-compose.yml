@@ -18,8 +18,8 @@ services:
   frontend:
     build:
       context: ./frontend # 프론트엔드 Dockerfile이 있는 디렉토리
-    environment:
-      - REACT_APP_API_URL=https://brandifyy.site/api
+    # environment:
+    #   - REACT_APP_API_URL=https://brandifyy.site/api
     ports:
       - "5173:5173"
     networks:
