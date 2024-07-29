@@ -81,11 +81,11 @@ services:
       context: ./nginx
     ports:
       - "80:80"
-      - "443:443"
+      # - "443:443"
     volumes:
       - ./static:/static
       - ./html:/usr/share/nginx/html:ro
-#      - /etc/letsencrypt:/etc/letsencrypt:ro
+      #      - /etc/letsencrypt:/etc/letsencrypt:ro
       - build_folder:/var/www/frontend
     depends_on:
       - web
