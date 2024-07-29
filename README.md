@@ -24,20 +24,20 @@
     <tbody>
     <tr>
          <td width="600" align="center">
-            <img width="300" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/4771e632-9cdc-416e-a66d-1f1e2df694fa">
+            <img width="300" alt="image" src="https://teammg.s3.ap-northeast-2.amazonaws.com/b1278e02-dc2b-40c7-a034-f81586c06467">
         </td>
         <td width="600" align="center">
             <div align="left">
 <br/>
-<p class="highlighted-text">🌤️그날의 생각, 감정, 경험을 공유하며 다른 사람들과 하루를 연결해보세요!🌤️</p>
-<br><br>“하루연결”은 서로가 실시간으로 연결되어 하나의 일기장에서 각자의 일기를 남기고 다양한 스티커로 일기를 꾸밀 수 있는 웹 플랫폼입니다.
-<br><br>작성한 일기 내용에서 키워드를 추출하여 AI 스티커를 활용해 일기장을 꾸밀 수 있습니다.
-<br><br>어떤 글을 작성하는지, 어떤 스티커로 일기장을 꾸미는지를 실시간으로 확인할 수 있습니다. 
+<p class="highlighted-text"> 🍪 프로모션 제품을 위한 맞춤형 음악, 로고, 포스터를 제공하는 원스톱
+                솔루션입니다!</p>
+<br><br>프로모션 하고 싶으신 제품 사진을 찍고 사진을 업로드 한 뒤
+                  "브랜딩 start" 버튼을 눌러주세요
+<br><br>로고와 포스터에 들어갈 택스트와 색상,스타일을 선택하고 생성
+                  버튼을 눌러 주세요!
+<br><br>생성이 완료되었다면 목록에서 이미지를 클릭하세요 생성하신
+                  결과물을 다시 보실 수 있답니다.
 <br/><br/>
-
-
-
-
 </br>
 </div>
 </tr>
@@ -55,40 +55,42 @@
 ### ☁️ 회원가입 및 로그인 ☁️ <br>
 <p align="left">
 
-
-<img width="700" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/daa97424-29d0-4fa5-a001-0cf6bfd19008">
-<img width="700" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/e53ae1be-a9a3-4ec1-9b7b-a65d958ae272">
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/54891f6f-c5ad-4f6c-bccb-1c5b99fbbc69">
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/2b5c2933-5d23-4917-b71a-b549c44e2614">
 <br>
 <br>
 
 
-###   ☁️ 캘린더 꾸미기 및 친구에게 공유하기☁️
-- 제공 되는 기본스티커로 이쁘게 캘린더를 꾸며보세요.
+###   ☁️ 프로모션 제품의 사진 업로드하기☁️
+- 프로모션 하고 싶으신 제품 사진을 찍고 사진을 업로드 한 뒤 "브랜딩 start" 버튼을 눌러주세요!
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/31f85f8d-269f-40ed-b2fa-f7e2e7fd4473"> 
 
-<img width="700" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/ab6f0155-24dc-4bab-af69-e0d385ee81d7"> <br>
+- 로고에 들어갈 문구를 작성해 보세요!
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/6d16fde3-989a-4f6e-a2a9-47d332071426">
 
-- 다이어리 배경지 선택 후 생성되는 링크로 친구들과 다이어리를 공유해 보세요. 
+- 포스터에 들어갈 문구를 작성해 주세요!
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/5a70488c-0c93-4383-9d81-3485c0b9b9ee">
 
-<img width="700" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/f1a9a578-c881-4598-9eea-745cff132fed">
+- 로고와 포스터의 색상을 선택해 주세요!
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/b3acad86-9d37-4884-9f8b-a60f69cead29">
 
-<br>
-<br>
-
-### ☁️ 다이어리 꾸미기 및 다이어리 작성 ☁️<br>
-- 실시간으로 링크를 친구들과 공유 후 세상에 하나밖에 없는 다이어리를 작성 해 보세요. 
-
-<img width="700" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/d34019d1-2791-47f9-8335-afdbd1e8e15e">
+- 로고와 포스터의 스타일을 선택해 주세요!
 
 <br>
 <br>
 
-### ☁️ 세상에 하나밖에 없는 스티커 생성 ☁️<br> 
-- 다이어리에 작성되어진 키워드를 AWS Comprehend가 자연어 처리를 통하여 가장 많이쓰인 키워드 2개를 뽑아줍니다.
-- 뽑아진 키워드를 바탕으로 Dall-e 3 가 세상에 하나 밖에 없는 스티커를 만들어 드립니다.
+### ☁️ 목록 페이지 ☁️<br>
+- 목록페이지에서 만든 로고,포스터,cm송을 확인 할 수 있어요 
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/8e38bb1d-49c0-41a0-bea7-e19d34b5c933">
 
+
+<br>
+<br>
+
+### ☁️ 상세목록 페이지 ☁️<br> 
   
-<img width="700" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/dfb87714-1790-4f86-87bb-b91d43bdb371">
-<img width="700" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/bbe84cc9-7c12-4e24-9c4a-51d9b6a66490">
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/19d7a8dd-d2c0-4be6-b00b-9aabc1d9ec64">
+
 </p>
 <br>
 <br>
@@ -101,13 +103,13 @@
 
 ## 🛠 ️System Architecture
 <p align="left">
-<img width="700" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/121246589/1f520c57-1be1-4c12-af1d-bbf38cbe5c9a">
-</p>
+<img width="769" alt="스크린샷 2024-07-30 오전 3 29 30" src="https://github.com/user-attachments/assets/4cd83b13-e7ee-446c-98e5-8537b19da827">
+
+
 
 ## 🔑 ERD
 <p align="left">
-<img width="700" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/ed4dd8eb-1d5c-40dd-bce1-66d295cfdcc8">
-</p>
+
 
 ## 💻 Tech Stack
 
