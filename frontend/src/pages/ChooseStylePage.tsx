@@ -10,7 +10,6 @@ import Vector from '../assets/Vectornote.svg';
 import axios from 'axios';
 import './ChooseStyle.css'; // CSS 파일 임포트
 import VectorClicked from '../assets/noteClicked.svg';
-import leftArrow from '../assets/leftArrow.svg';
 import rightArrow from '../assets/rightArrow.svg';
 function ChooseStyle() {
   const [selectedStyle, setSelectedStyle] = useRecoilState(SelectStyleState);
