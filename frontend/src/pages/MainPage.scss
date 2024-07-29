@@ -12,7 +12,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: start;
-  height: 200vh;
+  height: 215vh;
   overflow: auto;
   background-color: black;
   color: white;
@@ -51,8 +51,9 @@ body {
       margin-bottom: 50px;
 
       .MainPage__title {
-        font-size: 10rem;
-        margin-bottom: 20px;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        margin-top: 65rem;
       }
 
       .MainPage__subtitle {
