@@ -153,13 +153,13 @@
 | **Category**           | **Technologies**                                                      |
 |------------------------|-----------------------------------------------------------------------|
 | **Frontend**           | React, Vite, JavaScript,tailwind, Recoil, Styled-Components, Prettier, Eslint |
-| **Backend**            | Django, DjangoREST Framework, MySQL,                                                |
+| **Backend**            | Django, DjangoREST Framework, MySQL                                               |
 | **Web Server**         | Nginx                                                                 |
 | **Asynchronous**       | Celery,RabbitMQ                                                      |
-| **Database**           | AWS S3 Bucket MySQL,                                 |
+| **Database**           | AWS S3 Bucket MySQL                                 |
 | **Deployment**         | AWS EC2, Docker,Github Actions                                                     |                                    
 | **Monitoring**         | prometheus,grafana                                                     |              
-| **AI**                 | Dall-E,CHATGPT
+| **AI**                 | Dall-E,CHATGPT,SUNO
 | **AI Test**            | postman
 | **API Documentation**  | Swagger                                                               |
 | **Others**             | Github, Notion, Zoom, Slack, Figma                                    | 
