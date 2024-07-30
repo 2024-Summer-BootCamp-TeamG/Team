@@ -27,5 +27,6 @@ jobs: # Job
               cd Team
               git pull origin dev
               sudo docker-compose down
+              docker volume rm team_build_folder
               sudo docker-compose pull
               sudo docker-compose up -d --build
