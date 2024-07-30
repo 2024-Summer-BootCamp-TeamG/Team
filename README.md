@@ -20,7 +20,7 @@
 * [Feature](#-feature)
 * [Demo Video](#-demo)
 * [Medium](#-medium)
-* [System Architechture](##-system-architechture)
+* [System Architechture](#-system-architechture)
 * [ERD](#-erd)
 * [Tech Stack](#-tech-stack)
 * [API](#-api)
