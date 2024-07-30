@@ -415,21 +415,7 @@ class LogoImageView(APIView):
 
             translated_logo_text = translate_to_english(logo_text)
 
-            prompt = (
-                f"Create a single, professional logo for: {translated_logo_text}.\n\n"
-                f"Logo specifications:\n"
-                f"1. Style: {style} - Apply this style to the overall design.\n"
-                f"2. Primary color: {color} - Use this as the main color.\n"
-                f"3. Simplicity: Design a clean, uncluttered logo that's instantly recognizable.\n"
-                f"4. Concept: Visually represent the core idea or value of '{translated_logo_text}' in an abstract or literal way.\n"
-                f"6. Typography: If including text, choose a font that reflects the brand's personality.\n"
-                f"8. Uniqueness: Create a logo that stands out and is not generic.\n"
-                f"9. Relevance: The logo should clearly relate to the brand's industry or purpose.\n\n"
-                f"Additional instructions:\n"
-                f"- Focus on creating only ONE logo design, not multiple variations.\n"
-                f"- Avoid using generic or cliché symbols unless they are highly relevant to the brand.\n"
-                f"Generate a single, impactful logo that effectively represents the brand and its values."
-            )
+            prompt = f"Create a logo that accurately depicts: {translated_logo_text}. The overall mood should be: {style} and primary color is {color}."
             prompt = truncate_text(prompt, 1000)
 
             logger.info(f"Generated prompt for logo: {prompt}")
