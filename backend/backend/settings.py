@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-DEBUG = True ##배포할땐 False로
+DEBUG = False ##배포할땐 False로
 
 # settings.py
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
