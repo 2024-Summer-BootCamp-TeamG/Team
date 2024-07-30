@@ -212,7 +212,7 @@
 </td>
 <td width="100" align="center">
     <a href="https://github.com/hoya04">
-        <img src="https://github.com/user-attachments/assets/bcfea38a-7fb0-46c0-86e5-ccff9ab5677d" width="60" height="60" alt="IMG_1054 JPG">
+        <img src="https://github.com/user-attachments/assets/baa3534e-0cad-4b16-bcf0-746c91d6fc9e" width="60" height="60" alt="IMG_1054 JPG">
     </a>
 </td>
 </td>
