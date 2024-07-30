@@ -1,0 +1,31 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+jobs: # Job
+  cd: # Job 이름
+
+    runs-on: ubuntu-latest # Runner
+
+    steps: # Step
+
+      # ssh를 통해 EC2에 접속, 접속한 후에 실행할 스크립트 작성
+      - name: Connect to EC2 using SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.AWS_HOST}}
+          username: ${{secrets.AWS_USERNAME}}
+          key: ${{ secrets.AWS_KEY_PEM }}
+          envs: GITHUB_SHA
+          script: |
+              cd Team
+              git pull
+              sudo docker-compose down
+              sudo docker-compose pull
+              sudo docker-compose up -d --build
