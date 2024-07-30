@@ -73,6 +73,7 @@ services:
       - db
       - rabbitmq
       - celery
+
     networks:
       - teamg
 
@@ -103,18 +104,6 @@ services:
       - db
     networks:
       - teamg
-
-  django: #서비스 이름
-    container_name: django
-    image: ryanleetecheer/backend-test:0.0.8-django #이미지
-    restart: always #디비 연결용 재시작
-    ports:
-      - '8002:8002' #8002 포트 매핑
-    networks:
-      - teamg #프로메테우스와 같은 네트워크
-    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8002" #장고 실행
-    depends_on:
-      - db #디비 연결 우선
 
   prometheus:
     image: prom/prometheus:v2.45.6
