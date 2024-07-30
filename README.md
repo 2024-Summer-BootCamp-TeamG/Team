@@ -174,7 +174,7 @@
 
 | Promotions API | prompts API |Members API|                                                                                                                                                            
 |----------------|--------------|-------------|
-| api/promotions/ <br>:생성된 앨범 조회 <br>api/promotions/id <br>:앨범 상세 조회  |  <br>api/prompts/generate_logo <br>:로고 생성 <br>api/prompts/generate_poster <br>: 포스터 생성<br>prompts/generate_textandmusic <br>: 가사가 있는 음악 생성<br>api/prompts/generate_textandmusic/{task_id} <br>:openAi가 생성한 가사 받아오기| api/user/signup <br>:회원가입  <br> api/user/signin <br>:로그인 |     
+| api/promotions/ <br>:생성된 앨범 조회 <br>api/promotions/id <br>:앨범 상세 조회  |  <br>api/prompts/generate_logo <br>:로고 생성 <br>api/prompts/generate_poster <br>: 포스터 생성<br>prompts/generate_textandmusic <br>: 가사가 있는 음악 생성 (수정) <br>api/prompts/generate_textandmusic/{task_id} <br>:openAi가 생성한 가사 받아오기(수정) | api/user/signup <br>:회원가입  <br> api/user/signin <br>:로그인 |     
 
 
 ## 🐳 How to start
@@ -192,45 +192,45 @@
     <tr>
         <th>Picture</th>
         <td width="100" align="center">
-            <a href="https://github.com/philjin97">
-        <img src="https://github.com/Techeer-H/frontend/assets/74411978/c54061c4-a693-47b9-ad56-6905342585e9" width="60" height="60" alt="philjin">
+            <a href="https://github.com/9JIIIIIN9">
+        <img src="https://github.com/user-attachments/assets/c19257c3-1a71-48ea-9f40-e6f92ec3c1dd" width="60" height="60" alt="philjin">
             </a>
         </td>
         <td width="100" align="center">
-    <a href="https://github.com/penloo">
-        <img src="https://github.com/Techeer-H/frontend/assets/74411978/1010dfa7-7901-41da-b867-1c080b076c46" width="60" height="60" alt="jaemin">
+    <a href="https://github.com/Seyeonnnn">
+        <img src="https://github.com/user-attachments/assets/85577df4-a620-47b3-9d66-d957029cb2f1" width="60" height="60" alt="jaemin">
     </a>
 </td>
 <td width="100" align="center">
-    <a href="https://github.com/JunYoung02">
-        <img src="https://github.com/Techeer-H/frontend/assets/74411978/304d569f-548c-4807-9ce7-c575097aa9f0" width="60" height="60" alt="jun">
+    <a href="https://github.com/oop20811">
+        <img src="https://github.com/user-attachments/assets/f9fc0dbe-37a7-4fea-bff4-5655f74c24a4" width="60" height="60" alt="jun">
     </a>
 </td>
 <td width="100" align="center">
-    <a href="https://github.com/GirlsLikeMeY">
-        <img src="https://github.com/Techeer-H/frontend/assets/74411978/d980c186-d744-4441-9dcd-85d3c97f93cd" width="60" height="60" alt="hh">
+    <a href="https://github.com/taeho4523">
+        <img src="https://github.com/user-attachments/assets/6d986bd0-7e04-4775-85ad-0c04a31728f9" width="60" height="60" alt="hh">
     </a>
 </td>
 <td width="100" align="center">
-    <a href="https://github.com/yeomj051">
-        <img src="https://github.com/Techeer-H/frontend/assets/74411978/af3230c3-db06-4799-a101-5641591d34dc" width="60" height="60" alt="IMG_1054 JPG">
+    <a href="https://github.com/hoya04">
+        <img src="https://github.com/user-attachments/assets/bcfea38a-7fb0-46c0-86e5-ccff9ab5677d" width="60" height="60" alt="IMG_1054 JPG">
     </a>
 </td>
 </td>
     </tr>
     <tr>
         <th>Name</th>
-        <td width="100" align="center">🐶상필진</td>
-        <td width="100" align="center">🐼하재민</td>
-        <td width="100" align="center">🐹조준영</td>
-        <td width="100" align="center">🐰이현진</td>
-        <td width="100" align="center">🐱여민지</td>
+        <td width="100" align="center">🦭이현진🦭</td>
+        <td width="100" align="center">👯‍♀️최세연👯‍♀️</td>
+        <td width="100" align="center">🥷🏼이천우🥷🏼</td>
+        <td width="100" align="center">🐯김태호🐯</td>
+        <td width="100" align="center">🐻신정호🐻</td>
     </tr>
     <tr>
         <th>Position</th>
         <td width="150" align="center">
             Leader<br>
-            Backend<br>
+            Frontend<br>
             Devops<br>
         </td>
         <td width="150" align="center">
@@ -240,39 +240,38 @@
             Frontend<br>
         </td>
         <td width="150" align="center">
-            Frontend<br>
+            Backend<br>
+            Devops<br>
         </td>
         <td width="150" align="center">
             Backend<br>
             Devops<br>
         </td>
-        
-    </tr>
     <tr>
         <th>GitHub</th>
         <td width="100" align="center">
-            <a href="https://github.com/philjin97">
-                <img src="http://img.shields.io/badge/philjin97-green?style=social&logo=github"/>
+            <a href="https://github.com/9JIIIIIN9">
+                <img src="http://img.shields.io/badge/9JIIIIIN9-green?style=social&logo=github"/>
             </a>
         </td>
         <td width="100" align="center">
-            <a href="https://github.com/penloo">
-                <img src="http://img.shields.io/badge/penloo-green?style=social&logo=github"/>
+            <a href="https://github.com/Seyeonnnn">
+                <img src="http://img.shields.io/badge/Seyeonnnn-green?style=social&logo=github"/>
             </a>
         </td>
         <td width="100" align="center">
-            <a href="https://github.com/JunYoung02">  
-                <img src="http://img.shields.io/badge/JunYoung02-green?style=social&logo=github"/>
+            <a href="https://github.com/oop20811">  
+                <img src="http://img.shields.io/badge/oop20811-green?style=social&logo=github"/>
             </a>
         </td>
         <td width="100" align="center">
-            <a href="https://github.com/GirlsLikeMeY">
-                <img src="http://img.shields.io/badge/GirlsLikeMeY-green?style=social&logo=github"/>
+            <a href="https://github.com/taeho4523">
+                <img src="http://img.shields.io/badge/taeho4523-green?style=social&logo=github"/>
             </a>
         </td>
         <td width="100" align="center">
-            <a href="https://github.com/yeomj051">
-                <img src="http://img.shields.io/badge/yeomj051-green?style=social&logo=github"/>
+            <a href="https://github.com/hoya04">
+                <img src="http://img.shields.io/badge/hoya04-green?style=social&logo=github"/>
             </a>
         </td>
          
@@ -280,9 +279,3 @@
     </tbody>
 </table>
 <hr>
-
-|  [이현진](https://github.com/9JIIIIIN9)     | [최세연](https://github.com/Seyeonnnn)       | 🥷🏼 [이천우](https://github.com/oop20811)          | [김태호](https://github.com/taeho4523)            | [신정호](https://github.com/hoya04)   
-|------------------------------------------|---------------------------------------------|----------------------------------------------|---------------------------------------------|---------------------------------------------|
-| https://github.com/9JIIIIIN9 | https://github.com/Seyeonnnn | https://github.com/oop20811| https://github.com/taeho4523 | https://github.com/hoya04 |
-|<img width="300" alt="최세연" src="https://github.com/user-attachments/assets/c19257c3-1a71-48ea-9f40-e6f92ec3c1dd">|  <img width="300" alt="최세연" src="https://github.com/user-attachments/assets/85577df4-a620-47b3-9d66-d957029cb2f1">|      <img width="300" alt="이천우" src="https://github.com/user-attachments/assets/f9fc0dbe-37a7-4fea-bff4-5655f74c24a4">| <img width="300" alt="김태호" src="https://github.com/user-attachments/assets/6d986bd0-7e04-4775-85ad-0c04a31728f9"> |  <img width="300" alt="신정호" src="https://github.com/user-attachments/assets/bcfea38a-7fb0-46c0-86e5-ccff9ab5677d">|
-| Leader, Frontend, DevOps                 | Frontend                                    | Frontend                                     | Backend, DevOps                             | Backend, DevOps                                     |                               
