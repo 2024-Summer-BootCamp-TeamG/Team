@@ -129,9 +129,10 @@
 <br>
 <br>
 
+
 ## 🔑 ERD
 <p align="left">
-<img width="700" alt="스크린샷 2024-07-30 오후 3 26 02" src="">
+<img width="700" alt="스크린샷 2024-07-30 오후 3 26 02" src="https://github.com/user-attachments/assets/7397eb46-03d4-4c30-a9c5-31bcd935784f">
 <br>
 <br>
 
