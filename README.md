@@ -141,7 +141,7 @@
 ***
 | **Category**           | **Technologies**                                                      |
 |------------------------|-----------------------------------------------------------------------|
-| **Frontend**           | Vite, JavaScript, React, Zustand, Styled-Components, Prettier, Eslint |
+| **Frontend**           | Vite, JavaScript, React, Recoil, Styled-Components, Prettier, Eslint |
 | **Backend**            | Django, MySQL, Redis,                                                 |
 | **Web Server**         | Nginx                                                                 |
 | **Asynchronous**       | Celery, Rabbitmq                                                      |
