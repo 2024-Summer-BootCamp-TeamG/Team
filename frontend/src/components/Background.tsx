@@ -47,16 +47,15 @@ export default function Background({ children }: BackgroundProps) {
 
   const smallnote: CoordinateNote[] = [
     { src: smallNote, right: '90%', top: '70%' },
-    { src: smallNote, left: '50%', top: '80%' },
+    // { src: smallNote, left: '50%', top: '80%' },
     { src: smallNote, left: '90%', top: '45%' },
-    { src: smallNote, left: '25%', top: '90%' },
     { src: smallNote, left: '70%', top: '15%' },
-    { src: smallNote, left: '10%', top: '70%' },
-    { src: smallNote, left: '2%', top: '60%' },
-    { src: smallNote, left: '25%', top: '90%' },
-    { src: smallNote, left: '60%', top: '65%' },
-    { src: smallNote, left: '50%', top: '30%' },
-    { src: smallNote, left: '2%', top: '40%' },
+    { src: smallNote, left: '70%', top: '70%' },
+    { src: smallNote, left: '80%', top: '90%' },
+    // { src: smallNote, left: '25%', top: '90%' },
+    // { src: smallNote, left: '60%', top: '65%' },
+    // { src: smallNote, left: '50%', top: '30%' },
+    { src: smallNote, left: '20%', top: '40%' },
   ];
   return (
     <div className="relative h-full w-full">

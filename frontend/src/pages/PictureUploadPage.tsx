@@ -285,7 +285,7 @@ const PictureUploadPage = () => {
               </div>
               {!isUploading ? (
                 <button
-                  className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white"
+                  className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white bg-opacity-50 text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white"
                   onClick={uploadImages}
                 >
                   브랜딩 start
