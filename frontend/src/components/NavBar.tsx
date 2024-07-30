@@ -65,7 +65,7 @@ function NavBar() {
         </Link>
       </div>
       <div className="absolute left-1/2 top-0 -translate-x-1/2 transform p-4 text-[1.2rem]">
-        <p className="text-[3rem] text-[#cc4ecc] text-white">Brandify</p>
+        <p className="text-[3rem] text-white">Brandify</p>
       </div>
       {location.pathname !== '/signup' && location.pathname !== '/signin' && (
         <div className="absolute right-0 top-0 flex items-center p-4">

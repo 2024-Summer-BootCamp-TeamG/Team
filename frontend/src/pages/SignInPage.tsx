@@ -121,7 +121,7 @@ function SignInPage() {
                   onSubmit={handleSubmit}
                   className="mt-[-3.5rem] flex h-[35rem] w-[28rem] flex-col items-center justify-center rounded-xl bg-opacity-20"
                 >
-                  <div className="font-['Cafe24 Danjunghae'] mb-8 text-center text-[3rem] font-normal text-white">
+                  <div className="font-['Cafe24 Danjunghae'] mb-8 text-center text-[2rem] font-normal text-white">
                     로그인
                   </div>
                   <div className="mb-6 h-[3rem] w-[20rem] rounded-[1.25rem] border-2 border-white bg-white/20">

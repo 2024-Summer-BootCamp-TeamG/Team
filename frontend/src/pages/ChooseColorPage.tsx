@@ -108,11 +108,7 @@ function ChooseColorPage() {
     setActiveColor(color);
     setSelectedButton(nextColor);
   };
-  // const handleSubmit = (event: any) => {
-  //   event.preventDefault();
-  //   console.log('Selected color:', selectedButton);
-  //   navigate('/selectstyle'); // 폼 제출 후 다음 페이지로 이동
-  // };
+
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-black bg-cover">
       <div className="relative h-full w-full">

@@ -1,4 +1,10 @@
-import { ChangeEvent, useCallback, useRef, useState, useEffect } from 'react';
+import React, {
+  ChangeEvent,
+  useCallback,
+  useRef,
+  useState,
+  useEffect,
+} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './style.scss';
@@ -6,9 +12,6 @@ import UploadIcon from '../assets/picUpload2.png';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import CloseIcon from '../assets/closeBtn.png';
-import axiosInstance from '../api/axios';
-import { useRecoilValue } from 'recoil';
-import { userState } from '../recoil/UserAtom';
 
 interface IFileTypes {
   id: number;
@@ -22,32 +25,13 @@ const PictureUploadPage = () => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [logoUploaded, setLogoUploaded] = useState<boolean>(false); // 로고 업로드 상태 추가
-  // const [userId] = useState<string | null>(null); // user_id 상태 추가
-
+  const [musicGenerated, setMusicGenerated] = useState<boolean>(false); // 음악 생성 상태 추가
   const navigate = useNavigate();
-  const user = useRecoilValue(userState);
 
   const dragRef = useRef<HTMLLabelElement | null>(null);
   const fileId = useRef<number>(0);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const percentRef = useRef<HTMLSpanElement | null>(null);
-
-  // useEffect(() => {
-  //   const storedUserId = localStorage.getItem('user_id');
-  //   console.log(storedUserId);
-  //   if (storedUserId) {
-  //     setUserId(storedUserId);
-  //   } else {
-  //     alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.');
-  //     navigate('/signin'); // 로그인 정보가 없으면 로그인 페이지로 이동
-  //   }
-  // }, [navigate]);
-  useEffect(() => {
-    if (!user.isLoggedIn) {
-      alert('로그인 정보가 없습니다useEffect. 로그인 페이지로 이동합니다.');
-      navigate('/signin');
-    }
-  }, [user, navigate]);
 
   const onChangeFiles = useCallback(
     (e: ChangeEvent<HTMLInputElement> | DragEvent): void => {
@@ -137,12 +121,6 @@ const PictureUploadPage = () => {
   }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
 
   const uploadImages = async () => {
-    if (!user.userId) {
-      alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.');
-      navigate('/signin');
-      return;
-    }
-
     setIsUploading(true);
     setIsLoading(true);
 
@@ -152,13 +130,10 @@ const PictureUploadPage = () => {
     });
 
     try {
-      const response = await axiosInstance.post(
-        '/prompts/analysis_text',
+      const response = await axios.post(
+        'http://localhost:8000/api/prompts/analysis_text',
         formData,
         {
-          // headers: {
-          //   user_id: userId,
-          // },
           withCredentials: true,
         },
       );
@@ -166,7 +141,9 @@ const PictureUploadPage = () => {
       if (response.status === 200) {
         setLogoUploaded(true); // 로고 업로드 성공 시 상태 변경
         alert('이미지 업로드가 성공적으로 완료되었습니다.');
-        navigate('/busin');
+
+        // 이미지 업로드 성공 후 음악 생성 API 호출
+        await generateMusic(formData);
       } else {
         alert('이미지 업로드에 실패했습니다.');
       }
@@ -188,6 +165,52 @@ const PictureUploadPage = () => {
     } finally {
       setIsUploading(false);
       setIsLoading(false);
+    }
+  };
+
+  // 추가된 부분: 음악 생성 함수
+  const generateMusic = async (formData: FormData) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8000/api/prompts/generate_textandmusic', // 음악 생성 엔드포인트
+        formData, // 이미지 파일 포함한 FormData 전송
+        {
+          withCredentials: true,
+        },
+      );
+
+      if (response.status === 200) {
+        const taskId = response.data.task_id;
+        localStorage.setItem('task_id', taskId);
+        setMusicGenerated(true); // 음악 생성 성공 시 상태 변경
+        alert('음악 생성이 성공적으로 완료되었습니다.');
+        navigate('/busin'); // 이동할 페이지로 네비게이션
+      } else if (response.status === 202) {
+        const taskId = response.data.task_id;
+        localStorage.setItem('task_id', taskId);
+        setMusicGenerated(true);
+        alert(
+          '음악 생성이 요청되었습니다. 작업이 완료될 때까지 기다려 주세요.',
+        );
+        navigate('/busin');
+      } else {
+        alert('음악 생성에 실패했습니다.');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          const errorMessage =
+            error.response.data.detail || JSON.stringify(error.response.data);
+          console.log(JSON.stringify(error.response.data));
+          alert(`음악 생성 도중 오류가 발생했습니다: ${errorMessage}`);
+        } else {
+          alert('음악 생성 도중 오류가 발생했습니다.');
+        }
+        console.error('There was an error!', error);
+      } else {
+        alert('음악 생성 도중 예기치 않은 오류가 발생했습니다.');
+        console.error('There was an unexpected error!', error);
+      }
     }
   };
 
@@ -218,17 +241,12 @@ const PictureUploadPage = () => {
     }
   }, [isLoading]);
 
-  // useEffect(() => {
-  //   if (logoUploaded && !isLoading) {
-  //     navigate('/busin');
-  //   }
-  // }, [logoUploaded, isLoading, navigate]);
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center bg-[#000000] bg-cover">
       <Background>
         <NavBar />
         {/* 로딩 중이 아닌 상태 */}
-        {!isLoading && !logoUploaded && (
+        {!isLoading && !logoUploaded && !musicGenerated && (
           <div className="flex w-full justify-around">
             <div className="relative mb-12 mr-16 flex flex-col items-center justify-center">
               <div className="DragDrop 0 mb-12 mt-20 flex h-[22.5rem] w-[22.5rem] items-center justify-center rounded-full border-4 border-dashed border-white bg-transparent p-6 backdrop-blur-2xl">
@@ -285,7 +303,7 @@ const PictureUploadPage = () => {
               </div>
               {!isUploading ? (
                 <button
-                  className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white bg-opacity-50 text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white"
+                  className="left-[25rem] top-[56.25rem] h-[4.06rem] w-[30rem] rounded-[2.5rem] border-2 border-black bg-white text-center text-[1.5rem] text-black hover:border-white hover:bg-black hover:text-white"
                   onClick={uploadImages}
                 >
                   브랜딩 start
@@ -333,9 +351,16 @@ const PictureUploadPage = () => {
         )}
 
         {/* 로고 업로드 후 화면 */}
-        {logoUploaded && !isLoading && (
+        {logoUploaded && !isLoading && !musicGenerated && (
           <div className="absolute inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <img src={UploadIcon} alt="Logo" className="h-[200px] w-[200px]" />
+          </div>
+        )}
+
+        {/* 음악 생성 후 화면 */}
+        {musicGenerated && !isLoading && !logoUploaded && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <p className="text-2xl text-white">음악 생성이 완료되었습니다!</p>
           </div>
         )}
       </Background>

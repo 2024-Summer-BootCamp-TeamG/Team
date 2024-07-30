@@ -20,6 +20,7 @@ import SelectStylePage from './pages/SelectStylePage';
 import PictureUploadPage from './pages/PictureUploadPage';
 // import CarouselPage from './pages/Carousel';
 import Raise from '../src/pages/raise/index';
+import Star from './pages/starTest';
 
 import './App.css';
 
@@ -48,6 +49,7 @@ function App() {
         <Route path="/choosestyle" element={<ChooseStylePage />} />
         <Route path="/albumlist" element={<AlbumListPage />} />
         <Route path="/raise" element={<Raise />} />
+        <Route path="/star" element={<Star />} />
       </Routes>
     </>
   );
