@@ -22,6 +22,7 @@ Django==5.0.7
 django-celery-beat==2.6.0
 django-celery-results==2.5.1
 django-cors-headers==4.4.0
+django-prometheus==2.3.1
 django-timezone-field==7.0
 djangorestframework==3.15.2
 djangorestframework-simplejwt==5.3.1
@@ -40,6 +41,7 @@ jmespath==1.0.1
 kombu==5.3.7
 mysqlclient==2.2.4
 packaging==24.1
+prometheus_client==0.20.0
 prompt_toolkit==3.0.47
 pycparser==2.22
 pydantic==2.8.2
@@ -65,5 +67,3 @@ uritemplate==4.1.1
 urllib3==2.2.2
 vine==5.1.0
 wcwidth==0.2.13
-gunicorn==22.0.0
-
