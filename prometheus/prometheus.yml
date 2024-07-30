@@ -9,4 +9,4 @@ scrape_configs:
 
   - job_name: 'django-data' #job 이름
     static_configs:
-      - targets: ['django:8002'] #<서비스_이름>:<포트>
+      - targets: ['web:8000'] #<서비스_이름>:<포트>
