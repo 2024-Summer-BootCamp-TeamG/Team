@@ -13,9 +13,23 @@
 
   <img width="500" alt="image" src="https://github.com/user-attachments/assets/2f31f4e5-dec7-4b96-80c1-272ee191d494">
 </p>
+<br>
+
+## Table of Contents
+* [Introduce](#-introduce)
+
+* [Feature](##-feature)
+* [Demo Video](#-demo)
+* [Medium](#-medium)
+* [System Architechture](##-system-architechture)
+* [ERD](#-erd)
+* [Tech Stack](#-tech-stack)
+* [API](#-api)
+* [How to start](#-how-to-start)
+* [Team Members](#-members)
 
 
-## 🎨 Introduce
+## 🎨Introduce
 
 <table width="1200px">
     <thead>
@@ -112,11 +126,13 @@
 ## 📹 Demo
 
 <br>
+
 ## 💯 Medium
 
 <br>
 
 ## 🛠 ️System Architecture
+
 <p align="left">
 <img width="700"  src="https://github.com/user-attachments/assets/f8bb3d7f-e576-4d5e-aac8-f47f68287c3d">
 <br>
