@@ -76,42 +76,34 @@
 
 ###   ☁️ 프로모션 제품의 사진 업로드하기☁️
 <br>
-- 프로모션 하고 싶으신 제품 사진을 찍고 사진을 업로드 한 뒤 "브랜딩 start" 버튼을 눌러주세요!
+-프로모션 하고 싶으신 제품 사진을 찍고 사진을 업로드 한 뒤 "브랜딩 start" 버튼을 눌러주세요!
 <br>
 <img width="700" alt="image" src="https://github.com/user-attachments/assets/31f85f8d-269f-40ed-b2fa-f7e2e7fd4473"> 
 <br>
 <br>
-
 - 로고에 들어갈 문구를 작성해 보세요!
 <br>
 <img width="700" alt="image" src="https://github.com/user-attachments/assets/6d16fde3-989a-4f6e-a2a9-47d332071426">
 <br>
 <br>
-
 - 포스터에 들어갈 문구를 작성해 주세요!
 <br>
 <img width="700" alt="image" src="https://github.com/user-attachments/assets/5a70488c-0c93-4383-9d81-3485c0b9b9ee">
 <br>
 <br>
-
-
 - 로고와 포스터의 색상을 선택해 주세요!
 <br>
 <img width="700" alt="image" src="https://github.com/user-attachments/assets/b3acad86-9d37-4884-9f8b-a60f69cead29">
 <br>
 <br>
-
 - 로고와 포스터의 스타일을 선택해 주세요!
 <br>
-
-
 <br>
 <br>
 
 ### ☁️ 목록 페이지 ☁️<br>
 - 목록페이지에서 만든 로고,포스터,cm송을 확인 할 수 있어요 
 <img width="700" alt="image" src="https://github.com/user-attachments/assets/8e38bb1d-49c0-41a0-bea7-e19d34b5c933">
-
 <br>
 <br>
 
