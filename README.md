@@ -17,7 +17,6 @@
 
 ## Table of Contents
 * [Introduce](#-introduce)
-
 * [Feature](##-feature)
 * [Demo Video](#-demo)
 * [Medium](#-medium)
