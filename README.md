@@ -109,6 +109,7 @@
 
 ## 🔑 ERD
 <p align="left">
+<img width="700" alt="스크린샷 2024-07-30 오후 3 26 02" src="https://github.com/user-attachments/assets/5a1157c3-2834-4777-93bc-df818cc983bc">
 
 
 ## 💻 Tech Stack
@@ -149,8 +150,9 @@
 ## 📗 API
 
 ### 일기, 유저 관련 API
+<img width="1470" alt="스크린샷 2024-07-30 오후 3 14 08" src="https://github.com/user-attachments/assets/6af9a671-b980-4666-afc0-69ea34273949">
 
-<img width="1212" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/04c0b52f-2aeb-4acd-a1fc-29e8634a676c"><br>
+
 
 | Calendars API | Diaries API |Members API|Static API|                                                                                                                                                                             
 |---------------|-------------|--|----|
