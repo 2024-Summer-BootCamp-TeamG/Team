@@ -8,6 +8,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    restart: always
     ports:
       - "3306:3306"
     volumes:
@@ -90,6 +91,8 @@ services:
       - build_folder:/var/www/frontend
     depends_on:
       - web
+      - frontend
+    restart: always
     networks:
       - teamg
 
