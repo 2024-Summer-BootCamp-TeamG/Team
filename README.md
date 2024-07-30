@@ -156,7 +156,8 @@
 | **Web Server**         | Nginx                                                                 |
 | **Asynchronous**       | Celery                                                      |
 | **Database**           | AWS S3 Bucket MySQL, Redis                                   |
-| **Deployment**         | AWS EC2, Docker,Github Actions                                                     |                                     | **Monitoring**         | prometheus,grafana                                                     |              
+| **Deployment**         | AWS EC2, Docker,Github Actions                                                     |                                    
+| **Monitoring**         | prometheus,grafana                                                     |              
 | **AI**                 | Dall-E,CHATGPT
 | **AI Test**            | postman
 | **API Documentation**  | Swagger                                                               |
