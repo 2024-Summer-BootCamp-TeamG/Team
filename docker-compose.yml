@@ -91,7 +91,6 @@ services:
       - build_folder:/var/www/frontend
     depends_on:
       - web
-      - frontend
     restart: always
     networks:
       - teamg
