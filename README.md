@@ -28,7 +28,7 @@
 * [Team Members](#-members)
 
 
-## 🎨Introduce
+## 🎨 Introduce
 
 <table width="1200px">
     <thead>
@@ -62,7 +62,7 @@
 <br>
 
 
-## 🌈 Feature
+## 🌈  Feature
 
 ### ☁️ 회원가입 및 로그인 ☁️ <br>
 <p align="left">
