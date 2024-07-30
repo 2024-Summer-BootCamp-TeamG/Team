@@ -188,8 +188,6 @@
 <table width="950px">
     <thead>
     </thead>
-    <tbody>
-    <tr>
         <th>Picture</th>
         <td width="100" align="center">
             <a href="https://github.com/9JIIIIIN9">
@@ -274,8 +272,5 @@
                 <img src="http://img.shields.io/badge/hoya04-green?style=social&logo=github"/>
             </a>
         </td>
-         
-    </tr>
-    </tbody>
 </table>
 <hr>
