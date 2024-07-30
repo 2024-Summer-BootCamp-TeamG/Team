@@ -9,3 +9,47 @@ groups:
         annotations:
           summary: "Instance {{ $labels.instance }} is down"
           description: "인스턴스 {{ $labels.instance }}가 최소 10초 동안 내려가있습니다. Job: {{ $labels.job }}"
+
+  - name: high-cpu-usage
+    rules:
+      - alert: HighCPUUsage
+        expr: sum(rate(node_cpu_seconds_total{mode!="idle"}[5m])) by (instance) / sum(rate(node_cpu_seconds_total[5m])) by (instance) > 0.8
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "Instance {{ $labels.instance }} has been using over 80% CPU for the last 5 minutes."
+
+  - name: high-memory-usage
+    rules:
+      - alert: HighMemoryUsage
+        expr: node_memory_Active_bytes / node_memory_MemTotal_bytes > 0.9
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+          description: "Instance {{ $labels.instance }} has been using over 90% memory for the last 5 minutes."
+
+  - name: high-http-response-time
+    rules:
+      - alert: HighHTTPResponseTime
+        expr: histogram_quantile(0.9, sum(rate(http_request_duration_seconds_bucket[5m])) by (le, instance)) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High HTTP response time on {{ $labels.instance }}"
+          description: "Instance {{ $labels.instance }} has an HTTP response time over 0.5 seconds for the 90th percentile in the last 5 minutes."
+
+  - name: high-http-5xx-errors
+    rules:
+      - alert: HighHTTP5xxErrors
+        expr: sum(rate(http_requests_total{status=~"5.."}[5m])) by (instance) / sum(rate(http_requests_total[5m])) by (instance) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High rate of HTTP 5xx errors on {{ $labels.instance }}"
+          description: "Instance {{ $labels.instance }} has over 5% HTTP 5xx errors in the last 5 minutes."
