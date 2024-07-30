@@ -20,7 +20,7 @@
 * [Feature](#-feature)
 * [Demo Video](#-demo)
 * [Medium](#-medium)
-* [System Architechture](#-system-architechture)
+* [System Architechture](#-system)
 * [ERD](#-erd)
 * [Tech Stack](#-tech-stack)
 * [API](#-api)
@@ -131,7 +131,6 @@
 <br>
 
 ## 🛠 ️System Architecture
-
 <p align="left">
 <img width="700"  src="https://github.com/user-attachments/assets/f8bb3d7f-e576-4d5e-aac8-f47f68287c3d">
 <br>
