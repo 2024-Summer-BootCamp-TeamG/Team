@@ -125,7 +125,7 @@
 ## 🛠 System Architechture
 
 <p align="left">
-<img width="700"  src="https://github.com/user-attachments/assets/2d443e89-80a8-4838-9142-f6c1a541c52a">
+<img width="700"  src="">
 <br>
 <br>
 
