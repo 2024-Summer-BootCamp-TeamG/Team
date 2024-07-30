@@ -7,6 +7,7 @@ COPY package.json ./
 COPY . ./
 RUN npm install
 RUN npm run build
+RUN npm run dev
 # Step 2: Serve the React app with nginx
 # FROM nginx:alpine
 
