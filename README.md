@@ -160,10 +160,10 @@
 
 ### 로고,포스터,cm송 제작,유저 관련 API
 <img width="1470" alt="스크린샷 2024-07-30 오후 3 14 08" src="https://github.com/user-attachments/assets/6af9a671-b980-4666-afc0-69ea34273949">
-<br>
-| Promotions API | prompts API |Members API|                                                                                                                                                                           
+
+| Promotions API | prompts API |Members API|                                                                                                                                                            
 |----------------|--------------|-------------|
-| api/promotions/ <br>:생성된 앨범 조회 <br>api/promotions/id <br>:앨범 상세 조회  |   api/prompts/analysis_text/ <br>:사용자가 업로드 한 사진 분석<br>api/prompts/generate_logo <br>:로고 생성 <br>api/prompts/generate_poster <br>: 포스터 생성<br>prompts/generate_textandmusic <br>: 가사가 있는 음악 생성<br>api/prompts/generate_textandmusic/{task_id} <br>:openAi가 생성한 가사 받아오기|  api/user/signup <br>:회원가입  <br> api/user/signin <br>:로그인      
+| api/promotions/ <br>:생성된 앨범 조회 <br>api/promotions/id <br>:앨범 상세 조회  |   api/prompts/analysis_text/ <br>:사용자가 업로드 한 사진 분석<br>api/prompts/generate_logo <br>:로고 생성 <br>api/prompts/generate_poster <br>: 포스터 생성<br>prompts/generate_textandmusic <br>: 가사가 있는 음악 생성<br>api/prompts/generate_textandmusic/{task_id} <br>:openAi가 생성한 가사 받아오기| api/user/signup <br>:회원가입  <br> api/user/signin <br>:로그인 |     
 
 
 ## 🐳 How to start
