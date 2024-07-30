@@ -17,7 +17,7 @@
 
 ## Table of Contents
 * [Introduce](#-introduce)
-* [Feature](##-feature)
+* [Feature](#-feature)
 * [Demo Video](#-demo)
 * [Medium](#-medium)
 * [System Architechture](##-system-architechture)
