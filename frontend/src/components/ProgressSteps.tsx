@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import React from 'react';
 
 type ProgressStepsProps = {
@@ -14,7 +14,7 @@ const steps = [1, 2, 3, 4];
 const ProgressSteps: React.FC<ProgressStepsProps> = ({ currentStep }) => {
   return (
     <Container>
-      <Line />
+      <Line currentStep={currentStep} />
       {steps.map((step) => (
         <Star key={step} active={step <= currentStep} />
       ))}
@@ -24,28 +24,48 @@ const ProgressSteps: React.FC<ProgressStepsProps> = ({ currentStep }) => {
 
 export default ProgressSteps;
 
+const progressAnimation = keyframes`
+  0% { width: 0; }
+  100% { width: 100%; }
+`;
+
 export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
   margin: 20px 0;
+  width: 100%;
+  height: 20px; /* Adjusted to fit the stars */
 `;
 
-export const Line = styled.div`
+export const Line = styled.div<{ currentStep: number }>`
   position: absolute;
   top: 50%;
   left: 0;
-  right: 0;
   height: 2px;
-  background: linear-gradient(to right, #d0cccc, #0f0f0f);
+  background: linear-gradient(to right, #0f0f0f, #c3bfbf);
   z-index: 1;
+  width: ${(props) => (props.currentStep - 1) * 33.33}%;
+  transition: width 0.3s;
+`;
+
+const glow = keyframes`
+  0% {
+    box-shadow: 0 0 5px rgba(0, 0, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 0, 255, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(0, 0, 255, 0.2);
+  }
 `;
 
 export const Star = styled.div<StarProps>`
   position: relative;
   z-index: 2;
-  background-color: ${(props) => (props.active ? '#00f' : '#ccc')};
+  background-color: ${(props) => (props.active ? '#66CCFF' : '#ccc')};
   width: ${(props) => (props.active ? '15px' : '10px')};
   height: ${(props) => (props.active ? '15px' : '10px')};
   border-radius: 50%;
@@ -53,6 +73,12 @@ export const Star = styled.div<StarProps>`
     background-color 0.3s,
     width 0.3s,
     height 0.3s;
+
+  ${(props) =>
+    props.active &&
+    css`
+      animation: ${glow} 1s infinite alternate;
+    `}
 
   &:before {
     content: '';
