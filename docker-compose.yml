@@ -113,7 +113,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./prometheus/alert-rules.yml:/etc/prometheus/alert-rules.yml #추가된 부분
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
