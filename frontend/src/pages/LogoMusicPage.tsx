@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import Background from '../components/Background2.tsx';
+import Background from '../components/Background';
 import NavBar from '../components/NavBar.tsx';
 import Album from '../assets/AlbumCD.png';
 import Default from '../assets/Album.png';

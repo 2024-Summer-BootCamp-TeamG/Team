@@ -53,7 +53,7 @@ function NavBar() {
             </p>
           </button>
         </Link>
-        <Link to="/albumlist">
+        <Link to="/detail">
           <button type="button" className="flex flex-row items-center">
             <img
               className="h-[2.2rem] w-[2.2rem]"

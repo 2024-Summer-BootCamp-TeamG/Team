@@ -32,7 +32,7 @@ function ChooseColorPage() {
   };
 
   const prevStep = () => {
-    navigate('/texi'); // Update with the actual previous page route
+    navigate('/textinput'); // Update with the actual previous page route
   };
 
   const colors: Color[] = [

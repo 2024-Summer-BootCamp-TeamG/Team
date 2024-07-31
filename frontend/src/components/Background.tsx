@@ -49,7 +49,6 @@ export default function Background({ children }: BackgroundProps) {
     { src: smallNote, right: '90%', top: '70%' },
     // { src: smallNote, left: '50%', top: '80%' },
     { src: smallNote, left: '90%', top: '45%' },
-    { src: smallNote, left: '70%', top: '15%' },
     { src: smallNote, left: '70%', top: '70%' },
     { src: smallNote, left: '80%', top: '90%' },
     // { src: smallNote, left: '25%', top: '90%' },

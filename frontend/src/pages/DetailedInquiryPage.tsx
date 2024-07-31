@@ -35,8 +35,15 @@ function DetailedInquiryPage() {
   const [promotions, setPromotions] = useState<PromotionData[]>([]);
 
   useEffect(() => {
+    const userId = localStorage.getItem('user_id');
+
+    console.log(userId);
+    if (!userId) {
+      console.error('User ID not found in localStorage');
+      return;
+    }
     const fetchList = async () => {
-      const endpoint = `https://brandifyy.site/api/promotions`;
+      const endpoint = `https://brandifyy.site/api/promotions/`;
 
       try {
         const response = await fetch(endpoint, {
@@ -49,6 +56,8 @@ function DetailedInquiryPage() {
 
         if (response.ok) {
           const data: PromotionData[] = await response.json();
+          console.log('Promotions:', data); // API 응답 로그
+
           setPromotions(data);
         } else {
           console.error('Failed to fetch data:', response.status);
@@ -77,9 +86,10 @@ function DetailedInquiryPage() {
 
         if (response.ok) {
           const data: PromotionData = await response.json();
-          setPosterUrl(data.poster_url);
-          setAudioUrl(data.audio_url);
-          setLogoUrl(data.logo_url);
+          console.log('Selected Promotion:', data); // 상세 정보 로그
+          setPosterUrl(data.poster_url || '');
+          setAudioUrl(data.audio_url || '');
+          setLogoUrl(data.logo_url || '');
         } else {
           console.error('Failed to fetch data:', response.status);
         }

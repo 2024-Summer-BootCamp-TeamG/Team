@@ -39,8 +39,7 @@ function App() {
         <Route path="/textinput" element={<TextInputPage />} />
         <Route path="/selectstyle" element={<SelectStylePage />} />
         <Route path="/pictureupload" element={<PictureUploadPage />} />
-        <Route path="/busin" element={<BusinessInputPage />} />
-        <Route path="/texi" element={<TextInputPage />} />
+        <Route path="/business" element={<BusinessInputPage />} />
         {/* <Route path="/carousel" element={<CarouselPage />} /> */}
         <Route path="/detail" element={<DetailedInquiryPage />} />
         <Route path="/main" element={<MainPage children={undefined} />} />

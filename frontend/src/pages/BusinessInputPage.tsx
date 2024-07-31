@@ -89,7 +89,7 @@ function BusinessInputPage() {
                   </button>
                 </Link>
 
-                <Link to="/texi">
+                <Link to="/textinput">
                   <button
                     onClick={nextStep}
                     className="font-['Cafe24 Danjunghae'] flex h-[5rem] w-[12.5rem] justify-center text-center text-3xl font-normal text-white hover:text-bermuda"

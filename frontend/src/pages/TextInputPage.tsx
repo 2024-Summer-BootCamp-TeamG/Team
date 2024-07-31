@@ -75,7 +75,7 @@ function TextInputPage() {
               <p className="ml-[5px] rounded text-[1.2rem] text-white">홈</p>
             </button> */}
               <div className="mt-2 mt-8 flex w-full justify-between px-4">
-                <Link to="/busin">
+                <Link to="/business">
                   <button
                     type="button"
                     onClick={prevStep}

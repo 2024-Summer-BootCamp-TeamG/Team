@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  useCallback,
-  useRef,
-  useState,
-  useEffect,
-} from 'react';
+import { ChangeEvent, useCallback, useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './style.scss';
@@ -27,6 +21,8 @@ const PictureUploadPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [logoUploaded, setLogoUploaded] = useState<boolean>(false); // 로고 업로드 상태 추가
   const [musicGenerated, setMusicGenerated] = useState<boolean>(false); // 음악 생성 상태 추가
+  const [, setUserId] = useState<string | null>(null);
+
   const navigate = useNavigate();
 
   const dragRef = useRef<HTMLLabelElement | null>(null);
@@ -186,7 +182,7 @@ const PictureUploadPage = () => {
         localStorage.setItem('task_id', taskId);
         setMusicGenerated(true); // 음악 생성 성공 시 상태 변경
         alert('음악 생성이 성공적으로 완료되었습니다.');
-        navigate('/busin'); // 이동할 페이지로 네비게이션
+        navigate('/business'); // 이동할 페이지로 네비게이션
       } else if (response.status === 202) {
         const taskId = response.data.task_id;
         localStorage.setItem('task_id', taskId);
@@ -194,7 +190,7 @@ const PictureUploadPage = () => {
         console.log(
           '음악 생성이 요청되었습니다. 작업이 완료될 때까지 기다려 주세요.',
         );
-        navigate('/busin');
+        navigate('/business');
       } else {
         alert('음악 생성에 실패했습니다.');
       }
@@ -220,6 +216,17 @@ const PictureUploadPage = () => {
     initDragEvents();
     return () => resetDragEvents();
   }, [initDragEvents, resetDragEvents]);
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('user_id');
+    console.log(storedUserId);
+    if (storedUserId) {
+      setUserId(storedUserId);
+    } else {
+      alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.');
+      navigate('/signin');
+    }
+  }, [navigate]);
 
   useEffect(() => {
     if (isLoading) {

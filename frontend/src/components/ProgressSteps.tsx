@@ -65,7 +65,7 @@ const glow = keyframes`
 export const Star = styled.div<StarProps>`
   position: relative;
   z-index: 2;
-  background-color: ${(props) => (props.active ? '#66CCFF' : '#ccc')};
+  background-color: ${(props) => (props.active ? '#B843B1' : '#ccc')};
   width: ${(props) => (props.active ? '15px' : '10px')};
   height: ${(props) => (props.active ? '15px' : '10px')};
   border-radius: 50%;
