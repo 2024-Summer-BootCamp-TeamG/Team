@@ -51,7 +51,7 @@ function MainPage({ children }: MainPageProps) {
                 style={{ marginTop: '3rem' }}
               >
                 <Link to="/signup" style={{ marginBottom: '1rem' }}>
-                  <button className="font-['Cafe24 Danjunghae'] hover:border-blue h-[3rem] w-[15rem] items-center justify-center rounded-[2.5rem] border-2 border-white bg-white/30 text-center text-2xl font-normal text-white hover:bg-black hover:text-white">
+                  <button className="font-['Cafe24 Danjunghae'] hover:border-blue h-[3rem] w-[15rem] items-center justify-center rounded-[2.5rem] border-2 border-white bg-black text-center text-2xl font-normal text-white hover:bg-white/30 hover:text-white">
                     회원가입
                   </button>
                 </Link>
