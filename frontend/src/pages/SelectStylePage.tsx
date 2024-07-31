@@ -10,7 +10,7 @@ import { textInputState } from '../recoil/TextInputAtom';
 import axios from 'axios';
 import axiosInstance from '../api/axios';
 import Vector from '../assets/Vectornote.svg';
-import VectorClicked from '../assets/noteClicked.svg';
+import VectorClicked from '../assets/BlueNote.svg';
 import rightArrow from '../assets/rightArrow.svg';
 import leftArrow from '../assets/leftArrow.svg';
 import NoNoteBackground from '../components/NoNoteBackground';

@@ -1,10 +1,9 @@
-import { useState, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import './MainPage.scss';
-// import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from 'react-spring';
 import Background3 from '../components/Background3';
 import { Link } from 'react-router-dom';
-import MainBackground from '../assets/Main.jpeg';
-
+import SignupFrame from '../assets/Main.jpeg';
 interface MainPageProps {
   children: ReactNode;
 }
@@ -18,7 +17,7 @@ function MainPage({ children }: MainPageProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const opacity = Math.max(0, Math.min(1, (offsetY - 500) / 500));
+  const opacity = Math.max(0, Math.min(1, (offsetY - 300) / 500));
 
   return (
     <div className="MainPage">
@@ -39,14 +38,16 @@ function MainPage({ children }: MainPageProps) {
               />
             </div>
             <div className="MainPage__content__text">
-              <div className="MainPage__title">Brandify </div>{' '}
-              <div className="MainPage__subtitle">
-                your one-stop solution for custom music, logos, and posters.{' '}
-                <br /> 프로모션 제품을 위한 맞춤형 음악, 로고, 포스터를 제공하는
-                원스톱 솔루션입니다!
+              <div className="MainPage__title">
+                Brandify <br />
+              </div>
+              <div className="mt-[5rem]">
+                프로모션 제품을 위한 맞춤형 음악, 로고, 포스터를 제공합니다.
+                <br />
+                Brandify로 자신만의 상품을 브랜딩해보세요!
               </div>
               <div
-                className="mt-8 flex w-full justify-center px-4"
+                className="mt-8 flex w-full justify-center space-x-8"
                 style={{ marginTop: '3rem' }}
               >
                 <Link to="/signup" style={{ marginBottom: '1rem' }}>
@@ -60,13 +61,14 @@ function MainPage({ children }: MainPageProps) {
                   </button>
                 </Link>
               </div>
+
               <div
-                className="flex w-full justify-between text-center text-5xl text-white"
-                style={{ marginTop: '20rem' }}
+                className="w-full justify-between text-center text-5xl text-white"
+                style={{ marginTop: '15rem' }}
               >
-                <p>저희 사이트의 사용방법을 알려드릴게요</p>
-                <img src={MainBackground} alt="배경1"></img>
+                저희 사이트의 사용방법을 알려드릴게요
               </div>
+
               <div
                 className="w-full justify-between text-center text-4xl text-white"
                 style={{ marginTop: '5rem' }}
@@ -77,8 +79,11 @@ function MainPage({ children }: MainPageProps) {
                 className="w-full justify-between text-center text-4xl text-white"
                 style={{ marginTop: '3rem', opacity: opacity }}
               >
-                프로모션 하고 싶으신 제품 사진을 찍고 사진을 업로드 한 뒤
-                "브랜딩 start" 버튼을 눌러주세요
+                <p>
+                  프로모션 하고 싶으신 제품 사진을 찍고 사진을 업로드 한 뒤
+                  "브랜딩 start" 버튼을 눌러주세요
+                </p>
+                <img src={SignupFrame} alt="회원가입 사진" />
               </div>
               <div
                 className="w-full justify-between text-center text-4xl text-white"
@@ -106,6 +111,7 @@ function MainPage({ children }: MainPageProps) {
                 생성이 완료되었다면 목록에서 이미지를 클릭하세요 생성하신
                 결과물을 다시 보실 수 있답니다.
               </div>
+
               <div
                 className="w-full justify-between text-center text-3xl text-white hover:text-blue-500"
                 style={{ marginTop: '5rem' }}
@@ -118,6 +124,7 @@ function MainPage({ children }: MainPageProps) {
                   더 자세한 내용을 원하신다면 클릭해 주세요
                 </a>
               </div>
+
               {children}
             </div>
           </div>
