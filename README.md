@@ -125,9 +125,10 @@
 ## 🛠 System Architecture
 
 <p align="left">
-<img width="700"  src="https://github.com/user-attachments/assets/41ccaf20-8fbc-4f1d-8131-3dc324eb532d">
+<img width="700"  src="https://github.com/user-attachments/assets/cd958e23-5622-4093-9092-554c042ee7e8">
 <br>
 <br>
+
 
 
 ## 🔑 ERD
