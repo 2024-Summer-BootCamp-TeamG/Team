@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import axiosInstance from '../api/axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import '../index.css';
+import SignInput from '../assets/ESignInput.png';
 
 // Input 컴포넌트 정의
 const Input: React.FC<{
@@ -99,7 +100,14 @@ const SignUpPage: React.FC = () => {
           <NavBar />
           <div className="mt-[5rem] flex items-center justify-center">
             <div className="flex-col items-center justify-around space-y-8">
-              <div className="flex w-full items-center justify-between space-x-12 rounded-[2.5rem] border-2 border-white bg-white/30 opacity-60">
+              <div
+                className="flex h-full w-full items-center justify-between space-x-12 rounded-[2.5rem] border-2"
+                style={{
+                  backgroundImage: `url(${SignInput})`,
+                  // backgroundSize: 'cover',
+                }}
+              >
+                {' '}
                 <form
                   onSubmit={handleSubmit}
                   className="flex h-[35rem] w-[30rem] flex-col items-center justify-center rounded-xl bg-opacity-20"
@@ -134,6 +142,11 @@ const SignUpPage: React.FC = () => {
                   <div className="font-['Cafe24 Danjunghae'] mt-[2rem] flex h-[3rem] w-[20rem] items-center justify-center text-xl font-normal text-black">
                     <Button type="submit" label="회원가입하기" />
                   </div>
+                  <Link to="/signin">
+                    <p className="mt-4 text-sm text-white hover:text-black">
+                      로그인하기
+                    </p>
+                  </Link>
                 </form>
               </div>
             </div>

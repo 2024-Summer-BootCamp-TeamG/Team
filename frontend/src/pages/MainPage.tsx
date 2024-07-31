@@ -76,14 +76,18 @@ function MainPage({ children }: MainPageProps) {
                 step1
               </div>
               <div
-                className="w-full justify-between text-center text-4xl text-white"
+                className="flex w-full items-center justify-between text-center text-4xl text-white"
                 style={{ marginTop: '3rem', opacity: opacity }}
               >
-                <p>
+                <p className="text-[1rem] text-[#66CCFF]">
                   프로모션 하고 싶으신 제품 사진을 찍고 사진을 업로드 한 뒤
                   "브랜딩 start" 버튼을 눌러주세요
                 </p>
-                <img src={SignupFrame} alt="회원가입 사진" />
+                <img
+                  className="w-[50rem]"
+                  src={SignupFrame}
+                  alt="회원가입 사진"
+                />
               </div>
               <div
                 className="w-full justify-between text-center text-4xl text-white"
