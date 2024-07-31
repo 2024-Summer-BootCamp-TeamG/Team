@@ -131,7 +131,7 @@ function ChooseColorPage() {
                 원하는 색상을 선택해주세요!
               </p>
 
-              <div className="grid grid-cols-4 gap-7">
+              <div className="grid grid-cols-4 gap-5">
                 {colors.map(({ name, color, hoverClass, nextColor }) => {
                   const isWhite = name === 'WHITE' || name === 'YELLOW';
                   const isRandom = name === 'RANDOM';

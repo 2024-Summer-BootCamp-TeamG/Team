@@ -10,7 +10,7 @@ import { textInputState } from '../recoil/TextInputAtom';
 import axios from 'axios';
 import axiosInstance from '../api/axios';
 import Vector from '../assets/Vectornote.svg';
-import VectorClicked from '../assets/BlueNote.svg';
+import VectorClicked from '../assets/PinkWhiteNote.svg';
 import rightArrow from '../assets/rightArrow.svg';
 import leftArrow from '../assets/leftArrow.svg';
 import NoNoteBackground from '../components/NoNoteBackground';
@@ -35,9 +35,15 @@ function SelectStylePage() {
     useRecoilState(generatedMusicState);
   const [, setGeneratedLogo] = useRecoilState(generatedLogoState);
   const [, setGeneratedPoster] = useRecoilState(generatedPosterState);
-  const [, setTaskId] = useState<string | null>(null);
+  const [taskId, setTaskId] = useState<string | null>(null);
   const [, setUserId] = useState<string | null>(null);
-
+  // const toggleButton = (buttonText: string) => {
+  //   setSelectedButton((prevSelected) => {
+  //     const newSelected = prevSelected === buttonText ? '' : buttonText;
+  //     console.log('Button selected:', newSelected);
+  //     return newSelected;
+  //   });
+  // };
   const handleStyleClick = (style: any) => {
     setSelectedButton(style);
     console.log('버튼 선택됨:', style);
@@ -79,7 +85,7 @@ function SelectStylePage() {
           },
         ),
         axiosInstance.post(
-          'prompts/generate_poster',
+          '/prompts/generate_poster',
           {
             style: selectedButton,
             color: color,
@@ -133,7 +139,7 @@ function SelectStylePage() {
 
   const generateMusic = async (taskId: string) => {
     try {
-      const response = await axios.get(
+      const response = await axiosInstance.get(
         `/prompts/generate_textandmusic/${taskId}`,
         {
           withCredentials: true,
@@ -151,11 +157,20 @@ function SelectStylePage() {
           alert('성공');
           navigate('/logomusic');
           setIsLoading(false);
-        } else if (clip_url === undefined) {
+        } else if (
+          clip_url === null ||
+          clip_url === undefined ||
+          task_status === 'PENDING'
+        ) {
           console.log('대기 중', task_status);
-          setTimeout(() => generateMusic(taskId), 5000);
-          console.log(analysis_result);
+          console.log('텍스트:', analysis_result);
           console.log('넌 뭐야2', task_status);
+          console.log('테스크 아이디', taskId);
+          setTimeout(() => generateMusic(taskId), 5000);
+        } else {
+          console.log(response.data);
+          console.log(clip_url);
+          console.log('넌 뭐야 ', task_status);
         }
       } else {
         console.log(response.status);
@@ -193,7 +208,16 @@ function SelectStylePage() {
     }
     setIsLoading(false);
   };
-
+  useEffect(() => {
+    const taskId = localStorage.getItem('task_id');
+    if (taskId) {
+      setTaskId(taskId);
+      generateMusic(taskId);
+    } else {
+      alert('유효하지 않은 작업 ID입니다.');
+      navigate('/pictureupload');
+    }
+  }, [navigate]);
   const getIcon = (style: string) => {
     return selectedButton === style ? VectorClicked : Vector;
   };

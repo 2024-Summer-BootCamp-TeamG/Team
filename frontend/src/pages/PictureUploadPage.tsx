@@ -12,6 +12,7 @@ import UploadIcon from '../assets/picUpload2.png';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import CloseIcon from '../assets/closeBtn.png';
+import axiosInstance from '../api/axios';
 
 interface IFileTypes {
   id: number;
@@ -130,8 +131,8 @@ const PictureUploadPage = () => {
     });
 
     try {
-      const response = await axios.post(
-        'http://localhost:8000/api/prompts/analysis_text',
+      const response = await axiosInstance.post(
+        '/prompts/analysis_text',
         formData,
         {
           withCredentials: true,
@@ -153,7 +154,8 @@ const PictureUploadPage = () => {
           const errorMessage =
             error.response.data.detail || JSON.stringify(error.response.data);
           console.log(JSON.stringify(error.response.data));
-          alert(`로고 생성 도중 오류가 발생했습니다: ${errorMessage}`);
+          alert(`이미지를 먼저 업로드해주세요! `);
+          console.log(`${errorMessage}`);
         } else {
           alert('로고 생성 도중 오류가 발생했습니다.');
         }
@@ -171,8 +173,8 @@ const PictureUploadPage = () => {
   // 추가된 부분: 음악 생성 함수
   const generateMusic = async (formData: FormData) => {
     try {
-      const response = await axios.post(
-        'http://localhost:8000/api/prompts/generate_textandmusic', // 음악 생성 엔드포인트
+      const response = await axiosInstance.post(
+        '/prompts/generate_textandmusic', // 음악 생성 엔드포인트
         formData, // 이미지 파일 포함한 FormData 전송
         {
           withCredentials: true,
@@ -189,7 +191,7 @@ const PictureUploadPage = () => {
         const taskId = response.data.task_id;
         localStorage.setItem('task_id', taskId);
         setMusicGenerated(true);
-        alert(
+        console.log(
           '음악 생성이 요청되었습니다. 작업이 완료될 때까지 기다려 주세요.',
         );
         navigate('/busin');
@@ -287,7 +289,8 @@ const PictureUploadPage = () => {
                           <div onClick={() => handleFilterFile(id)}>
                             <img
                               style={{
-                                marginLeft: '250px',
+                                marginLeft: '230px',
+
                                 position: 'absolute',
                                 zIndex: 1,
                               }}
