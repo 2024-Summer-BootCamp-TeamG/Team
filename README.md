@@ -122,7 +122,7 @@
 
 <br>
 
-## 🛠 System Architechture
+## 🛠 System Architecture
 
 <p align="left">
 <img width="700"  src="https://github.com/user-attachments/assets/41ccaf20-8fbc-4f1d-8131-3dc324eb532d">
