@@ -36,7 +36,7 @@
     <tbody>
     <tr>
          <td width="600" align="center">
-            <img width="300" alt="image" src="https://teammg.s3.ap-northeast-2.amazonaws.com/b1278e02-dc2b-40c7-a034-f81586c06467">
+            <img width="300" alt="image" src="https://github.com/user-attachments/assets/1854c166-519e-461f-bdfb-61391ab2ed28">
         </td>
         <td width="600" align="center">
             <div align="left">
@@ -122,12 +122,13 @@
 
 <br>
 
-## 🛠 System Architechture
+## 🛠 System Architecture
 
 <p align="left">
-<img width="700"  src="">
+<img width="700"  src="https://github.com/user-attachments/assets/cd958e23-5622-4093-9092-554c042ee7e8">
 <br>
 <br>
+
 
 
 ## 🔑 ERD
