@@ -36,7 +36,7 @@
     <tbody>
     <tr>
          <td width="600" align="center">
-            <img width="300" alt="image" src="https://teammg.s3.ap-northeast-2.amazonaws.com/b1278e02-dc2b-40c7-a034-f81586c06467">
+            <img width="300" alt="image" src="https://github.com/user-attachments/assets/a86a0897-200f-4b34-94e3-4b037d153502">
         </td>
         <td width="600" align="center">
             <div align="left">
