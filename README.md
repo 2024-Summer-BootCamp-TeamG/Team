@@ -1,4 +1,4 @@
-
+ 
 <h1 align="center">
 ❀Brandify❀</h1>
 
@@ -125,9 +125,10 @@
 ## 🛠 System Architecture
 
 <p align="left">
-<img width="700"  src="https://github.com/user-attachments/assets/cd958e23-5622-4093-9092-554c042ee7e8">
+<img width="700"  src="https://github.com/user-attachments/assets/a0e7336d-c034-4eb3-b222-66b118ceea18">
 <br>
 <br>
+
 
 
 
