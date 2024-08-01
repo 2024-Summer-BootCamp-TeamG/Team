@@ -42,7 +42,7 @@ function App() {
         <Route path="/business" element={<BusinessInputPage />} />
         {/* <Route path="/carousel" element={<CarouselPage />} /> */}
         <Route path="/detail" element={<DetailedInquiryPage />} />
-        <Route path="/main" element={<MainPage children={undefined} />} />
+        <Route path="/" element={<MainPage children={undefined} />} />
         <Route path="/logomusic" element={<LogoMusicPage />} />
         <Route path="/choosecolor" element={<ChooseColorPage />} />
         <Route path="/choosestyle" element={<ChooseStylePage />} />

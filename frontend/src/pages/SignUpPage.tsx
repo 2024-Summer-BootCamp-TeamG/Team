@@ -143,7 +143,7 @@ const SignUpPage: React.FC = () => {
                     <Button type="submit" label="회원가입하기" />
                   </div>
                   <Link to="/signin">
-                    <p className="mt-4 text-sm text-white hover:text-black">
+                    <p className="mt-4 text-sm text-white hover:text-gray-400">
                       로그인하기
                     </p>
                   </Link>

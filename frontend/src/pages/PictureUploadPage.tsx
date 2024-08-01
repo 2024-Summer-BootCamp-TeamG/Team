@@ -368,11 +368,11 @@ const PictureUploadPage = () => {
         )}
 
         {/* 음악 생성 후 화면 */}
-        {musicGenerated && !isLoading && !logoUploaded && (
+        {/* {musicGenerated && !isLoading && !logoUploaded && (
           <div className="absolute inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <p className="text-2xl text-white">음악 생성이 완료되었습니다!</p>
           </div>
-        )}
+        )} */}
       </Background>
     </div>
   );

@@ -1,6 +1,5 @@
-import React, { useCallback, useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import { useNavigate } from 'react-router-dom';
 import { ChooseColorState } from '../recoil/ChooseColorAtom';

@@ -144,7 +144,7 @@ function SignInPage() {
                   <div className="font-['Cafe24 Danjunghae'] mt-[0.5rem] h-[3rem] w-[20rem] flex-col items-center justify-center text-xl font-normal text-black">
                     <Button type="submit" label="로그인하기" />
                     <Link to="/signup">
-                      <p className="mt-4 text-sm text-white hover:text-black">
+                      <p className="mt-4 text-sm text-white hover:text-gray-400">
                         회원가입하기
                       </p>
                     </Link>

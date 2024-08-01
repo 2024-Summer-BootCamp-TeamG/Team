@@ -24,10 +24,10 @@ const ProgressSteps: React.FC<ProgressStepsProps> = ({ currentStep }) => {
 
 export default ProgressSteps;
 
-const progressAnimation = keyframes`
-  0% { width: 0; }
-  100% { width: 100%; }
-`;
+// const progressAnimation = keyframes`
+//   0% { width: 0; }
+//   100% { width: 100%; }
+// `;
 
 export const Container = styled.div`
   display: flex;

@@ -1,11 +1,5 @@
 import { ReactNode } from 'react';
-import FullNote1 from '../assets/MusicNote/FullNote1.svg';
-import FullNote2 from '../assets/MusicNote/FullNote2.svg';
-import FullNote3 from '../assets/MusicNote/FullNote3.svg';
-import FullNote4 from '../assets/MusicNote/FullNote4.svg';
-import FullNote5 from '../assets/MusicNote/FullNote5.svg';
-import FullNote6 from '../assets/MusicNote/FullNote6.svg';
-import FullNote7 from '../assets/MusicNote/FullNote7.svg';
+
 import smallNote from '../assets/smallNote.png';
 interface BackgroundProps {
   children: ReactNode;
