@@ -108,12 +108,12 @@
 
 ### ☁️ 목록 페이지 ☁️<br>
 - 목록페이지에서 만든 로고,포스터,cm송을 확인 할 수 있어요 
-<img width="700" alt="image" src="https://github.com/user-attachments/assets/8e38bb1d-49c0-41a0-bea7-e19d34b5c933">
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/8e38bb1d-49c0-41a0-bea7-e19d34b5c933">
 <br>
 <br>
 
 ### ☁️ 상세목록 페이지 ☁️<br> 
-<img width="700" alt="image" src="https://github.com/user-attachments/assets/19d7a8dd-d2c0-4be6-b00b-9aabc1d9ec64">
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/19d7a8dd-d2c0-4be6-b00b-9aabc1d9ec64">
 
 </p>
 <br>
@@ -130,13 +130,14 @@ https://medium.com/@tucsy/a31bede28d2d
 
 ## 🛠 System Architecture
 
-<p align="left">
-<img width="700"  src="https://github.com/user-attachments/assets/eda57e9e-faa1-4c14-9bc6-b996ac0a174f">
+<div align="center">
+ 
+<img width="600"  src="https://github.com/user-attachments/assets/eda57e9e-faa1-4c14-9bc6-b996ac0a174f">
 <br>
 
 ## 🔑 ERD
-<p align="left">
-<img width="700" alt="스크린샷 2024-07-30 오후 3 26 02" src="https://github.com/user-attachments/assets/7397eb46-03d4-4c30-a9c5-31bcd935784f">
+<p align="center">
+<img width="600" alt="스크린샷 2024-07-30 오후 3 26 02" src="https://github.com/user-attachments/assets/7397eb46-03d4-4c30-a9c5-31bcd935784f">
 <br>
 <br>
 
@@ -175,7 +176,7 @@ https://medium.com/@tucsy/a31bede28d2d
 ## 📗 API
 
 ### 로고,포스터,cm송 제작,유저 관련 API
-<img width="1470" alt="스크린샷 2024-07-30 오후 3 14 08" src="https://github.com/user-attachments/assets/6af9a671-b980-4666-afc0-69ea34273949">
+<img width="1470" alt="스크린샷 2024-07-30 오후 3 14 08" src="https://github.com/user-attachments/assets/5cbbe9a1-b0ef-4e20-b557-664f840fe7bd">
 
 | Promotions API | prompts API |Members API|                                                                                                                                                            
 |----------------|--------------|-------------|
