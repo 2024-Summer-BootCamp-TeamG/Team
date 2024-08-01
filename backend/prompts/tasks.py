@@ -95,8 +95,7 @@ def suno_clip_task(media_id, generated_lyrics):
     try:
         logger.info("Suno 클립 작업 시작")
 
-        media = Media.objects.get(id=media_id)
-
+        media = Media.objects.select_for_update().get(id=media_id)
         create_url = "https://api.sunoapi.com/api/v1/suno/create"
         create_payload = {
             "prompt": generated_lyrics,
@@ -151,7 +150,7 @@ def suno_clip_task(media_id, generated_lyrics):
 
         if s3_url:
             media.music_url = s3_url
-            media.save()
+            media.save(update_fields=['music_url'])            
             logger.info("Suno 클립 작업이 성공적으로 완료되었습니다")
             return {"s3_url": s3_url}
         else:
