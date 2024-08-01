@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-DEBUG = True ##배포할땐 False로
+DEBUG = False ##배포할땐 False로
 
 # settings.py
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
@@ -84,7 +84,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://brandifyy.site:80",
     "https://brandifyy.site:443",
     "http://www.brandifyy.site",
-    "http://localhost"
 
 ]
 # settings.py
@@ -129,7 +128,7 @@ INSTALLED_APPS = [
     'prompts',
     'rest_framework',
     'promotions',
-
+    'django_prometheus'
 ]
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
@@ -147,6 +146,7 @@ MAX_UPLOAD_SIZE = 5242880
 
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -155,7 +155,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

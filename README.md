@@ -1,6 +1,4 @@
-
-
-<h1 align="center">
+ <h1 align="center">
 ❀Brandify❀</h1>
 
 
@@ -14,6 +12,19 @@
 
   <img width="500" alt="image" src="https://github.com/user-attachments/assets/2f31f4e5-dec7-4b96-80c1-272ee191d494">
 </p>
+<br>
+
+## 📖 Table of Contents
+* [Introduce](#-introduce)
+* [Feature](#-feature)
+* [Demo Video](#-demo)
+* [Medium](#-medium)
+* [System Architecture](#-system-architecture)
+* [ERD](#-erd)
+* [Tech Stack](#-tech-stack)
+* [API](#-api)
+* [How to start](#-how-to-start)
+* [Team Members](#-members)
 
 
 ## 🎨 Introduce
@@ -24,20 +35,20 @@
     <tbody>
     <tr>
          <td width="600" align="center">
-            <img width="300" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/4771e632-9cdc-416e-a66d-1f1e2df694fa">
+            <img width="300" alt="image" src="https://github.com/user-attachments/assets/1854c166-519e-461f-bdfb-61391ab2ed28">
         </td>
         <td width="600" align="center">
             <div align="left">
 <br/>
-<p class="highlighted-text">🌤️그날의 생각, 감정, 경험을 공유하며 다른 사람들과 하루를 연결해보세요!🌤️</p>
-<br><br>“하루연결”은 서로가 실시간으로 연결되어 하나의 일기장에서 각자의 일기를 남기고 다양한 스티커로 일기를 꾸밀 수 있는 웹 플랫폼입니다.
-<br><br>작성한 일기 내용에서 키워드를 추출하여 AI 스티커를 활용해 일기장을 꾸밀 수 있습니다.
-<br><br>어떤 글을 작성하는지, 어떤 스티커로 일기장을 꾸미는지를 실시간으로 확인할 수 있습니다. 
+<p class="highlighte">💻 저희 서비스는 프로모션 제품을 위한 맞춤형 음악, 로고, 포스터를 제공하는 원스톱
+                솔루션입니다!
+<br><br>1️⃣프로모션 하고 싶으신 제품 사진을 찍고 사진을 업로드 한 뒤
+                  "브랜딩 start" 버튼을 눌러주세요
+<br><br>2️⃣로고와 포스터에 들어갈 택스트와 색상,스타일을 선택하고 생성
+                  버튼을 눌러 주세요!
+<br><br>3️⃣생성이 완료되었다면 목록에서 이미지를 클릭하세요 생성하신
+                  결과물을 다시 보실 수 있답니다.
 <br/><br/>
-
-
-
-
 </br>
 </div>
 </tr>
@@ -55,59 +66,72 @@
 ### ☁️ 회원가입 및 로그인 ☁️ <br>
 <p align="left">
 
-
-<img width="700" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/daa97424-29d0-4fa5-a001-0cf6bfd19008">
-<img width="700" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/e53ae1be-a9a3-4ec1-9b7b-a65d958ae272">
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/54891f6f-c5ad-4f6c-bccb-1c5b99fbbc69">
+<br>
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/2b5c2933-5d23-4917-b71a-b549c44e2614">
 <br>
 <br>
 
 
-###   ☁️ 캘린더 꾸미기 및 친구에게 공유하기☁️
-- 제공 되는 기본스티커로 이쁘게 캘린더를 꾸며보세요.
+###   ☁️ 프로모션 제품의 사진 업로드하기☁️
+<br>
+-프로모션 하고 싶으신 제품 사진을 찍고 사진을 업로드 한 뒤 "브랜딩 start" 버튼을 눌러주세요!
+<br>
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/31f85f8d-269f-40ed-b2fa-f7e2e7fd4473"> 
+<br>
+<br>
+- 로고에 들어갈 문구를 작성해 보세요!
+<br>
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/6d16fde3-989a-4f6e-a2a9-47d332071426">
+<br>
+<br>
+- 포스터에 들어갈 문구를 작성해 주세요!
+<br>
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/5a70488c-0c93-4383-9d81-3485c0b9b9ee">
+<br>
+<br>
+- 로고와 포스터의 색상을 선택해 주세요!
+<br>
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/b3acad86-9d37-4884-9f8b-a60f69cead29">
+<br>
+<br>
+- 로고와 포스터의 스타일을 선택해 주세요!
+<br>
+<br>
+<br>
 
-<img width="700" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/ab6f0155-24dc-4bab-af69-e0d385ee81d7"> <br>
-
-- 다이어리 배경지 선택 후 생성되는 링크로 친구들과 다이어리를 공유해 보세요. 
-
-<img width="700" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/f1a9a578-c881-4598-9eea-745cff132fed">
-
+### ☁️ 목록 페이지 ☁️<br>
+- 목록페이지에서 만든 로고,포스터,cm송을 확인 할 수 있어요 
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/8e38bb1d-49c0-41a0-bea7-e19d34b5c933">
 <br>
 <br>
 
-### ☁️ 다이어리 꾸미기 및 다이어리 작성 ☁️<br>
-- 실시간으로 링크를 친구들과 공유 후 세상에 하나밖에 없는 다이어리를 작성 해 보세요. 
+### ☁️ 상세목록 페이지 ☁️<br> 
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/19d7a8dd-d2c0-4be6-b00b-9aabc1d9ec64">
 
-<img width="700" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/d34019d1-2791-47f9-8335-afdbd1e8e15e">
-
-<br>
-<br>
-
-### ☁️ 세상에 하나밖에 없는 스티커 생성 ☁️<br> 
-- 다이어리에 작성되어진 키워드를 AWS Comprehend가 자연어 처리를 통하여 가장 많이쓰인 키워드 2개를 뽑아줍니다.
-- 뽑아진 키워드를 바탕으로 Dall-e 3 가 세상에 하나 밖에 없는 스티커를 만들어 드립니다.
-
-  
-<img width="700" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/dfb87714-1790-4f86-87bb-b91d43bdb371">
-<img width="700" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/bbe84cc9-7c12-4e24-9c4a-51d9b6a66490">
 </p>
 <br>
 <br>
 
-
-<!-- ## 📹 [Demo](<(https://www.youtube.com/watch?v=RCUEUDk4sVw)>) -->
+## 📹 Demo
 
 <br>
+
+## 💯 Medium
+
 <br>
 
-## 🛠 ️System Architecture
+## 🛠 System Architecture
+
 <p align="left">
-<img width="700" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/121246589/1f520c57-1be1-4c12-af1d-bbf38cbe5c9a">
-</p>
+<img width="700"  src="https://github.com/user-attachments/assets/eda57e9e-faa1-4c14-9bc6-b996ac0a174f">
+<br>
 
 ## 🔑 ERD
 <p align="left">
-<img width="700" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/ed4dd8eb-1d5c-40dd-bce1-66d295cfdcc8">
-</p>
+<img width="700" alt="스크린샷 2024-07-30 오후 3 26 02" src="https://github.com/user-attachments/assets/7397eb46-03d4-4c30-a9c5-31bcd935784f">
+<br>
+<br>
 
 ## 💻 Tech Stack
 
@@ -115,31 +139,27 @@
 
 분야| 사용 기술|
 :--------:|:------------------------------:|
-**Fronted** | <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/zustand-F3DF49?style=for-the-badge&logo=zustand&logoColor=white"> <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=black"> <img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=white"/> <img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=ESLint&logoColor=white"/> 
-**Backend** | <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=Django&logoColor=white"> <img src="https://img.shields.io/badge/RabbitMQ-FF6600?style=for-the-badge&logo=RabbitMQ&logoColor=white"> <img src="https://img.shields.io/badge/Celery-37814A?style=for-the-badge&logo=Celery&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=Redis&logoColor=white"> <img src="https://img.shields.io/badge/channels-092E20?style=for-the-badge&logo=&logoColor=white"> <img src="https://img.shields.io/badge/Daphne-009639?style=for-the-badge&logo=&logoColor=white">
-**DevOps** |<img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=white"> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon%20EC2&logoColor=white"> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"> <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=for-the-badge&logo=amazon%20rds&logoColor=black"> <img src="https://img.shields.io/badge/Amazon Comprehend-527FFF?style=for-the-badge&logo=amazon%20rds&logoColor=black"> <img src="https://img.shields.io/badge/Dalle 3-412991?style=for-the-badge&logo=OpenAi%20rds&logoColor=black"> <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=black"> <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white">
-**Monitoring** |   <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=black"> <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=black"> <img src = "https://img.shields.io/badge/cadvisor-1478FF?style=for-the-badge&logoColor=black"> ![node-exporter](https://img.shields.io/badge/node_exporter-37D100?style=for-the-badge&logoColor=black) ![Elastic Stack](https://img.shields.io/static/v1?style=for-the-badge&message=Elastic+Stack&color=005571&logo=Elastic+Stack&logoColor=FFFFFF&label=)
-**etc** | ![Slack](https://img.shields.io/static/v1?style=for-the-badge&message=Slack&color=4A154B&logo=Slack&logoColor=FFFFFF&label=) ![Notion](https://img.shields.io/static/v1?style=for-the-badge&message=Notion&color=000000&logo=Notion&logoColor=FFFFFF&label=) ![Figma](https://img.shields.io/static/v1?style=for-the-badge&message=Figma&color=F24E1E&logo=Figma&logoColor=FFFFFF&label=) ![Postman](https://img.shields.io/static/v1?style=for-the-badge&message=Postman&color=FF6C37&logo=Postman&logoColor=FFFFFF&label=) ![GitKraken](https://img.shields.io/static/v1?style=for-the-badge&message=GitKraken&color=179287&logo=GitKraken&logoColor=FFFFFF&label=) <img src="https://img.shields.io/badge/Zoom-0B5CFF?style=for-the-badge&logo=zoom&logoColor=white">
+**Frontend** | <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white) <img src="https://img.shields.io/badge/recoil-61DAFB?style=for-the-badge&logo=recoil&logoColor=white"> <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=black"> <img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=white"/> <img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=ESLint&logoColor=white"/> 
+**Backend** | <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=Django&logoColor=white"> ![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray)  <img src="https://img.shields.io/badge/Celery-37814A?style=for-the-badge&logo=Celery&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> ![RabbitMQ](https://img.shields.io/badge/Rabbitmq-FF6600?style=for-the-badge&logo=rabbitmq&logoColor=white)
+**DevOps** | <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon%20EC2&logoColor=white"> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white">  <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=black"> <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white"> ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
+**Monitoring** |  <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=black"> <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=black">
+**etc** | ![Slack](https://img.shields.io/static/v1?style=for-the-badge&message=Slack&color=4A154B&logo=Slack&logoColor=FFFFFF&label=) ![Notion](https://img.shields.io/static/v1?style=for-the-badge&message=Notion&color=000000&logo=Notion&logoColor=FFFFFF&label=)  <img src="https://img.shields.io/badge/Zoom-0B5CFF?style=for-the-badge&logo=zoom&logoColor=white"> ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white) ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
 </div>
 
 ***
-
-
-| **Category**           | **Technologies**                                           |
-|------------------------|------------------------------------------------------------|
-| **Frontend**           | Vite, JavaScript, React, Zustand, Styled-Components, Prettier, Eslint |
-| **Backend**            | Django, MySQL, Redis, Channels, Daphne                     |
-| **Web Server**         | Nginx                                                      |
-| **Asynchronous**       | Celery, Rabbitmq                                           |
-| **Database**           | AWS RDS, AWS S3 Bucket MySQL, Redis                        |
-| **AI**                 | AWS Comprehend, Dall-E 3                                    |
-| **Deployment**         | AWS EC2, Docker                                             |
-| **API Test**           | Postman                                                    |
-| **API Documentation**  | Swagger                                                    |
-| **Others**             | Github, Notion, Zoom, Slack, Figma                         |
-
-
-
+| **Category**           | **Technologies**                                                      |
+|------------------------|-----------------------------------------------------------------------|
+| **Frontend**           | React, Vite, JavaScript,tailwind, Recoil, Styled-Components, Prettier, Eslint |
+| **Backend**            | Django, DjangoREST Framework, MySQL                                               |
+| **Web Server**         | Nginx                                                                 |
+| **Asynchronous**       | Celery,RabbitMQ                                                      |
+| **Database**           | AWS S3 Bucket MySQL                                 |
+| **Deployment**         | AWS EC2, Docker,Github Actions                                                     |                                    
+| **Monitoring**         | prometheus,grafana                                                     |              
+| **AI**                 | Dall-E,CHATGPT,SUNO
+| **AI Test**            | postman
+| **API Documentation**  | Swagger                                                               |
+| **Others**             | Github, Notion, Zoom, Slack, Figma                                    | 
 
 <br>
 <br>
@@ -147,31 +167,108 @@
 
 ## 📗 API
 
-### 일기, 유저 관련 API
+### 로고,포스터,cm송 제작,유저 관련 API
+<img width="1470" alt="스크린샷 2024-07-30 오후 3 14 08" src="https://github.com/user-attachments/assets/6af9a671-b980-4666-afc0-69ea34273949">
 
-<img width="1212" alt="image" src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/04c0b52f-2aeb-4acd-a1fc-29e8634a676c"><br>
-
-| Calendars API | Diaries API |Members API|Static API|                                                                                                                                                                             
-|---------------|-------------|--|----|
-| api/v1/calendars/ : 캘린더 조회 <br>api/v1/calendars/stickers : 캘린더 꾸미기 및 캘린더 생성  |   api/diaries/: 일기 배경지 선택 및 생성<br>api/diaries/link: 작성중인 일기 및 일기링크 조회.<br>api/diaries/save: 일기 최종저장.<br>api/diaries/stickers: 텍스트박스에서 키워드 추출 후 스티커 생성<br>api/diaries/<int:diary_id>: 일기 목록 조회          |api/v1/members/login : 사용자 정보 확인, 로그인<br>api/v1/members/logout: 로그아웃<br>api/v1/members/signuo : 회원가입|api/v1/static/stickers : 캘린더 및 다이어리 기본 배경지 조회|
-
+| Promotions API | prompts API |Members API|                                                                                                                                                            
+|----------------|--------------|-------------|
+| api/promotions/ <br>:생성된 앨범 조회 <br>api/promotions/id <br>:앨범 상세 조회  |  <br>api/prompts/generate_logo <br>:로고 생성 <br>api/prompts/generate_poster <br>: 포스터 생성<br>prompts/generate_textandmusic <br>: 가사가 있는 음악 생성 (수정) <br>api/prompts/generate_textandmusic/{task_id} <br>:openAi가 생성한 가사 받아오기(수정) | api/user/signup <br>:회원가입  <br> api/user/signin <br>:로그인 |     
 
 
 ## 🐳 How to start
 
-### https://www.haruconnection.store
+### 
 
-
-
-
-<br>
 <br>
 <br>
 
 ## 👨‍💻 Members
-
-
-| [정우희](https://github.com/Joy0w0)         | [정유진](https://github.com/jung2941)  | [조진우](https://github.com/jinoo0306)          | [이동우](https://github.com/dongwooooooo)            | [이도경](https://github.com/d0kyoung)                                     | [강정현](https://github.com/Jeonghyeon178)                                     | [김우성](https://github.com/woosungking)                                     
-|------------------------------------------|---------------------------------------------|----------------------------------------------|---------------------------------------------|---------------------------------------------|---------------------------------------------|---------------------------------------------|
-| <img width=520  src="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/e2b0df38-582e-473d-a442-c0a807629dd4"> | <img width = "520" src ="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/99ca9add-f653-4b3c-ad27-aa1908e15bfc"> | <img width = "520" src ="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/36568929-4d87-4238-a3b4-21545d19adab"> | <img width = "520" src ="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/492250d0-3e37-446f-a8db-08ce734e010b"> | <img width = "520" src ="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/2e094dc6-6c2c-4b7e-aa83-395544dce631"> | <img width = "520" src ="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/1e46d8e5-f0ee-485d-b707-aa9ae06ac3af"> | <img width = "520" src ="https://github.com/2023-Winter-techeer-Bootcamp-Team-E/.github/assets/127114299/061bc448-8a1b-4e1f-b003-877a6479da84"> |
-| Leader, Frontend, DevOps                 | Frontend                                    | Frontend                                     | Backend, DevOps                             | Backend                                     | Backend                                     | Backend                                     |
+<table width="950px">
+    <thead>
+    </thead>
+        <th>Picture</th>
+        <td width="100" align="center">
+            <a href="https://github.com/9JIIIIIN9">
+        <img src="https://github.com/user-attachments/assets/c19257c3-1a71-48ea-9f40-e6f92ec3c1dd" width="60" height="60" alt="philjin">
+            </a>
+        </td>
+        <td width="100" align="center">
+    <a href="https://github.com/Seyeonnnn">
+        <img src="https://github.com/user-attachments/assets/85577df4-a620-47b3-9d66-d957029cb2f1" width="60" height="60" alt="jaemin">
+    </a>
+</td>
+<td width="100" align="center">
+    <a href="https://github.com/oop20811">
+        <img src="https://github.com/user-attachments/assets/f9fc0dbe-37a7-4fea-bff4-5655f74c24a4" width="60" height="60" alt="jun">
+    </a>
+</td>
+<td width="100" align="center">
+    <a href="https://github.com/taeho4523">
+        <img src="https://github.com/user-attachments/assets/6d986bd0-7e04-4775-85ad-0c04a31728f9" width="60" height="60" alt="hh">
+    </a>
+</td>
+<td width="100" align="center">
+    <a href="https://github.com/hoya04">
+        <img src="https://github.com/user-attachments/assets/baa3534e-0cad-4b16-bcf0-746c91d6fc9e" width="60" height="60" alt="IMG_1054 JPG">
+    </a>
+</td>
+</td>
+    </tr>
+    <tr>
+        <th>Name</th>
+        <td width="100" align="center">🦭이현진🦭</td>
+        <td width="100" align="center">👯‍♀️최세연👯‍♀️</td>
+        <td width="100" align="center">🥷🏼이천우🥷🏼</td>
+        <td width="100" align="center">🐯김태호🐯</td>
+        <td width="100" align="center">🐻신정호🐻</td>
+    </tr>
+    <tr>
+        <th>Position</th>
+        <td width="150" align="center">
+            Leader<br>
+            Frontend<br>
+            Devops<br>
+        </td>
+        <td width="150" align="center">
+            Frontend<br>
+        </td>
+        <td width="150" align="center">
+            Frontend<br>
+        </td>
+        <td width="150" align="center">
+            Backend<br>
+            Devops<br>
+        </td>
+        <td width="150" align="center">
+            Backend<br>
+            Devops<br>
+        </td>
+    <tr>
+        <th>GitHub</th>
+        <td width="100" align="center">
+            <a href="https://github.com/9JIIIIIN9">
+                <img src="http://img.shields.io/badge/9JIIIIIN9-green?style=social&logo=github"/>
+            </a>
+        </td>
+        <td width="100" align="center">
+            <a href="https://github.com/Seyeonnnn">
+                <img src="http://img.shields.io/badge/Seyeonnnn-green?style=social&logo=github"/>
+            </a>
+        </td>
+        <td width="100" align="center">
+            <a href="https://github.com/oop20811">  
+                <img src="http://img.shields.io/badge/oop20811-green?style=social&logo=github"/>
+            </a>
+        </td>
+        <td width="100" align="center">
+            <a href="https://github.com/taeho4523">
+                <img src="http://img.shields.io/badge/taeho4523-green?style=social&logo=github"/>
+            </a>
+        </td>
+        <td width="100" align="center">
+            <a href="https://github.com/hoya04">
+                <img src="http://img.shields.io/badge/hoya04-green?style=social&logo=github"/>
+            </a>
+        </td>
+</table>
+<hr>
