@@ -42,7 +42,7 @@ export default function Background({ children }: BackgroundProps) {
     { src: FullNote4, left: '25%', top: '90%' },
     { src: FullNote5, left: '80%', top: '15%' },
     { src: FullNote6, left: '10%', top: '30%' },
-    { src: FullNote7, left: '2%', top: '40%' },
+    { src: FullNote7, left: '20%', top: '40%' },
   ];
 
   //   const smallnote: CoordinateNote[] = [

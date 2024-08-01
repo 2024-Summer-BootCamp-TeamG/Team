@@ -20,6 +20,7 @@ import SelectStylePage from './pages/SelectStylePage';
 import PictureUploadPage from './pages/PictureUploadPage';
 // import CarouselPage from './pages/Carousel';
 import Raise from '../src/pages/raise/index';
+import Star from './pages/starTest';
 
 import './App.css';
 
@@ -38,16 +39,16 @@ function App() {
         <Route path="/textinput" element={<TextInputPage />} />
         <Route path="/selectstyle" element={<SelectStylePage />} />
         <Route path="/pictureupload" element={<PictureUploadPage />} />
-        <Route path="/busin" element={<BusinessInputPage />} />
-        <Route path="/texi" element={<TextInputPage />} />
+        <Route path="/business" element={<BusinessInputPage />} />
         {/* <Route path="/carousel" element={<CarouselPage />} /> */}
         <Route path="/detail" element={<DetailedInquiryPage />} />
-        <Route path="/main" element={<MainPage children={undefined} />} />
+        <Route path="/" element={<MainPage children={undefined} />} />
         <Route path="/logomusic" element={<LogoMusicPage />} />
         <Route path="/choosecolor" element={<ChooseColorPage />} />
         <Route path="/choosestyle" element={<ChooseStylePage />} />
         <Route path="/albumlist" element={<AlbumListPage />} />
         <Route path="/raise" element={<Raise />} />
+        <Route path="/star" element={<Star />} />
       </Routes>
     </>
   );

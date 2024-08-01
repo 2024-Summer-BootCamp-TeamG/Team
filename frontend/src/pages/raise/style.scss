@@ -56,7 +56,6 @@ $colors: (
 //=== Pen styling, ignore
 body {
   background: hsl(227, 10%, 10%);
-
   // Center everything ever
   justify-content: center;
   align-content: center;
@@ -67,22 +66,22 @@ body {
 }
 
 // Basic button styles
-.chooseButton {
-  background: none;
-  font: inherit;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0.5em;
-}
+// .chooseButton {
+//   background: none;
+//   font: inherit;
+//   font-weight: bold;
+//   line-height: 1;
+//   margin: 0.5em;
+// }
 
-button {
-  background: none;
+// button {
+//   background: none;
 
-  font: inherit;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0.5em;
-}
+//   font: inherit;
+//   font-weight: bold;
+//   line-height: 1;
+
+// }
 h1 {
   font-weight: 400;
 }
