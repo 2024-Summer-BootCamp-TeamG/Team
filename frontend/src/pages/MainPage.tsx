@@ -1,6 +1,5 @@
-import React, { useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import './MainPage.scss';
-import { useSpring, animated } from 'react-spring';
 import Background3 from '../components/Background3';
 
 import { Link } from 'react-router-dom';
@@ -17,8 +16,6 @@ function MainPage({ children }: MainPageProps) {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const opacity = Math.max(0, Math.min(1, (offsetY - 300) / 500));
 
   return (
     <div className="MainPage">
@@ -52,14 +49,14 @@ function MainPage({ children }: MainPageProps) {
                 </p>
               </div>
               <div className="mt-8 flex w-full flex-col items-center justify-center space-y-4">
-                <Link to="/signup" style={{ marginBottom: '1rem' }}>
-                  <button className="font-['Cafe24 Danjunghae'] hover:border-blue flex h-[3rem] w-[20rem] flex-col items-center justify-center rounded-[2.5rem] border-2 border-white bg-white/20 text-center text-xl font-normal text-white hover:bg-white/80 hover:text-black">
-                    회원가입
-                  </button>
-                </Link>
                 <Link to="/signin">
                   <button className="font-['Cafe24 Danjunghae'] hover:border-blue flex h-[3rem] w-[20rem] flex-col items-center justify-center rounded-[2.5rem] border-2 border-white bg-white/20 text-center text-xl font-normal text-white hover:bg-white/80 hover:text-black">
                     로그인
+                  </button>
+                </Link>
+                <Link to="/signup" style={{ marginBottom: '1rem' }}>
+                  <button className="font-['Cafe24 Danjunghae'] hover:border-blue flex h-[3rem] w-[20rem] flex-col items-center justify-center rounded-[2.5rem] border-2 border-white bg-white/20 text-center text-xl font-normal text-white hover:bg-white/80 hover:text-black">
+                    회원가입
                   </button>
                 </Link>
               </div>
