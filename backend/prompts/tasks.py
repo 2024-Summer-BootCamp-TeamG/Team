@@ -9,7 +9,7 @@ from django.core.files.base import ContentFile
 import time
 import boto3
 from botocore.exceptions import NoCredentialsError, ClientError
-
+from django.db import transaction
 logger = logging.getLogger(__name__)
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
@@ -95,7 +95,9 @@ def suno_clip_task(media_id, generated_lyrics):
     try:
         logger.info("Suno 클립 작업 시작")
 
-        media = Media.objects.select_for_update().get(id=media_id)
+        with transaction.atomic():
+            media = Media.objects.select_for_update().get(id=media_id)
+            
         create_url = "https://api.sunoapi.com/api/v1/suno/create"
         create_payload = {
             "prompt": generated_lyrics,
