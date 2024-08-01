@@ -73,6 +73,7 @@ function NavBar() {
           </Link>
         )}
       </div>
+
       <div className="absolute left-1/2 top-0 flex -translate-x-1/2 transform p-4 text-[1.2rem]">
         <img
           className="mr-[10px] mt-[15px] h-[40px] w-[40px]"

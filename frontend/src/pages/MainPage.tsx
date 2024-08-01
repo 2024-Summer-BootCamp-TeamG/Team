@@ -42,10 +42,14 @@ function MainPage({ children }: MainPageProps) {
               <div className="MainPage__title">
                 Brandify <br />
               </div>
-              <div className="opacity mt-16 text-xl">
-                프로모션 제품을 위한 맞춤형 음악, 로고, 포스터를 제공합니다.
-                <br />
-                Brandify로 자신만의 상품을 브랜딩해보세요!
+              <div className="opacity mt-16 text-base">
+                <p>
+                  프로모션 제품을 위한 맞춤형 음악, 로고, 포스터를 제공합니다.
+                </p>
+                <p>
+                  <span className="Brandi"> Brandify </span>로 자신만의 상품을
+                  로 자신만의 상품을 브랜딩해보세요!
+                </p>
               </div>
               <div className="mt-8 flex w-full flex-col items-center justify-center space-y-4">
                 <Link to="/signup" style={{ marginBottom: '1rem' }}>
