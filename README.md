@@ -123,14 +123,10 @@
 <br>
 
 ## 🛠 System Architecture
-
 <p align="left">
-<img width="700"  src="https://github.com/user-attachments/assets/a0e7336d-c034-4eb3-b222-66b118ceea18">
+<img width="700"  src="https://github.com/user-attachments/assets/a487afd4-f943-4ebc-b9ea-caf6376be45e">
 <br>
 <br>
-
-
-
 
 ## 🔑 ERD
 <p align="left">
