@@ -189,27 +189,27 @@
         <th>Picture</th>
         <td width="100" align="center">
             <a href="https://github.com/9JIIIIIN9">
-        <img src="https://github.com/user-attachments/assets/c19257c3-1a71-48ea-9f40-e6f92ec3c1dd" width="60" height="60" alt="philjin">
+        <img src="https://github.com/user-attachments/assets/c19257c3-1a71-48ea-9f40-e6f92ec3c1dd" width="60" height="60" alt="이현진">
             </a>
         </td>
         <td width="100" align="center">
     <a href="https://github.com/Seyeonnnn">
-        <img src="https://github.com/user-attachments/assets/85577df4-a620-47b3-9d66-d957029cb2f1" width="60" height="60" alt="jaemin">
+        <img src="https://github.com/user-attachments/assets/85577df4-a620-47b3-9d66-d957029cb2f1" width="60" height="60" alt="최세연">
     </a>
 </td>
 <td width="100" align="center">
     <a href="https://github.com/oop20811">
-        <img src="https://github.com/user-attachments/assets/f9fc0dbe-37a7-4fea-bff4-5655f74c24a4" width="60" height="60" alt="jun">
+        <img src="https://github.com/user-attachments/assets/f9fc0dbe-37a7-4fea-bff4-5655f74c24a4" width="60" height="60" alt="이천우">
     </a>
 </td>
 <td width="100" align="center">
     <a href="https://github.com/taeho4523">
-        <img src="https://github.com/user-attachments/assets/6d986bd0-7e04-4775-85ad-0c04a31728f9" width="60" height="60" alt="hh">
+        <img src="https://github.com/user-attachments/assets/6d986bd0-7e04-4775-85ad-0c04a31728f9" width="60" height="60" alt="김태호">
     </a>
 </td>
 <td width="100" align="center">
     <a href="https://github.com/hoya04">
-        <img src="https://github.com/user-attachments/assets/baa3534e-0cad-4b16-bcf0-746c91d6fc9e" width="60" height="60" alt="IMG_1054 JPG">
+        <img src="https://github.com/user-attachments/assets/baa3534e-0cad-4b16-bcf0-746c91d6fc9e" width="60" height="60" alt="신정호">
     </a>
 </td>
 </td>
