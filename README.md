@@ -157,7 +157,7 @@ https://medium.com/@tucsy/a31bede28d2d
 ***
 | **Category**           | **Technologies**                                                      |
 |------------------------|-----------------------------------------------------------------------|
-| **Frontend**           | React, Vite, JavaScript,tailwind, Recoil, Styled-Components, Prettier, Eslint |
+| **Frontend**           | React, Vite, TypeScript,tailwind, Recoil, Styled-Components, Prettier, Eslint |
 | **Backend**            | Django, DjangoREST Framework, MySQL                                               |
 | **Web Server**         | Nginx                                                                 |
 | **Asynchronous**       | Celery,RabbitMQ                                                      |
