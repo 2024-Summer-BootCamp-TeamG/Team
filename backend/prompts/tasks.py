@@ -79,43 +79,43 @@ def analyze_image_task(base64_image, user_id):
         #generated_lyrics = lyrics_response_json['choices'][0]['message']['content']
         generated_lyrics ="""
         (Verse 1)
-꿈을 향해 달려가, Techeer와 함께 해
+꿈을 향해 달려가, 테커와 함께 해
 새로운 길을 열어줘, 여기서 시작해
 코딩의 세계로, 한 발짝 더 가까이
 우리와 함께라면, 뭐든지 할 수 있어
 
 (Chorus)
-Techeer, Techeer, 미래를 여는 열쇠
+테커, 테커, 미래를 여는 열쇠
 함께라면 두려움은 없어
-Techeer, Techeer, 꿈을 이룰 그 날까지
+테커, 테커, 꿈을 이룰 그 날까지
 우리 손잡고 나아가자
 
 (Verse 2)
 도전은 어렵지만, 포기하지 않아
 함께하는 친구들, 우리 힘이 돼줄게
 성장의 기쁨을, 느낄 수 있게 해
-Techeer와 함께라면, 빛나는 내일로
+테커와 함께라면, 빛나는 내일로
 
 (Chorus)
-Techeer, Techeer, 미래를 여는 열쇠
+테커, 테커, 미래를 여는 열쇠
 함께라면 두려움은 없어
-Techeer, Techeer, 꿈을 이룰 그 날까지
+테커, 테커, 꿈을 이룰 그 날까지
 우리 손잡고 나아가자
 
 (Bridge)
 고민하지 말고, 지금 바로 시작해
-Techeer와 함께라면, 한계는 없어
+테커와 함께라면, 한계는 없어
 우린 해낼 수 있어, 믿고 나아가
 미래의 주인공은 바로 너야
 
 (Chorus)
-Techeer, Techeer, 미래를 여는 열쇠
+테커, 테커, 미래를 여는 열쇠
 함께라면 두려움은 없어
-Techeer, Techeer, 꿈을 이룰 그 날까지
+테커, 테커, 꿈을 이룰 그 날까지
 우리 손잡고 나아가자
 
 (Outro)
-Techeer와 함께라면, 모든 꿈이 현실로
+테커와 함께라면, 모든 꿈이 현실로
 우리의 도전은 지금부터 시작이야
 """
         # Suno 클립 작업 호출
