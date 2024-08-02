@@ -180,7 +180,7 @@ https://medium.com/@tucsy/a31bede28d2d
 
 | Promotions API | prompts API |Members API|                                                                                                                                                            
 |----------------|--------------|-------------|
-| api/promotions/ <br>:생성된 앨범 조회 <br>api/promotions/id <br>:앨범 상세 조회  |  <br>api/prompts/generate_logo <br>:로고 생성 <br>api/prompts/generate_poster <br>: 포스터 생성<br>prompts/generate_textandmusic <br>: 가사가 있는 음악 생성 (수정) <br>api/prompts/generate_textandmusic/{task_id} <br>:openAi가 생성한 가사 받아오기(수정) | api/user/signup <br>:회원가입  <br> api/user/signin <br>:로그인 |     
+| api/promotions/ <br>:생성된 앨범 조회 <br>api/promotions/id <br>:앨범 상세 조회  |  <br>api/prompts/generate_logo <br>:로고 생성 <br>api/prompts/generate_poster <br>: 포스터 생성<br>prompts/generate_textandmusic <br>:사진을 분석하여 가사를 있는 음악 생성 <br>api/prompts/generate_textandmusic/{task_id} <br>:openAi가 생성한 노래의 id 조회  | api/user/signup <br>:회원가입  <br> api/user/signin <br>:로그인 |     
 
 
 ## 🐳 How to start
