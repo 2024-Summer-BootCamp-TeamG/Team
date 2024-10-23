@@ -23,5 +23,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "src/pages/.NotUsed/ChooseStylePage.tsx",
+    "src/pages/.NotUsed/Index"
+  ]
 }

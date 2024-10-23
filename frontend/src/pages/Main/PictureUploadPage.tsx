@@ -1,12 +1,12 @@
 import { ChangeEvent, useCallback, useRef, useState, useEffect } from 'react';
 import axios from 'axios';
-import axiosInstance from '../api/axios';
+import axiosInstance from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
 import './style.scss';
-import UploadIcon from '../assets/picUpload.png';
-import Background from '../components/Background';
-import NavBar from '../components/NavBar';
-import CloseIcon from '../assets/closeBtn.png';
+import UploadIcon from '../../assets/picUpload.png';
+import Background from '../../components/Background';
+import NavBar from '../../components/NavBar';
+import CloseIcon from '../../assets/closeBtn.png';
 
 interface IFileTypes {
   id: number;

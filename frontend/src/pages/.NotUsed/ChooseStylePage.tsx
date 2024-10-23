@@ -16,7 +16,7 @@ import VectorClicked from '../../assets/noteClicked.svg';
 import rightArrow from '../../assets/rightArrow.svg';
 import leftArrow from '../../assets/leftArrow.svg';
 
-import './ChooseStyle.css'; // CSS 파일 임포트
+import '../../pages/Steps/SelectStyle.css'; // CSS 파일 임포트
 
 function ChooseStyle() {
   const [selectedStyle, setSelectedStyle] = useRecoilState(SelectStyleState);

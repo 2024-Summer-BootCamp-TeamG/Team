@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
-import Background from '../components/Background.tsx';
-import NavBar from '../components/NavBar.tsx';
-import Album from '../assets/AlbumCD.png';
+import Background from '../../components/Background.tsx';
+import NavBar from '../../components/NavBar.tsx';
+import Album from '../../assets/AlbumCD.png';
 
 import { useRecoilValue } from 'recoil';
 import {
   generatedLogoState,
   generatedPosterState,
   generatedMusicState,
-} from '../recoil/GeneratedAtom.ts';
+} from '../../recoil/GeneratedAtom.ts';
 
 function LogoMusicPage() {
   const generatedLogo = useRecoilValue(generatedLogoState);

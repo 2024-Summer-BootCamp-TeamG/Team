@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // 커스텀 axios 인스턴스를 불러옴
 import { Link, useNavigate } from 'react-router-dom';
-import Background from '../components/Background';
-import NavBar from '../components/NavBar';
-import axiosInstance from '../api/axios';
-import { userState } from '../recoil/UserAtom';
+
+import axios from 'axios';
+import axiosInstance from '../../api/axios'; // 커스텀 axios 인스턴스를 불러옴
+
+import { userState } from '../../recoil/UserAtom';
 import { useSetRecoilState } from 'recoil';
-import SignInput from '../assets/ESignInput.png';
+import Background from '../../components/Background';
+import NavBar from '../../components/NavBar';
+
+import SignInput from '../../assets/SignInput.png';
 
 const Input: React.FC<{
   type: string;
