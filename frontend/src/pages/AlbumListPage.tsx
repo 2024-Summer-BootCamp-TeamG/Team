@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import axiosInstance from '../api/axios';
-// API 응답 형식을 정의합니다.
+
 interface ImageData {
   id: number;
   logo_url: string;
@@ -20,7 +20,7 @@ function AlbumListPage() {
         withCredentials: true,
       })
       .then((response) => {
-        console.log('API response received야호:', response); // 응답 데이터 로그
+        console.log('API response received:', response); // 응답 데이터 로그
         console.log('Session ID:', response.data.sessionid); // 서버에서 받은 세션 ID를 콘솔에 출력
 
         const data = response.data;

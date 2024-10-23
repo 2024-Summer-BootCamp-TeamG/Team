@@ -1,12 +1,12 @@
 import { ChangeEvent, useCallback, useRef, useState, useEffect } from 'react';
 import axios from 'axios';
+import axiosInstance from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 import './style.scss';
-import UploadIcon from '../assets/picUpload2.png';
+import UploadIcon from '../assets/picUpload.png';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
 import CloseIcon from '../assets/closeBtn.png';
-import axiosInstance from '../api/axios';
 
 interface IFileTypes {
   id: number;
@@ -24,6 +24,16 @@ const PictureUploadPage = () => {
   const [, setUserId] = useState<string | null>(null);
 
   const navigate = useNavigate();
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('user_id');
+    console.log('1', storedUserId);
+    if (storedUserId) {
+      setUserId(storedUserId);
+    } else {
+      alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.');
+      navigate('/signin');
+    }
+  }, [navigate]);
 
   const dragRef = useRef<HTMLLabelElement | null>(null);
   const fileId = useRef<number>(0);
@@ -73,6 +83,9 @@ const PictureUploadPage = () => {
   const handleDragIn = useCallback((e: DragEvent): void => {
     e.preventDefault();
     e.stopPropagation();
+    // alert('dragIn 동작');
+
+    console.log('드롭 영역에 진입');
   }, []);
 
   const handleDragOut = useCallback((e: DragEvent): void => {
@@ -84,6 +97,8 @@ const PictureUploadPage = () => {
   const handleDragOver = useCallback((e: DragEvent): void => {
     e.preventDefault();
     e.stopPropagation();
+    // alert('dragOver 동작');
+
     if (e.dataTransfer!.files) {
       setIsDragging(true);
     }
@@ -334,7 +349,7 @@ const PictureUploadPage = () => {
             </div>
             <div className="mb-[8rem] flex flex-col items-center justify-center">
               <div className="border-mint flex h-[15rem] w-[40rem] items-center justify-center rounded-[2.5rem] border-4 border-mint-gradient-end text-center font-['Inter'] text-4xl font-black tracking-wide text-cyan-50">
-                <div className="text-xl">
+                <div className="font-['Cafe24 Danjunghae'] text-xl">
                   지금부터 나만의 브랜딩 작업 시작합니다!
                   <br />
                   로고와 포스터에 반영할 사진을 드래그 해주세요

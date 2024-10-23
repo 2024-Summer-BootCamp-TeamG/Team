@@ -36,7 +36,7 @@ export const Container = styled.div`
   position: relative;
   margin: 20px 0;
   width: 100%;
-  height: 20px; /* Adjusted to fit the stars */
+  height: 20px;
 `;
 
 export const Line = styled.div<{ currentStep: number }>`

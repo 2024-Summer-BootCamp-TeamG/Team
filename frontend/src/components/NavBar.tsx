@@ -1,30 +1,32 @@
-import axios from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom';
+import axiosInstance from '../api/axios';
+
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+import '../index.css';
+
 import HomeIcon from '../assets/HomeIcon.svg';
 import MenuIcon from '../assets/MenuIcon.svg';
 import SignoutIcon from '../assets/SignoutIcon.svg';
-import { Link } from 'react-router-dom';
-import '../index.css';
 import Icon from '../assets/Favicon.png';
+
 function NavBar() {
   const navigate = useNavigate();
   const location = useLocation();
 
   async function logout() {
     try {
-      const response = await axios.post(
-        'http://localhost:8000/users/signout',
+      const response = await axiosInstance.post(
+        '/users/signout',
         {},
         {
           withCredentials: true,
           headers: {
-            Authorization: `Token ${localStorage.getItem('token')}`, // 인증 토큰을 헤더에 추가합니다.
+            Authorization: `Token ${localStorage.getItem('token')}`, // 인증 토큰을 헤더에 추가
           },
         },
       );
       if (response.status === 200) {
         console.log('Logged out successfully');
-        localStorage.removeItem('token'); // 로그아웃 후 인증 토큰을 로컬 스토리지에서 제거합니다.
+        localStorage.removeItem('token'); // 로그아웃 후 인증 토큰을 로컬 스토리지에서 제거
       } else {
         console.error('Logout failed');
       }
@@ -38,9 +40,11 @@ function NavBar() {
     if (location.pathname === '/signup' || location.pathname === '/signin') {
       navigate('/');
     } else {
+      //로그인, 로그아웃 페이지가 아닌 경우에 사진 업로드 페이지로 이동
       navigate('/pictureupload');
     }
   }
+
   return (
     <div>
       <div className="absolute left-0 top-0 flex items-center justify-center p-4">
@@ -86,6 +90,7 @@ function NavBar() {
           </button>
         </Link>
       </div>
+
       {location.pathname !== '/signup' && location.pathname !== '/signin' && (
         <div className="absolute right-0 top-0 flex items-center p-4">
           <button type="button" className="flex flex-row" onClick={logout}>

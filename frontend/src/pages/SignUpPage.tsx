@@ -4,9 +4,8 @@ import axiosInstance from '../api/axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Background from '../components/Background';
 import NavBar from '../components/NavBar';
-import '../index.css';
 import SignInput from '../assets/ESignInput.png';
-
+import '../index.css';
 // Input 컴포넌트 정의
 const Input: React.FC<{
   type: string;
@@ -118,7 +117,7 @@ const SignUpPage: React.FC = () => {
                   <div className="mb-6 h-[3rem] w-[20rem] rounded-[1.25rem] border-2 border-white bg-white/20">
                     <Input
                       type="email"
-                      placeholder="아이디"
+                      placeholder="이메일"
                       value={email}
                       onChange={handleEmailChange}
                     />

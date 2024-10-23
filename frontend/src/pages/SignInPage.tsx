@@ -127,7 +127,7 @@ function SignInPage() {
                   <div className="mb-6 h-[3rem] w-[20rem] rounded-[1.25rem] border-2 border-white bg-white/20">
                     <Input
                       type="text"
-                      placeholder="아이디"
+                      placeholder="이메일"
                       value={username}
                       onChange={handleUsernameChange}
                     />
