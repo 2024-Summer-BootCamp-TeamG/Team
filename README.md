@@ -19,12 +19,12 @@
 ## 📖 Table of Contents
 * [Introduce](#-introduce)
 * [Feature](#-feature)
-* [Demo Video](#-demo)
 * [Medium](#-medium)
 * [System Architecture](#-system-architecture)
 * [ERD](#-erd)
 * [Tech Stack](#-tech-stack)
 * [API](#-api)
+* [FE 폴더 구조](#-FE-폴더-구조)
 * [How to start](#-how-to-start)
 * [Team Members](#-members)
 
@@ -67,61 +67,48 @@
 # 🌈 Feature
 
 ### ☁️ 회원가입 및 로그인 ☁️ <br>
-<div align="center">
+<table>
+<tr>
+<td><img src="https://github.com/user-attachments/assets/747b3643-5f56-4447-82f0-22d9d9615acf" alt="회원가입" height="auto" width="auto"></td>
+<td><img src="https://github.com/user-attachments/assets/d777ecf6-7f74-4eb6-8b5c-64e3b844322c" alt="로그인" height="auto" width="auto"></td>
+</tr>
+</table>
 
-![회원가입](https://github.com/user-attachments/assets/747b3643-5f56-4447-82f0-22d9d9615acf)
-<br>
-![로그인](https://github.com/user-attachments/assets/d777ecf6-7f74-4eb6-8b5c-64e3b844322c)
-<br>
-<br>
 
-
-###   ☁️ 프로모션 제품의 사진 업로드하기☁️
-<br>
+###   ☁️ 프로모션 제품의 사진 업로드☁️
 프로모션 하고 싶으신 제품 사진을 찍고 사진을 업로드 한 뒤 "브랜딩 start" 버튼을 눌러주세요!
+<br>
 
 ![픽쳐업로드](https://github.com/user-attachments/assets/28d167ac-fc9f-48e3-9f51-cbbde9aa0ff9)
 <br>
 
- 로고에 들어갈 문구를 작성해 보세요!
+ ###   ☁️ 문구 작성 ☁️ 
+ 로고와 포스터에 들어갈 문구를 작성해주세요!
+<table>
+<tr>
+<td><img src="https://github.com/user-attachments/assets/23844bad-a212-4ae0-a0f0-09f94ce71518" alt="로고" height="auto" width="auto"></td>
+<td><img src="https://github.com/user-attachments/assets/766be21b-9b41-4d7e-8cea-e282e7f9a7d9" alt="포스터" height="auto" width="auto"></td>
+</tr>
+</table>
 
-![logo](https://github.com/user-attachments/assets/23844bad-a212-4ae0-a0f0-09f94ce71518)
-<br>
+### ☁️ 색상 및 스타일 선택 ☁️ 
+로고와 포스터의 색상과 스타일을 선택해주세요!
+<table>
+<tr>
+<td><img src="https://github.com/user-attachments/assets/95bc52bf-5707-424a-a183-8fb637d0b226" alt="색상" height="auto" width="auto"></td>
+<td><img src="https://github.com/user-attachments/assets/e77946d7-0e73-4b60-b750-3947855bc9bf" alt="스타일" height="auto" width="auto"></td>
+</tr>
+</table>
 
- 포스터에 들어갈 문구를 작성해 주세요!
+### ☁️ 목록, 상세 목록 페이지 ☁️ 
+지금까지 생성한 로고, 포스터, 그리고 음악을 한 눈에 확인할 수 있어요!
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/8e38bb1d-49c0-41a0-bea7-e19d34b5c933" alt="목록 페이지" width="auto"></td>
+    <td><img src="https://github.com/user-attachments/assets/19d7a8dd-d2c0-4be6-b00b-9aabc1d9ec64" alt="상세 목록 페이지" width="auto"></td>
+  </tr>
+</table>
 
-![poster](https://github.com/user-attachments/assets/766be21b-9b41-4d7e-8cea-e282e7f9a7d9)
-<br>
-
- 로고와 포스터의 색상을 선택해 주세요!
-
-![color](https://github.com/user-attachments/assets/95bc52bf-5707-424a-a183-8fb637d0b226)
-
-<br>
-
-- 로고와 포스터의 스타일을 선택해 주세요!
-
-![스타일](https://github.com/user-attachments/assets/e77946d7-0e73-4b60-b750-3947855bc9bf)
-
-<br>
-
-
-### ☁️ 목록 페이지 ☁️<br>
-- 목록페이지에서 만든 로고,포스터,cm송을 확인 할 수 있어요 
-<img width="600" alt="image" src="https://github.com/user-attachments/assets/8e38bb1d-49c0-41a0-bea7-e19d34b5c933">
-<br>
-<br>
-
-### ☁️ 상세목록 페이지 ☁️<br> 
-<img width="600" alt="image" src="https://github.com/user-attachments/assets/19d7a8dd-d2c0-4be6-b00b-9aabc1d9ec64">
-
-</p>
-<br>
-<br>
-
-## 📹 Demo
-
-<br>
 
 ## 💯 Medium
 
@@ -131,8 +118,8 @@ https://medium.com/@tucsy/a31bede28d2d
 ## 🛠 System Architecture
 
 <div align="center">
- 
-<img width="600"  src="https://github.com/user-attachments/assets/eda57e9e-faa1-4c14-9bc6-b996ac0a174f">
+
+<img width="600"  src="https://github.com/user-attachments/assets/fdf78c04-0027-4e32-8f59-5340b62f9054">
 <br>
 
 ## 🔑 ERD
@@ -181,6 +168,14 @@ https://medium.com/@tucsy/a31bede28d2d
 | Promotions API | prompts API |Members API|                                                                                                                                                            
 |----------------|--------------|-------------|
 | api/promotions/ <br>:생성된 앨범 조회 <br>api/promotions/id <br>:앨범 상세 조회  |  <br>api/prompts/generate_logo <br>:로고 생성 <br>api/prompts/generate_poster <br>: 포스터 생성<br>prompts/generate_textandmusic <br>:사진을 분석하여 가사를 있는 음악 생성 <br>api/prompts/generate_textandmusic/{task_id} <br>:openAi가 생성한 노래의 id 조회  | api/user/signup <br>:회원가입  <br> api/user/signin <br>:로그인 |     
+
+## 🛠 FE 폴더 구조
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/4d34a1f1-54d6-4a4d-a81d-fb560a082224" width="422" alt="폴더 구조"></td>
+    <td><img src="https://github.com/user-attachments/assets/ba85eeb5-906b-4240-990b-e9ae6db3a4e5" width="599" alt="steps"></td>
+  </tr>
+</table>
 
 
 ## 🐳 How to start
