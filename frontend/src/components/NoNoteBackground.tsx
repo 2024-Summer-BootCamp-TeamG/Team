@@ -5,14 +5,6 @@ interface BackgroundProps {
   children: ReactNode;
 }
 
-// interface CoordinateCircle {
-//   size: string;
-//   left?: string;
-//   right?: string;
-//   top: string;
-//   backgroundColor: string;
-// }
-
 interface CoordinateNote {
   src: string;
   left?: string;
@@ -21,39 +13,16 @@ interface CoordinateNote {
 }
 
 export default function NoNoteBackground({ children }: BackgroundProps) {
-  // const coordinates: CoordinateCircle[] = [
-  //   { size: '100px', left: '50%', top: '70%', backgroundColor: '#7fc8d6' },
-  //   { size: '150px', left: '40%', top: '50%', backgroundColor: '#5d3fd3' },
-  //   { size: '50px', left: '60%', top: '20%', backgroundColor: '#7fc8d6' },
-  //   { size: '200px', left: '70%', top: '50%', backgroundColor: '#9370db' },
-  //   { size: '75px', left: '40%', top: '15%', backgroundColor: '#9370db' },
-  //   { size: '125px', left: '50%', top: '30%', backgroundColor: '#9370db' },
-  // ];
-
   const smallnote: CoordinateNote[] = [
     { src: smallNote, right: '90%', top: '70%' },
-    // { src: smallNote, left: '50%', top: '80%' },
     { src: smallNote, left: '90%', top: '45%' },
     { src: smallNote, left: '70%', top: '15%' },
     { src: smallNote, left: '70%', top: '70%' },
     { src: smallNote, left: '80%', top: '90%' },
-    // { src: smallNote, left: '25%', top: '90%' },
-    // { src: smallNote, left: '60%', top: '65%' },
-    // { src: smallNote, left: '50%', top: '30%' },
     { src: smallNote, left: '20%', top: '40%' },
   ];
   return (
     <div className="relative h-full w-full">
-      {/* {coordinates.map((circle, index) => (
-        <Circle
-          key={index}
-          size={circle.size}
-          left={circle.left}
-          top={circle.top}
-          right={circle.right}
-          backgroundColor={circle.backgroundColor}
-        />
-      ))} */}
       {smallnote.map((note, index) => (
         <img
           key={index}
