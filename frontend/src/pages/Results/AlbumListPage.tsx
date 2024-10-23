@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import Background from '../components/Background';
-import NavBar from '../components/NavBar';
-import axiosInstance from '../api/axios';
+import Background from '../../components/Background';
+import NavBar from '../../components/NavBar';
+import axiosInstance from '../../api/axios';
 
 interface ImageData {
   id: number;

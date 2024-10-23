@@ -23,7 +23,7 @@ import VectorClicked from '../../assets/PinkWhiteNote.svg';
 import rightArrow from '../../assets/rightArrow.svg';
 import leftArrow from '../../assets/leftArrow.svg';
 
-import './ChooseStyle.css'; // CSS 파일 임포트
+import './SelectStyle.css'; // CSS 파일 임포트
 
 function SelectStylePage() {
   type Style = {
@@ -31,17 +31,6 @@ function SelectStylePage() {
     top: string;
     left: string;
   };
-  const styles: Style[] = [
-    { id: '모던한', top: '6', left: '1/2' },
-    { id: '공식적인', top: '-10', left: '96' },
-    { id: '귀여운', top: '5', left: '80' },
-    { id: '고급진', top: '-12', left: '64' },
-    { id: '창의적인', top: '-28', left: '48' },
-    { id: '재미난', top: '-12', left: '36' },
-    { id: '간단한', top: '-64', left: '20' },
-    { id: '장난스러운', top: '-12', left: '7' },
-    { id: '다이나믹한', top: '-64', left: '-10' },
-  ];
 
   const [currentStep, setCurrentStep] = useRecoilState(currentStepState);
   const [selectedButton, setSelectedButton] = useRecoilState(SelectStyleState);
@@ -80,21 +69,6 @@ function SelectStylePage() {
       navigate('/signin');
     }
   }, [navigate]);
-
-  const renderButton = ({ id, top, left }: Style) => (
-    <div
-      className={`absolute top-${top} left-${left} flex -translate-x-1/2 transform flex-col items-center`}
-      key={id}
-    >
-      <button
-        className={`style-button ${selectedButton === id ? 'selected' : ''}`}
-        onClick={() => handleStyleClick(id)}
-      >
-        <img src={getIcon(id)} alt="Vector Icon" className="style-icon" />
-      </button>
-      <div className="style-text mt-2 text-center text-white">{id}</div>
-    </div>
-  );
 
   const generateLogoAndPoster = async () => {
     try {
@@ -164,7 +138,7 @@ function SelectStylePage() {
       setTaskId(storedTaskId);
       generateMusic(storedTaskId);
     } else {
-      alert('유효하지 않은 작업 ID입니다.');
+      alert('유효하지 않은 작업 ID입니다.사진을 다시 업로드해주세요.');
       navigate('/pictureupload');
     }
   }, [navigate]);
@@ -229,7 +203,7 @@ function SelectStylePage() {
       if (taskId) {
         await generateMusic(taskId);
       } else {
-        alert('유효하지 않은 작업 ID입니다.');
+        alert('유효하지 않은 작업 ID입니다.사진을 다시 업로드해주세요.');
         navigate('/pictureupload');
       }
     }
@@ -241,8 +215,8 @@ function SelectStylePage() {
       setTaskId(taskId);
       generateMusic(taskId);
     } else {
-      alert('유효하지 않은 작업 ID입니다.');
-      navigate('/pictureupload');
+      alert('유효하지 않은 작업 ID입니다.사진을 다시 업로드해주세요.');
+      navigate('/signin');
     }
   }, [navigate]);
   const getIcon = (style: string) => {

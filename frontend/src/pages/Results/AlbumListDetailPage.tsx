@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
-import axiosInstance from '../api/axios';
+import axiosInstance from '../../api/axios';
 import '../pages/Index/style.css';
 
-import Background from '../components/Background';
-import NavBar from '../components/NavBar';
+import Background from '../../components/Background';
+import NavBar from '../../components/NavBar';
 
 import Album from '../assets/AlbumCD.png';
 import CloseIcon from '../assets/CloseIcon.svg';
